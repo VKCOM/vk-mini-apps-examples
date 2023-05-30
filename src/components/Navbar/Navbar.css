@@ -1,0 +1,81 @@
+.Navbar__mobile {
+  position: sticky;
+  top: 0px;
+  z-index: 999;
+  max-width: 100%;
+  width: 100%;
+  background: var(
+    --vkui_internal--background,
+    var(--vkui--color_background_content)
+  );
+}
+
+.Navbar_content {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  max-width: 100%;
+  width: 100%;
+  background: var(
+    --vkui_internal--background,
+    var(--vkui--color_background_content)
+  );
+}
+
+.Navbar_content__disabled {
+  display: none !important;
+}
+
+.Navbar_search {
+  padding-right: 5px !important;
+  border: none !important;
+}
+
+.Navbar_iconButton svg {
+  padding-left: 5px !important;
+  padding-right: 5px !important;
+}
+
+.Navbar_iconButton__disabled {
+  display: none !important;
+}
+
+.Navbar_iconButton:last-of-type svg {
+  padding-right: 10px !important;
+}
+
+.Navbar__desktop {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0;
+  background: white;
+}
+
+.Navbar__desktop .Navbar_content {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  max-width: 100%;
+  width: 375px;
+  background: var(
+    --vkui_internal--background,
+    var(--vkui--color_background_content)
+  );
+}
+
+.Navbar__desktop .Navbar_content__stretched {
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .Navbar__desktop .Navbar_iconButton:first-of-type svg {
+    display: none;
+  }
+
+  .Navbar__mobile .Navbar_iconButton:first-of-type svg {
+    display: none;
+  }
+}

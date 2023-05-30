@@ -1,0 +1,49 @@
+.ProductPhoto {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vw;
+  width: 100vw;
+  position: relative;
+  overflow: hidden;
+  animation: 3s skeletonAnimation linear infinite;
+  background: var(--skeleton-background);
+  background-size: 300% 200%;
+}
+
+.ProductPhoto__upload {
+  background: transparent;
+  animation: none;
+}
+
+.ProductPhoto_back {
+  position: absolute;
+  filter: blur(16px);
+  opacity: 0.7;
+  transform: scale(1.2);
+}
+
+.ProductPhoto_photo {
+  z-index: 2;
+}
+
+.ProductPhoto_back__horizontal {
+  height: 100%;
+}
+
+.ProductPhoto_back__vertical {
+  width: 100%;
+}
+
+.ProductPhoto_photo__horizontal {
+  width: 100%;
+}
+
+.ProductPhoto_photo__vertical {
+  height: 100%;
+}
+
+.ProductPhoto_photo__square {
+  height: 100%;
+  width: 100%;
+}

@@ -1,0 +1,22 @@
+.PageHeader {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.PageHeader_title {
+  font-weight: 600;
+  font-size: 21px;
+  line-height: 26px;
+  margin-left: 12px;
+  max-width: 55%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+@media (min-width: 768px) {
+  .PageHeader_title {
+    max-width: 100%;
+  }
+}

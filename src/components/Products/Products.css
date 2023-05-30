@@ -1,0 +1,33 @@
+.Products {
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+.Products_grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  margin-left: 12px;
+  margin-right: 12px;
+  gap: 12px;
+  max-width: 620px;
+}
+
+.Products_spinner {
+  max-height: 100px;
+  padding-top: 12px;
+}
+
+@media (min-width: 768px) {
+  .Products {
+    margin-top: 12px;
+    background: #ffffff;
+    border-radius: 16px;
+    height: max-content;
+    padding-bottom: 12px;
+  }
+
+  .Products_grid {
+    max-width: min(100%, 645px);
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  }
+}

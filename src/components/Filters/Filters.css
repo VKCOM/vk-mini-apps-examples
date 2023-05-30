@@ -1,0 +1,36 @@
+.Filters {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 auto;
+  height: max-content;
+}
+
+.Filters_prices {
+  display: flex;
+  max-width: 100%;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 12px 4px 0px 4px;
+}
+
+.Filters_prices_boundary {
+  user-select: none;
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 20px;
+}
+
+@media (min-width: 768px) {
+  .Filters {
+    margin-top: 12px;
+    padding-bottom: 0;
+    position: sticky;
+    width: 100%;
+    top: 12px;
+    max-width: 375px;
+    border: 1px solid rgba(129, 140, 153, 0.19);
+    border-radius: 16px;
+    background: #ffffff;
+  }
+}

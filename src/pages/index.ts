@@ -1,0 +1,5 @@
+export { Main } from './Main/Main'
+export { Store } from './Store/Store'
+export { ProductInfo } from './ProductInfo/ProductInfo'
+export { CategoryList } from './CategoryList/CategoryList'
+export { ShoppingCart } from './ShoppingCart/ShoppingCart'

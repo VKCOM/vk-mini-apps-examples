@@ -1,0 +1,31 @@
+.Subtotal {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+}
+
+.Subtotal_price {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.Sutotal_price_title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 21px;
+  letter-spacing: 0.2px;
+  color: var(--vkui--color_text_primary);
+}
+
+.Sutotal_price_counter {
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 30px;
+  color: var(--vkui--color_text_primary); 
+}

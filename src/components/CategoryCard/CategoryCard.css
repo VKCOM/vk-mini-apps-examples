@@ -1,0 +1,45 @@
+.CategoryCard {
+  width: max-content;
+  cursor: pointer;
+  border-radius: 12px 12px 28px 12px !important;
+  padding: 8px 4px 4px 12px !important;
+}
+
+.CategoryCard .vkuiCard__in {
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 32px !important;
+  width: max-content;
+  max-height: 60px;
+}
+
+.CategoryCard_info {
+  letter-spacing: 0.2px;
+  line-height: 18px;
+  max-width: 122px;
+  height: 60px;
+}
+
+.CategoryCard_counter {
+  font-weight: 400;
+  font-size: 14px;
+  color: var(--vkui--color_text_secondary);
+}
+
+.CategoryCard_name {
+  font-weight: 500;
+  font-size: 14px;
+  color: var(--vkui--color_text_primary);
+}
+
+.CategoryCard_preview {
+  background: rgba(38, 136, 235, 0.12);
+  border-radius: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 52px;
+  align-self: flex-end;
+  width: 48px;
+  height: 48px;
+}

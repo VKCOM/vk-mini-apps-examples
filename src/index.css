@@ -1,0 +1,20 @@
+:root {
+  --skeleton-background: linear-gradient(
+    110deg,
+    #ececec 8%,
+    #f5f5f5 18%,
+    #ececec 33%
+  );
+}
+
+.Panel__fullScreen {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+@keyframes skeletonAnimation {
+  to {
+    background-position-x: -300%;
+  }
+}

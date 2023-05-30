@@ -1,0 +1,28 @@
+.Store_content {
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+  overflow: scroll;
+  flex: 1;
+}
+
+.Store_content::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+@media (max-width: 767px) {
+  .Store_content .Filters {
+    display: none;
+  }
+}
+
+@media (min-width: 768px) {
+  .Store_content {
+    gap: 10px;
+    backface-visibility: hidden;
+    will-change: transform;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+}

@@ -1,0 +1,52 @@
+.Categories {
+  width: 100%;
+  height: fit-content;
+}
+
+.Categories_horizontalScroll {
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.Categories_horizontalScroll_row {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  padding: 0px 12px;
+}
+
+.Categories_horizontalScroll_wrapper {
+  width: max-content;
+}
+
+.Categories_horizontalScroll_row .CategoryCard:last-of-type .vkuiCard__in {
+  justify-content: space-between;
+  gap: 0px !important;
+  width: 100%;
+}
+
+.Categories_horizontalScroll_row .CategoryCard:last-of-type {
+  flex: 1;
+}
+
+.Categories_horizontalScroll_row:last-child {
+  padding: 4px 12px 0px 12px;
+}
+
+.Categories_horizontalScroll::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+@media (min-width: 768px) {
+  .Categories {
+    margin-top: 12px;
+    position: sticky;
+    top: 12px;
+    max-width: 375px;
+    padding: 0px 0px 12px 0px;
+    border: 1px solid rgba(129, 140, 153, 0.19);
+    border-radius: 16px;
+    background: #ffffff;
+  }
+}

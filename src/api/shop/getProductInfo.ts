@@ -4,7 +4,6 @@ import { makeRequest } from 'src/api/makeRequest'
 interface GetProductInfoRequest {
   productId: number
 }
-
 interface GetProductInfoResponse {
   product: Product
 }

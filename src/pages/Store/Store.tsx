@@ -7,14 +7,10 @@ import React, {
 } from 'react'
 import * as api from 'src/api'
 import { NavIdProps, Panel } from '@vkontakte/vkui'
-import {
-  Filters,
-  Navbar,
-  PageHeader,
-  ProductCardProps,
-  Products,
-} from 'src/components'
+import { Filters, Navbar, PageHeader, Products } from 'src/components'
 import { CATEGORIES_TEST, FILTERS_TEST } from 'src/config'
+import { useAppDispatch, useAppSelector } from 'src/store'
+import { addStoreProducts, setStoreScrollposition } from 'src/store/app'
 
 import './Store.css'
 
@@ -51,22 +47,25 @@ const delayLoad = (element: Element, delayTime: number) => {
 }
 
 export const Store: React.FC<NavIdProps> = (props) => {
+  const dispatch = useAppDispatch()
+  const { store } = useAppSelector((state) => state.app)
   const [isFetching, setIsFetching] = useState(true)
   const [maxProducts, setMaxProducts] = useState(100)
-  const [products, setProducts] = useState<
-    Array<ProductCardProps & { id: number }>
-  >([])
 
   const loadingObserver = useRef<IntersectionObserver | null>(null)
-  const lastLoadItemIndex = useRef<number>(9)
-  const $refContainer = useRef<HTMLDivElement>(null)
+  const lastLoadItemIndex = useRef<number | null>(null)
+  const $storeContainer = useRef<HTMLDivElement>(null)
 
-  const fetchProducts = useCallback((_start, _end, filters = {}) => {
-    api.products.getProducts({ _start, _end, filters }).then((res) => {
-      setMaxProducts(res.maxProducts)
-      setProducts((products) => products.concat(res.data))
-    })
-  }, [])
+  const fetchProducts = useCallback(
+    (_start, _end, filters = {}) => {
+      console.log(_start, _end)
+      api.products.getProducts({ _start, _end, filters }).then((res) => {
+        setMaxProducts(res.maxProducts)
+        dispatch(addStoreProducts(res.data))
+      })
+    },
+    [dispatch]
+  )
 
   const IntersectionObserverCallback = useCallback(
     (entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
@@ -95,14 +94,18 @@ export const Store: React.FC<NavIdProps> = (props) => {
   )
 
   // Загружаем первую группу товаров
-  useLayoutEffect(() => fetchProducts(0, LIMIT), [fetchProducts])
+  useLayoutEffect(() => {
+    if (!store.products.length) fetchProducts(0, LIMIT)
+    else if ($storeContainer.current)
+      $storeContainer.current.scrollTop = store.scrollPosition
+  }, [fetchProducts, store])
 
   // Обновление обработчика
   useEffect(() => {
     loadingObserver.current = new IntersectionObserver(
       IntersectionObserverCallback,
       {
-        root: $refContainer.current,
+        root: $storeContainer.current,
         rootMargin: '0px 0px 300px 0px',
       }
     )
@@ -110,21 +113,28 @@ export const Store: React.FC<NavIdProps> = (props) => {
 
   // Отслеживаем элементы по родителю
   useEffect(() => {
+    lastLoadItemIndex.current = store.products.length - 1
     if (!loadingObserver.current) return
     loadingObserver.current?.disconnect()
     document
       .querySelectorAll('.ProductCard:not(.ProductCard__active)')
       .forEach((item) => loadingObserver.current?.observe(item))
-  }, [products])
+  }, [store.products])
 
   return (
     <Panel className="Panel__fullScreen" {...props}>
       <Navbar header={<PageHeader header="Товары для дома и сада" />} />
-      <div ref={$refContainer} className="Store_content">
+      <div
+        ref={$storeContainer}
+        className="Store_content"
+        onScroll={(e) =>
+          dispatch(setStoreScrollposition(e.currentTarget.scrollTop))
+        }
+      >
         <Products
           lazyLoading
           header="Товары"
-          products={products}
+          products={store.products}
           maxProducts={maxProducts}
           fetching={isFetching}
         />

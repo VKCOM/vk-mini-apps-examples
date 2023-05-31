@@ -1,3 +1,15 @@
+.CategoryList {
+  flex: 1;
+  max-height: 100%;
+  overflow: scroll;
+  background: var(--vkui--color_background_content);
+}
+
+.CategoryList::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
 .CategoryList_grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -18,25 +30,12 @@
   min-width: min-content;
 }
 
-.CategoryList {
-  flex: 1;
-  max-height: 100%;
-  overflow: scroll;
-}
-
-.CategoryList::-webkit-scrollbar {
-  width: 0;
-  height: 0;
-}
-
 @media (min-width: 768px) {
   .CategoryList {
     margin: auto;
     margin-bottom: 12px;
     margin-top: 12px;
-    border: 1px solid rgba(129, 140, 153, 0.19);
     border-radius: 16px;
-    background: #ffffff;
     height: 100%;
     min-width: 100%;
     max-width: 800px;

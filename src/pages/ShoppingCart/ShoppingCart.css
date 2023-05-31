@@ -15,6 +15,7 @@
   margin: 12px;
   width: calc(100% - 24px);
   column-gap: 16px;
+  background: var(--vkui--color_background_content);
   row-gap: 8px;
   align-items: center;
   display: grid;
@@ -34,6 +35,8 @@
 
 .ShoppingCart_checkout {
   flex: 1;
+  background: var(--vkui--color_background_content);
+  user-select: none;
 }
 
 @media (min-width: 768px) {
@@ -46,7 +49,6 @@
 
   .ShoppingCart_productList {
     margin-top: 12px;
-    background: #ffffff;
     border-radius: 16px;
     height: max-content;
     padding-bottom: 12px;
@@ -59,7 +61,6 @@
   .ShoppingCart_checkout {
     min-width: 320px;
     margin-top: 12px;
-    background: #ffffff;
     border-radius: 16px;
     padding: 5px;
     height: max-content;

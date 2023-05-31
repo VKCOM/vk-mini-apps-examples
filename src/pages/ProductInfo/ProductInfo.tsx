@@ -1,16 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
 import cx from 'classnames'
-import { Button, Gallery, Panel, Separator } from '@vkontakte/vkui'
+import { Button, Gallery, NavIdProps, Panel, Separator } from '@vkontakte/vkui'
 import { Counter, Navbar, PageHeader, ProductPhoto } from 'src/components'
 
 import './ProductInfo.css'
 
-type ProductInfoProps = {
-  nav?: string
-  id?: string
-}
-
-export const ProductInfo: React.FC<ProductInfoProps> = (props) => {
+export const ProductInfo: React.FC<NavIdProps> = (props) => {
   const $ref = useRef<HTMLDivElement>(null)
   const [isScroll, setIsScroll] = useState(false)
 

@@ -1,6 +1,7 @@
 .Products {
   width: 100%;
   margin-bottom: 12px;
+  background: var(--vkui--color_background_content)
 }
 
 .Products_grid {
@@ -20,7 +21,6 @@
 @media (min-width: 768px) {
   .Products {
     margin-top: 12px;
-    background: #ffffff;
     border-radius: 16px;
     height: max-content;
     padding-bottom: 12px;

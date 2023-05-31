@@ -1,15 +1,20 @@
 import React, { useEffect, useLayoutEffect } from 'react'
-import { SplitLayout, SplitCol, View, Root } from '@vkontakte/vkui'
+import {
+  SplitLayout,
+  SplitCol,
+  View,
+  Root,
+} from '@vkontakte/vkui'
 import bridge from '@vkontakte/vk-bridge'
 import {
   useActiveVkuiLocation,
   usePopout,
   useRouteNavigator,
 } from '@vkontakte/vk-mini-app-router'
-import { Modals } from './modals'
-import { Main, Store, CategoryList, ShoppingCart, ProductInfo } from './pages'
 import { useAppDispatch, useAppSelector } from 'src/store'
 import { setOnboardingComplete, setUserName } from 'src/store/user'
+import { Modals } from './modals'
+import { Main, Store, CategoryList, ShoppingCart, ProductInfo } from './pages'
 import { PaymentPanel, ShopView, ViewingPanel } from './routes'
 import { getUserId } from './utils/getUserId'
 

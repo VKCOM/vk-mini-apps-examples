@@ -1,6 +1,7 @@
 .Categories {
   width: 100%;
   height: fit-content;
+  background: var(--vkui--color_background_content);
 }
 
 .Categories_horizontalScroll {
@@ -13,6 +14,7 @@
   flex-direction: row;
   gap: 4px;
   padding: 0px 12px;
+  background: var(--vkui--color_background_content);
 }
 
 .Categories_horizontalScroll_wrapper {
@@ -45,8 +47,6 @@
     top: 12px;
     max-width: 375px;
     padding: 0px 0px 12px 0px;
-    border: 1px solid rgba(129, 140, 153, 0.19);
     border-radius: 16px;
-    background: #ffffff;
   }
 }

@@ -20,7 +20,7 @@ let Products: React.FC<ProductsProps> = ({
   fetching,
 }) => {
   return (
-    <div className="Products">
+    <div className={'Products'}>
       <Header indicator={maxProducts} size="large">
         {header}
       </Header>

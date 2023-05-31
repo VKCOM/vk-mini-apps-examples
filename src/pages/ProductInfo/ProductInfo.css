@@ -2,7 +2,7 @@
   flex: 1;
   max-height: 100%;
   overflow: scroll;
-  background: white;
+  background: var(--vkui--color_background_content);
   position: relative;
 }
 
@@ -77,9 +77,7 @@
     margin: auto;
     margin-top: 12px;
     margin-bottom: 12px;
-    border: 1px solid rgba(129, 140, 153, 0.19);
     border-radius: 16px;
-    background: #ffffff;
     height: 100%;
     max-width: 605px;
     box-sizing: border-box;

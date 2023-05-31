@@ -1,7 +1,11 @@
 import React, { ReactNode } from 'react'
 import cx from 'classnames'
 import { IconButton, Platform, Search, usePlatform } from '@vkontakte/vkui'
-import { Icon28ShoppingCartOutline, Icon24Filter } from '@vkontakte/icons'
+import {
+  Icon28ShoppingCartOutline,
+  Icon24Filter,
+  Icon24SendOutline,
+} from '@vkontakte/icons'
 import { useRouteNavigator } from '@vkontakte/vk-mini-app-router'
 import { PaymentPanel, StorePanelModal, ViewingPanel } from 'src/routes'
 
@@ -35,7 +39,11 @@ let Navbar: React.FC<NavbarProps> = ({
           Navbar_content__disabled: searchDisable,
         })}
       >
-        <Search className="Navbar_search" />
+        <Search
+          onIconClick={() => routeNavigator.push(`/${ViewingPanel.Store}`)}
+          icon={<Icon24SendOutline />}
+          className="Navbar_search"
+        />
 
         <IconButton
           aria-label="filter"

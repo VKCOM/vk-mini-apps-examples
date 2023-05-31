@@ -4,10 +4,7 @@
   z-index: 999;
   max-width: 100%;
   width: 100%;
-  background: var(
-    --vkui_internal--background,
-    var(--vkui--color_background_content)
-  );
+  background: var(--vkui--color_background_content);
 }
 
 .Navbar_content {
@@ -17,10 +14,8 @@
   align-items: center;
   max-width: 100%;
   width: 100%;
-  background: var(
-    --vkui_internal--background,
-    var(--vkui--color_background_content)
-  );
+  user-select: none;
+  background: var(--vkui--color_background_content);
 }
 
 .Navbar_content__disabled {
@@ -50,7 +45,7 @@
   flex-direction: row;
   justify-content: space-between;
   padding: 0;
-  background: white;
+  background: var(--vkui--color_background_content);
 }
 
 .Navbar__desktop .Navbar_content {
@@ -60,10 +55,7 @@
   align-items: center;
   max-width: 100%;
   width: 375px;
-  background: var(
-    --vkui_internal--background,
-    var(--vkui--color_background_content)
-  );
+  background: var(--vkui--color_background_content);
 }
 
 .Navbar__desktop .Navbar_content__stretched {

@@ -5,6 +5,7 @@
 }
 
 .PageHeader_title {
+  user-select: none;
   font-weight: 600;
   font-size: 21px;
   line-height: 26px;

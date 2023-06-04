@@ -1,6 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { Button, FormItem, RangeSlider, Select } from '@vkontakte/vkui'
+import { setProductFilters } from 'src/store/app'
 import { CategoryCardProps } from 'src/components'
+import { useAppDispatch } from 'src/store'
 import { ProductFilter } from 'src/types'
 
 import './Filters.css'
@@ -18,13 +20,15 @@ let Filters: React.FC<FiltersProps> = ({
   minPrice,
   defaultFilter,
 }) => {
+  const dispatch = useAppDispatch()
+  console.log(defaultFilter)
   const [isFilterChange, setIsFilterChange] = useState(false)
   const [filters, setFilters] = useState<Omit<ProductFilter, 'query'>>({
     priceTo: defaultFilter.priceTo ?? maxPrice,
     priceFrom: defaultFilter.priceFrom ?? minPrice,
     categoryId: defaultFilter.categoryId,
   })
-  const [prevFilters] = useState({ ...filters })
+  const [prevFilters, setPrevFilters] = useState({ ...filters })
 
   const onHandleSliderChange = useCallback(
     (e: [number, number]) => {
@@ -36,6 +40,11 @@ let Filters: React.FC<FiltersProps> = ({
     },
     [filters]
   )
+
+  const onShowProductClick = useCallback(() => {
+    setPrevFilters({ ...filters })
+    dispatch(setProductFilters(filters))
+  }, [dispatch, filters])
 
   const onHandleSelectorChange = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -64,6 +73,7 @@ let Filters: React.FC<FiltersProps> = ({
       <FormItem top="Категория">
         <Select
           onChange={onHandleSelectorChange}
+          value={filters.categoryId}
           placeholder="Не выбран"
           options={categories.map((category) => ({
             label: category.name,
@@ -90,7 +100,13 @@ let Filters: React.FC<FiltersProps> = ({
       </FormItem>
 
       <FormItem>
-        <Button disabled={!isFilterChange} stretched size="l" mode="primary">
+        <Button
+          stretched
+          size="l"
+          mode="primary"
+          disabled={!isFilterChange}
+          onClick={onShowProductClick}
+        >
           Показать товары
         </Button>
       </FormItem>

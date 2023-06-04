@@ -1,68 +1,105 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react'
 import cx from 'classnames'
+import {
+  useRouteNavigator,
+  useSearchParams,
+} from '@vkontakte/vk-mini-app-router'
 import { Button, Gallery, NavIdProps, Panel, Separator } from '@vkontakte/vkui'
 import { Counter, Navbar, PageHeader, ProductPhoto } from 'src/components'
+import { addCartItem } from 'src/store/app'
+import { useAppDispatch, useAppSelector } from 'src/store'
+import { PaymentPanel } from 'src/routes'
+import { Product } from 'src/types'
+import * as api from 'src/api'
 
 import './ProductInfo.css'
 
 export const ProductInfo: React.FC<NavIdProps> = (props) => {
-  const $ref = useRef<HTMLDivElement>(null)
+  const dispatch = useAppDispatch()
+  const routeNavigator = useRouteNavigator()
+  const [isProductInCart, setIsProductInCart] = useState(false)
+  const [productInfo, setProductInfo] = useState<Product | null>(null)
+  const [productNumber, setProductNumber] = useState(1)
   const [isScroll, setIsScroll] = useState(false)
+  const [params] = useSearchParams()
 
+  const $content = useRef<HTMLDivElement>(null)
+  const id = params.get('id')
+
+  const {
+    shoppingCart: { orderProducts },
+  } = useAppSelector((state) => state.app)
+
+  const addToShoppingCart = useCallback(() => {
+    if (productInfo && !isProductInCart)
+      dispatch(addCartItem({ ...productInfo, productNumber }))
+    else routeNavigator.push(`/${PaymentPanel.ShoppingCart}`)
+  }, [dispatch, productNumber, productInfo, isProductInCart, routeNavigator])
+
+  // Получаем данные о товаре
   useEffect(() => {
-    if ($ref.current)
-      setIsScroll($ref.current.clientHeight < $ref.current.scrollHeight)
-  }, [])
+    if (!id) return
+    api.products
+      .getProductInfo({ productId: Number(id) })
+      .then((res) => setProductInfo(res.data))
+  }, [id])
+
+  // Следим появляется ли у нас скролл
+  useLayoutEffect(() => {
+    if ($content.current)
+      setIsScroll($content.current.clientHeight < $content.current.scrollHeight)
+  }, [productInfo])
+
+  // Находится ли карта в корзине
+  useLayoutEffect(() => {
+    setIsProductInCart(orderProducts.some((item) => item.id === Number(id)))
+  }, [orderProducts, id])
 
   return (
     <Panel className="Panel__fullScreen" {...props}>
       <Navbar searchDisable header={<PageHeader header="Товар" />} />
-      <div ref={$ref} className="ProductInfo">
+      <div ref={$content} className="ProductInfo">
         <Gallery
-          align="center"
-          className="ProductInfo_gallery"
-          bullets="light"
           showArrows
+          align="center"
+          bullets="light"
+          className="ProductInfo_gallery"
         >
-          <ProductPhoto
-            photo={
-              'https://i.pinimg.com/originals/ea/c9/9e/eac99eeea3794800100e845238f44c86.jpg'
-            }
-          />
-          <ProductPhoto
-            photo={
-              'https://steamuserimages-a.akamaihd.net/ugc/950724071151650207/C0CE74DE977DC265528FB162D48D3D3D84F486C6/?imw=512&amp;imh=288&amp;ima=fit&amp;impolicy=Letterbox&amp;imcolor=%23000000&amp;letterbox=true'
-            }
-          />
-          <ProductPhoto
-            photo={
-              'https://s1.1zoom.ru/big7/803/USA_Skyscrapers_New_York_444936.jpg'
-            }
-          />
-          <ProductPhoto
-            photo={
-              'https://pibig.info/uploads/posts/2021-05/1622404896_21-pibig_info-p-priroda-dlya-insti-priroda-krasivo-foto-23.jpg'
-            }
-          />
+          {productInfo?.photos.map((photo, index) => (
+            <ProductPhoto key={index} photo={photo} />
+          ))}
         </Gallery>
 
+        {!productInfo && (
+          <div className="ProductInfo_gallery ProductInfo_skeleton" />
+        )}
+
         <div className="ProductInfo_offer">
-          <div className="ProductInfo_offer_title">Футболка</div>
-          <div className="ProductInfo_offer_price">1 222₽</div>
+          <div className="ProductInfo_offer_title">{productInfo?.name}</div>
+          {!productInfo && (
+            <div
+              style={{ display: 'block' }}
+              className="ProductInfo_offer_price__skeleton"
+            />
+          )}
+          <div className="ProductInfo_offer_price">
+            {!productInfo && (
+              <div className="ProductInfo_offer_price__skeleton" />
+            )}
+            {productInfo?.price} ₽
+          </div>
         </div>
 
         <Separator />
 
         <div className="ProductInfo_description">
-          Предзаказ номер один: MGS - Metal Gear Solid. Художником арта выступил
-          Влад Здор. Вы просили и ждали, когда же мы сделаем принт по MGS,
-          культовой игре Хидео Кодзимы. Сказано - сделано. Если данный принт
-          будет пользоваться успехом, сделаем и по Rising. Цена по предзаказу -
-          1450р, после предзаказа - 1500. Предзаказ номер один: MGS - Metal Gear
-          Solid. Художником арта выступил Влад Здор. Вы просили и ждали, когда
-          же мы сделаем принт по MGS, культовой игре Хидео Кодзимы. Сказано -
-          сделано. Если данный принт будет пользоваться успехом, сделаем и по
-          Rising. Цена по предзаказу - 1450р, после предзаказа - 1500.
+          {productInfo?.description}
         </div>
 
         <div
@@ -70,15 +107,23 @@ export const ProductInfo: React.FC<NavIdProps> = (props) => {
             ProductInfo_footer__scroll: isScroll,
           })}
         >
-          <Button stretched size="l" mode="secondary">
-            Добавить в корзину
+          <Button
+            stretched
+            size="l"
+            mode="secondary"
+            onClick={addToShoppingCart}
+          >
+            {!isProductInCart ? 'Добавить в корзину' : 'Посмотреть в корзине'}
           </Button>
-          <Counter
-            maxValue={12}
-            onSubtract={() => null}
-            onAdd={() => null}
-            defaultValue={1}
-          />
+
+          {!isProductInCart && (
+            <Counter
+              value={productNumber}
+              maxValue={productInfo?.maxAvailable ?? 1}
+              onAdd={() => setProductNumber((value) => value + 1)}
+              onSubtract={() => setProductNumber((value) => value - 1)}
+            />
+          )}
         </div>
       </div>
     </Panel>

@@ -8,7 +8,6 @@ import React, {
 import * as api from 'src/api'
 import { NavIdProps, Panel } from '@vkontakte/vkui'
 import { Filters, Navbar, PageHeader, Products } from 'src/components'
-import { CATEGORIES_TEST, FILTERS_TEST } from 'src/config'
 import { useAppDispatch, useAppSelector } from 'src/store'
 import { addStoreProducts, setStoreScrollposition } from 'src/store/app'
 
@@ -48,26 +47,25 @@ const delayLoad = (element: Element, delayTime: number) => {
 
 export const Store: React.FC<NavIdProps> = (props) => {
   const dispatch = useAppDispatch()
-  const { store } = useAppSelector((state) => state.app)
+  const { store, filters, categories } = useAppSelector((state) => state.app)
   const [isFetching, setIsFetching] = useState(true)
   const [maxProducts, setMaxProducts] = useState(100)
 
   const loadingObserver = useRef<IntersectionObserver | null>(null)
-  const lastLoadItemIndex = useRef<number | null>(null)
+  const lastLoadItemIndex = useRef<number>(LIMIT - 1)
   const $storeContainer = useRef<HTMLDivElement>(null)
 
   const fetchProducts = useCallback(
-    (_start, _end, filters = {}) => {
-      console.log(_start, _end)
+    (_start, _end) => {
       api.products.getProducts({ _start, _end, filters }).then((res) => {
         setMaxProducts(res.maxProducts)
         dispatch(addStoreProducts(res.data))
       })
     },
-    [dispatch]
+    [dispatch, filters]
   )
 
-  const IntersectionObserverCallback = useCallback(
+  const intersectionObserverCallback = useCallback(
     (entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
       entries.forEach((entry) => {
         // Элемент в зоне видимости
@@ -100,18 +98,17 @@ export const Store: React.FC<NavIdProps> = (props) => {
       $storeContainer.current.scrollTop = store.scrollPosition
   }, [fetchProducts, store])
 
-  // Обновление обработчика
+  // Инициализация api для lazy loading
   useEffect(() => {
     loadingObserver.current = new IntersectionObserver(
-      IntersectionObserverCallback,
+      intersectionObserverCallback,
       {
         root: $storeContainer.current,
         rootMargin: '0px 0px 300px 0px',
       }
     )
-  }, [IntersectionObserverCallback])
+  }, [intersectionObserverCallback])
 
-  // Отслеживаем элементы по родителю
   useEffect(() => {
     lastLoadItemIndex.current = store.products.length - 1
     if (!loadingObserver.current) return
@@ -123,7 +120,7 @@ export const Store: React.FC<NavIdProps> = (props) => {
 
   return (
     <Panel className="Panel__fullScreen" {...props}>
-      <Navbar header={<PageHeader header="Товары для дома и сада" />} />
+      <Navbar header={<PageHeader header="Каталог" />} />
       <div
         ref={$storeContainer}
         className="Store_content"
@@ -141,8 +138,8 @@ export const Store: React.FC<NavIdProps> = (props) => {
         <Filters
           minPrice={1000}
           maxPrice={10000}
-          defaultFilter={FILTERS_TEST}
-          categories={CATEGORIES_TEST}
+          defaultFilter={filters}
+          categories={categories}
         />
       </div>
     </Panel>

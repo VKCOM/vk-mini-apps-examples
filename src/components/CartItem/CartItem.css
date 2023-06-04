@@ -4,6 +4,7 @@
   align-items: center;
   gap: 8px;
   width: 100%;
+  cursor: pointer;
 }
 
 .CartItem_preview {

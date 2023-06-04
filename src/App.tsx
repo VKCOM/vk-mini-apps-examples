@@ -1,10 +1,5 @@
 import React, { useEffect, useLayoutEffect } from 'react'
-import {
-  SplitLayout,
-  SplitCol,
-  View,
-  Root,
-} from '@vkontakte/vkui'
+import { SplitLayout, SplitCol, View, Root } from '@vkontakte/vkui'
 import bridge from '@vkontakte/vk-bridge'
 import {
   useActiveVkuiLocation,

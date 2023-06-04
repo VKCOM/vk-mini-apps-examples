@@ -1,18 +1,16 @@
-import { useRouteNavigator } from '@vkontakte/vk-mini-app-router'
-import React, { useState } from 'react'
-import { Card } from '@vkontakte/vkui'
+import React, { useCallback, useState } from 'react'
 import cx from 'classnames'
+import { useRouteNavigator } from '@vkontakte/vk-mini-app-router'
+import { Card } from '@vkontakte/vkui'
 import { ViewingPanel } from 'src/routes'
-import { Product } from 'src/types'
+import { ProductPreview } from 'src/types'
 
 import './ProductCard.css'
 
-export type ProductCardProps = Omit<
-  Product,
-  'id' | 'maxAvailable' | 'categoryId' | 'description'
->
+export type ProductCardProps = Omit<ProductPreview, 'maxAvailable'>
 
 let ProductCard: React.FC<ProductCardProps> = ({
+  id,
   preview,
   price,
   name,
@@ -22,20 +20,26 @@ let ProductCard: React.FC<ProductCardProps> = ({
   const [isPreviewLoad, setIsPreviewLoad] = useState(false)
   const routeNavigator = useRouteNavigator()
 
+  const onProductCardClick = useCallback(() => {
+    routeNavigator.push(`/${ViewingPanel.ProductInfo}?id=${id}`)
+  }, [routeNavigator, id])
+
+  const onProductPreviewLoad = useCallback(() => setIsPreviewLoad(true), [])
+
   return (
     <Card
-      {...props}
-      onClick={() => routeNavigator.push(`/${ViewingPanel.ProductInfo}`)}
+      onClick={onProductCardClick}
       className={cx('ProductCard', {
         ProductCard__active: isPreviewLoad,
       })}
+      {...props}
     >
       <div
         className={cx('ProductCard_preview', {
           ProductCard_preview__unload: !isPreviewLoad,
         })}
       >
-        <img onLoad={() => setIsPreviewLoad(true)} src={preview} />
+        <img src={preview} onLoad={onProductPreviewLoad} />
       </div>
 
       <div className="ProductCard_info">

@@ -2,8 +2,6 @@
   width: 100%;
   max-width: 150px;
   cursor: pointer;
-  backface-visibility: hidden;
-  will-change: transform;
 }
 
 .ProductCard_preview {
@@ -13,6 +11,9 @@
 }
 
 .ProductCard_preview__unload {
+  backface-visibility: hidden;
+  will-change: transform;
+  transform: translateZ(0);
   animation: 3s skeletonAnimation linear infinite;
   background: var(--skeleton-background);
   background-size: 300% 200%;

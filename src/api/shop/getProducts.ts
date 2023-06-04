@@ -1,6 +1,5 @@
-import { ProductFilter } from 'src/types'
+import { ProductFilter, ProductPreview } from 'src/types'
 import { makeRequest } from 'src/api/makeRequest'
-import { ProductCardProps } from 'src/components'
 
 interface GetProductsRequest {
   _start: number
@@ -9,7 +8,7 @@ interface GetProductsRequest {
 }
 
 interface GetProductsResponse {
-  data: Array<ProductCardProps & { id: number }>
+  data: ProductPreview[]
   maxProducts: number
 }
 
@@ -36,6 +35,7 @@ export const getProducts = async ({
       id: index + _start,
       name: 'Maxmara TJ collection',
       productType: 'футболка',
+      maxAvailable: 3,
       price: 123,
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore: Unreachable code error

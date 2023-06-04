@@ -29,13 +29,40 @@
   font-size: 20px;
   line-height: 24px;
   color: var(--vkui--color_text_secondary);
+  display: flex;
+  align-items: center;
+}
+
+.ProductInfo_offer_price__skeleton {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: transform;
+  width: 75px;
+  display: inline-block;
+  height: 20px;
+  margin-right: 10px;
+  border-radius: 15px;
+  animation: 3s skeletonAnimation linear infinite;
+  background: var(--skeleton-background);
+  background-size: 300% 200%;
 }
 
 .ProductInfo_description {
   font-weight: 400;
   font-size: 15px;
   line-height: 20px;
-  margin: 12px 16px 0px 16px;
+  margin: 12px 16px 10px 16px;
+}
+
+.ProductInfo_skeleton {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: transform;
+  width: 100%;
+  aspect-ratio: 1/1;
+  height: max-content;
+  background: #ececec;
+  transition: opacity 0.7s;
 }
 
 .ProductInfo_footer {
@@ -49,6 +76,9 @@
   flex-direction: row;
   align-items: center;
   gap: 10px;
+  -webkit-box-shadow: 0px -5px 12px 0px rgba(34, 60, 80, 0.15);
+  -moz-box-shadow: 0px -5px 12px 0px rgba(34, 60, 80, 0.15);
+  box-shadow: 0px -5px 12px 0px rgba(34, 60, 80, 0.15);
 }
 
 .ProductInfo_footer__scroll {
@@ -79,7 +109,7 @@
     margin-bottom: 12px;
     border-radius: 16px;
     height: 100%;
-    max-width: 605px;
+    width: 605px;
     box-sizing: border-box;
   }
 }

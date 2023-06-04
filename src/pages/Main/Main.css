@@ -24,14 +24,15 @@
 .Main_header_title {
   font-weight: 600;
   font-size: 16px;
-  line-height: 20px;
   user-select: none;
+  line-height: 19px;
+  padding-bottom: 2px;
 }
 
 .Main_header_shopInfo {
   display: flex;
   gap: 4px;
-  flex-direction: center;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
 }
@@ -46,8 +47,8 @@
 .Main_header_shopInfo_name {
   font-weight: 400;
   font-size: 13px;
-  line-height: 16px;
   text-align: center;
+  line-height: 15px;
   color: var(--vkui--color_text_secondary);
 }
 
@@ -70,14 +71,12 @@
 .Main_header__desktop .Main_header_title {
   font-weight: 600;
   font-size: 20px;
-  line-height: 25px;
   padding-right: 8px;
   border-right: 1px solid rgba(0, 0, 0, 0.12);
 }
 
 .Main_header__desktop .Main_header_shopInfo_name {
   font-size: 16px;
-  line-height: 19px;
 }
 
 @media (min-width: 768px) {

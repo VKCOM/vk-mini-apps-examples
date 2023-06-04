@@ -1,11 +1,12 @@
 import React from 'react'
 import { Header, Spinner } from '@vkontakte/vkui'
-import { ProductCard, ProductCardProps } from '../ProductCard/ProductCard'
+import { ProductCard } from 'src/components'
+import { ProductPreview } from 'src/types'
 
 import './Products.css'
 
 export type ProductsProps = {
-  products: Array<ProductCardProps & { id: number }>
+  products: ProductPreview[]
   header: string
   maxProducts: number
   lazyLoading?: boolean
@@ -28,10 +29,11 @@ let Products: React.FC<ProductsProps> = ({
         {products.map((item, index) => {
           return (
             <ProductCard
+              id={item.id}
               key={item.id}
+              name={item.name}
               price={item.price}
               productType={item.productType}
-              name={item.name}
               preview={lazyLoading ? '' : item.preview}
               data-index={`${lazyLoading ? index : null}`}
               data-src={`${lazyLoading ? item.preview : null}`}

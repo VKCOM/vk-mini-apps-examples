@@ -21,7 +21,6 @@ let Filters: React.FC<FiltersProps> = ({
   defaultFilter,
 }) => {
   const dispatch = useAppDispatch()
-  console.log(defaultFilter)
   const [isFilterChange, setIsFilterChange] = useState(false)
   const [filters, setFilters] = useState<Omit<ProductFilter, 'query'>>({
     priceTo: defaultFilter.priceTo ?? maxPrice,

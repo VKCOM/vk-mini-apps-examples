@@ -3,9 +3,9 @@ import {
   useFirstPageCheck,
   useRouteNavigator,
 } from '@vkontakte/vk-mini-app-router'
-import { INITIAL_URL } from 'src/routes'
-import { IconButton } from '@vkontakte/vkui'
 import { Icon28ArrowLeftOutline } from '@vkontakte/icons'
+import { IconButton } from '@vkontakte/vkui'
+import { INITIAL_URL } from 'src/routes'
 
 import './PageHeader.css'
 

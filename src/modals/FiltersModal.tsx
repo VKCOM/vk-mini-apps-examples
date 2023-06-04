@@ -2,10 +2,12 @@ import React from 'react'
 import { Filters } from 'src/components'
 import { Icon24Dismiss } from '@vkontakte/icons'
 import { Group, ModalPage, ModalPageHeader, NavIdProps } from '@vkontakte/vkui'
+import { useAppSelector } from 'src/store'
 
 const FiltersModal: React.FC<NavIdProps & { onClose: () => void }> = (
   props
 ) => {
+  const { filters, categories } = useAppSelector((state) => state.app)
   return (
     <ModalPage
       {...props}
@@ -19,10 +21,10 @@ const FiltersModal: React.FC<NavIdProps & { onClose: () => void }> = (
     >
       <Group>
         <Filters
-          defaultFilter={{}}
+          defaultFilter={filters}
           minPrice={1000}
           maxPrice={10000}
-          categories={[]}
+          categories={categories}
         />
       </Group>
     </ModalPage>

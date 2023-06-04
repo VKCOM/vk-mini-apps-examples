@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react'
 import cx from 'classnames'
+import { NavIdProps, Panel, Platform, usePlatform } from '@vkontakte/vkui'
 import { Categories, Navbar, Products } from 'src/components'
 import { useAppSelector, useAppDispatch } from 'src/store'
-import { NavIdProps, Panel, Platform, usePlatform } from '@vkontakte/vkui'
+import { setCategories, setRecomendedProducts } from 'src/store/app'
 import { getUserId } from 'src/utils'
 import * as api from 'src/api'
 
 import './Main.css'
-import { setCategories, setRecomendedProducts } from 'src/store/app'
 
 export const Main: React.FC<NavIdProps> = (props) => {
   const platfotm = usePlatform()
@@ -26,6 +26,7 @@ export const Main: React.FC<NavIdProps> = (props) => {
   return (
     <Panel className="Panel__fullScreen" {...props}>
       <Navbar
+        onInputResetFilters
         filtersDisable
         header={
           <div
@@ -48,6 +49,7 @@ export const Main: React.FC<NavIdProps> = (props) => {
           maxProducts={20}
           header="Популярное"
           products={recomendedProducts}
+          fetching={!recomendedProducts.length}
         />
       </div>
     </Panel>

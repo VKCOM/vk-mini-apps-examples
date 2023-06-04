@@ -1,7 +1,8 @@
 import React from 'react'
-import { Header, Spinner } from '@vkontakte/vkui'
+import { Header, Placeholder, Spinner } from '@vkontakte/vkui'
 import { ProductCard } from 'src/components'
 import { ProductPreview } from 'src/types'
+import { Icon56HelpOutline } from '@vkontakte/icons'
 
 import './Products.css'
 
@@ -26,20 +27,26 @@ let Products: React.FC<ProductsProps> = ({
         {header}
       </Header>
       <div className="Products_grid">
-        {products.map((item, index) => {
-          return (
-            <ProductCard
-              id={item.id}
-              key={item.id}
-              name={item.name}
-              price={item.price}
-              productType={item.productType}
-              preview={lazyLoading ? '' : item.preview}
-              data-index={`${lazyLoading ? index : null}`}
-              data-src={`${lazyLoading ? item.preview : null}`}
-            />
-          )
-        })}
+        {maxProducts &&
+          products.map((item, index) => {
+            return (
+              <ProductCard
+                id={item.id}
+                key={item.id}
+                name={item.name}
+                price={item.price}
+                productType={item.productType}
+                preview={lazyLoading ? '' : item.preview}
+                data-index={`${lazyLoading ? index : null}`}
+                data-src={`${lazyLoading ? item.preview : null}`}
+              />
+            )
+          })}
+        {!maxProducts && !fetching && (
+          <Placeholder icon={<Icon56HelpOutline />}>
+            По твоему запросу ничего не нашлось
+          </Placeholder>
+        )}
       </div>
       {fetching && (
         <div className="Products_spinner">

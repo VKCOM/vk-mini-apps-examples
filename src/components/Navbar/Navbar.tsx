@@ -5,20 +5,24 @@ import { Icon28ShoppingCartOutline, Icon24Filter } from '@vkontakte/icons'
 import { useRouteNavigator } from '@vkontakte/vk-mini-app-router'
 import { PaymentPanel, StorePanelModal, ViewingPanel } from 'src/routes'
 import { useAppDispatch, useAppSelector } from 'src/store'
+import { setProductFilters } from 'src/store/app'
 
 import './Navbar.css'
-import { setProductFilters } from '@/store/app'
 
 export type NavbarProps = {
   header?: ReactNode
+  searchValue?: string
   filtersDisable?: boolean
   searchDisable?: boolean
+  onInputResetFilters?: boolean
 }
 
 let Navbar: React.FC<NavbarProps> = ({
   header,
   filtersDisable,
   searchDisable,
+  searchValue,
+  onInputResetFilters,
 }) => {
   const routeNavigator = useRouteNavigator()
   const dispatch = useAppDispatch()
@@ -26,12 +30,26 @@ let Navbar: React.FC<NavbarProps> = ({
   const platfotm = usePlatform()
 
   const onSearchIconClick = useCallback(
-    (e: React.KeyboardEvent) => {
-      if (e.key !== 'Enter') return
-      //dispatch(setProductFilters({...filters}))
+    (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.key !== 'Enter' || !('value' in e.target)) return
+      if (onInputResetFilters)
+        dispatch(
+          setProductFilters({
+            ...filters,
+            categoryId: '',
+            query: e.target.value as string,
+          })
+        )
+      else
+        dispatch(
+          setProductFilters({
+            ...filters,
+            query: e.target.value as string,
+          })
+        )
       routeNavigator.push(`/${ViewingPanel.Store}`)
     },
-    [routeNavigator]
+    [routeNavigator, dispatch, filters, onInputResetFilters]
   )
 
   const onFiltersIconClick = useCallback(() => {
@@ -52,7 +70,11 @@ let Navbar: React.FC<NavbarProps> = ({
           Navbar_content__disabled: searchDisable,
         })}
       >
-        <Search className="Navbar_search" onKeyDown={onSearchIconClick} />
+        <Search
+          defaultValue={searchValue}
+          className="Navbar_search"
+          onKeyDown={onSearchIconClick}
+        />
 
         <IconButton
           aria-label="filter"

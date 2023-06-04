@@ -120,7 +120,7 @@ export const Store: React.FC<NavIdProps> = (props) => {
 
   return (
     <Panel className="Panel__fullScreen" {...props}>
-      <Navbar header={<PageHeader header="Каталог" />} />
+      <Navbar searchValue={filters.query} header={<PageHeader header="Каталог" />} />
       <div
         ref={$storeContainer}
         className="Store_content"

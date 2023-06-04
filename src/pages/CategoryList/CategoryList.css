@@ -19,7 +19,7 @@
 
 .CategoryList_grid .CategoryCard {
   width: calc(100% - 16px);
-  max-width: 200px;
+  max-width: 300px;
 }
 
 .CategoryList_grid .CategoryCard .vkuiCard__in {

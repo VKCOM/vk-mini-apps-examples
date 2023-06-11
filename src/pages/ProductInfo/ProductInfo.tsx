@@ -45,9 +45,10 @@ export const ProductInfo: React.FC<NavIdProps> = (props) => {
   // Получаем данные о товаре
   useEffect(() => {
     if (!id) return
+    console.log(id)
     api.products
       .getProductInfo({ productId: Number(id) })
-      .then((res) => setProductInfo(res.data))
+      .then((res) => setProductInfo(res.product))
   }, [id])
 
   // Следим появляется ли у нас скролл

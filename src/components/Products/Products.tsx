@@ -27,7 +27,7 @@ let Products: React.FC<ProductsProps> = ({
         {header}
       </Header>
       <div className="Products_grid">
-        {maxProducts &&
+        {maxProducts > 0 &&
           products.map((item, index) => {
             return (
               <ProductCard
@@ -42,12 +42,14 @@ let Products: React.FC<ProductsProps> = ({
               />
             )
           })}
-        {!maxProducts && !fetching && (
+      </div>
+      {!maxProducts && !fetching && (
+        <div className="Products_placeholder">
           <Placeholder icon={<Icon56HelpOutline />}>
             По твоему запросу ничего не нашлось
           </Placeholder>
-        )}
-      </div>
+        </div>
+      )}
       {fetching && (
         <div className="Products_spinner">
           <Spinner size="large" />

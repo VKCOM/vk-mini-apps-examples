@@ -8,58 +8,26 @@ interface GetUserRequest {
 interface GetUserResponse {
   categories: Category[]
   products: Product[]
+  storeInfo: {
+    name: string,
+    logo: string
+  }
 }
 
 export const get = async ({
   userId,
 }: GetUserRequest): Promise<GetUserResponse> => {
-  const data = await makeRequest<GetUserResponse>({
-    path: 'photos?_limit=10',
+  const data = await makeRequest<{data: GetUserResponse}>({
+    path: 'startInfo',
     params: {
       userId: userId.toString(),
+      limit: '10'
     },
     requestOptions: {
       method: 'get',
     },
   })
 
-  //? замоканные данные(на время пока нет реалного сервера)
-  return {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore: Unreachable code error
-    products: data.data.map((item) => ({
-      id: Number(item.id),
-      name: 'Maxmara TJ collection',
-      productType: 'футболка',
-      maxAvailable: 3,
-      price: 123,
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore: Unreachable code error
-      preview: item.url,
-    })),
-    categories: [
-      {
-        id: 1,
-        name: 'Крабы и вино',
-        productCount: 12,
-      },
-      {
-        id: 2,
-        name: 'Молоко и рыба',
-        productCount: 12,
-      },
-      {
-        id: 3,
-        name: 'Качаны капусты',
-        productCount: 1,
-      },
-      {
-        id: 4,
-        name: 'Автомобили и мотоциклы',
-        productCount: 1,
-      },
-    ],
-  }
 
-  return data
+  return data.data
 }

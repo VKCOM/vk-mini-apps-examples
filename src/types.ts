@@ -1,13 +1,13 @@
 export interface Product {
-  id: number // 2
-  name: string // Щедрая душа
-  productType: string // Шоколадка
-  price: number // 2000
-  description: string // Большая удобная, абсолютно бесполезная
-  preview: string // hhtps://image.com
-  photos: string[] // [hhtps://image.com, hhtps://image.com...]
-  categoryId: number[] // Продукты
-  maxAvailable: number // 23 штуки
+  id: number
+  name: string 
+  productType: string
+  price: number
+  description: string 
+  preview: string 
+  photos: string[]
+  categoryId: number[]
+  maxAvailable: number 
 }
 
 export type ProductPreview = Omit<

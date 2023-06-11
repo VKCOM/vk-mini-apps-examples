@@ -27,7 +27,7 @@ export const Store: React.FC<NavIdProps> = (props) => {
   const dispatch = useAppDispatch()
   const { store, filters, categories } = useAppSelector((state) => state.app)
   const [isFetching, setIsFetching] = useState(true)
-  const [maxProducts, setMaxProducts] = useState(100)
+  const [maxProducts, setMaxProducts] = useState(store.products.length)
   const [observerElements, setObserverElements] = useState<
     NodeListOf<Element> | Element[]
   >([])
@@ -50,8 +50,11 @@ export const Store: React.FC<NavIdProps> = (props) => {
   const fetchProducts = useCallback(
     (_start, _end) => {
       api.products.getProducts({ _start, _end, filters }).then((res) => {
+        if (!res.products.length) {
+          setIsFetching(false)
+        }
         setMaxProducts(res.maxProducts)
-        dispatch(addStoreProducts(res.data))
+        dispatch(addStoreProducts(res.products))
       })
     },
     [dispatch, filters]
@@ -63,11 +66,12 @@ export const Store: React.FC<NavIdProps> = (props) => {
       if (entry.isIntersecting || entry.intersectionRatio > 0) {
         const itemIndex = Number(entry.target.getAttribute('data-index'))
         if (itemIndex === lastLoadItemIndex.current) {
-          if (lastLoadItemIndex.current < maxProducts) {
+          if (lastLoadItemIndex.current + 1 < maxProducts) {
             fetchProducts(
               lastLoadItemIndex.current + 1,
               lastLoadItemIndex.current + 1 + LIMIT
             )
+            setIsFetching(true)
             lastLoadItemIndex.current += LIMIT
           } else setIsFetching(false)
         }
@@ -76,12 +80,16 @@ export const Store: React.FC<NavIdProps> = (props) => {
     })
   }, [fetchProducts, maxProducts, observer, entryElements])
 
-  // Загружаем первую группу товаров
   useLayoutEffect(() => {
-    if (!store.products.length) fetchProducts(0, LIMIT)
-    else if ($storeContainer.current)
+    if ($storeContainer.current && store.products.length)
       $storeContainer.current.scrollTop = store.scrollPosition
   }, [fetchProducts, store])
+
+  useEffect(() => setIsFetching(true), [filters])
+
+  useLayoutEffect(() => {
+    if (!store.products.length && isFetching) fetchProducts(0, LIMIT)
+  }, [fetchProducts, filters, store, isFetching])
 
   useEffect(() => {
     lastLoadItemIndex.current = store.products.length - 1

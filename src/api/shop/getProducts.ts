@@ -8,7 +8,7 @@ interface GetProductsRequest {
 }
 
 interface GetProductsResponse {
-  data: ProductPreview[]
+  products: ProductPreview[]
   maxProducts: number
 }
 
@@ -17,30 +17,18 @@ export const getProducts = async ({
   _end,
   filters,
 }: GetProductsRequest): Promise<GetProductsResponse> => {
-  const data = await makeRequest<GetProductsResponse>({
-    path: 'photos',
+  const data = await makeRequest<{ data: GetProductsResponse }>({
+    path: 'store',
     params: {
       _start: _start.toString(),
       _end: _end.toString(),
-      filters: encodeURIComponent(JSON.stringify(filters)),
+      filters: JSON.stringify(filters),
     },
     requestOptions: {
       method: 'get',
     },
   })
+  console.log(data)
 
-  //? замоканные данные(на время пока нет реалного сервера)
-  return {
-    data: data.data.map((item, index) => ({
-      id: index + _start,
-      name: 'Maxmara TJ collection',
-      productType: 'футболка',
-      maxAvailable: 3,
-      price: 123,
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore: Unreachable code error
-      preview: item.url,
-    })),
-    maxProducts: 100
-  }
+  return data.data
 }

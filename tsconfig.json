@@ -7,7 +7,7 @@
       "@lib/*": ["./lib/*"]
     },
     "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": ["dom", "dom.iterable", "esnext", "webworker"],
     "allowJs": false,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -22,5 +22,13 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["src", "setupTest.js", "src/api/user/addToCart.ts", "src/.react-app-env.d.ts"]
+  "include": [
+    "src",
+    "setupTest.js",
+    "src/api/user/addToCart.ts",
+    "src/.react-app-env.d.ts",
+    "cra.config.js",
+    "src/serviceWorkerRegistration.ts"
+  ],
+  "exclude": ["src/serviceWorker/service-worker.ts"]
 }

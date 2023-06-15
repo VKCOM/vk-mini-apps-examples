@@ -38,6 +38,13 @@
 
 .Navbar_iconButton:last-of-type svg {
   padding-right: 10px !important;
+  position: relative;
+}
+
+.Navbar_iconButton_counter {
+  top: 0;
+  right: 2px;
+  position: absolute !important;
 }
 
 .Navbar__desktop {

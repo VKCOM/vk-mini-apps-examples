@@ -14,7 +14,6 @@ let ProductCard: React.FC<ProductCardProps> = ({
   preview,
   price,
   name,
-  productType,
   ...props
 }) => {
   const [isPreviewLoad, setIsPreviewLoad] = useState(false)
@@ -43,7 +42,6 @@ let ProductCard: React.FC<ProductCardProps> = ({
       </div>
 
       <div className="ProductCard_info">
-        <div className="ProductCard_title">{productType}</div>
         <div className="ProductCard_title">{name}</div>
         <div className="ProductCard_price">{price.toString() + ' ₽'}</div>
       </div>

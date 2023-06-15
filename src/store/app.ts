@@ -1,6 +1,19 @@
-import { Category, OrderProduct, ProductFilter, ProductPreview } from 'src/types'
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import {
+  Category,
+  OrderProduct,
+  ProductFilter,
+  ProductPreview,
+  ShopInfo,
+} from 'src/types'
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import * as api from 'src/api'
 export interface AppStoreState {
+  shopInfo: {
+    logo: string
+    name: string
+    minPrice: number
+    maxPrice: number
+  }
   shoppingCart: {
     orderProducts: OrderProduct[]
     totalPrice: number
@@ -9,14 +22,18 @@ export interface AppStoreState {
     products: ProductPreview[]
     scrollPosition: number
   }
-  filters: ProductFilter,
-  categories: Category[],
+  filters: ProductFilter
+  categories: Category[]
   recomendedProducts: ProductPreview[]
 }
 
-const initialState: AppStoreState = {
-  recomendedProducts: [],
-  categories: [],
+export const initialState: AppStoreState = {
+  shopInfo: {
+    logo: '',
+    name: '',
+    maxPrice: 0,
+    minPrice: 0,
+  },
   shoppingCart: {
     orderProducts: [],
     totalPrice: 0,
@@ -26,16 +43,28 @@ const initialState: AppStoreState = {
     scrollPosition: 0,
   },
   filters: {},
+  recomendedProducts: [],
+  categories: [],
 }
+
+export const fetchShop = createAsyncThunk(
+  'app/fetchShop',
+  async function ({ userId }: { userId: string }, { dispatch }) {
+    const { products, categories, shopInfo } = await api.user.get({ userId })
+    dispatch(setRecomendedProducts(products))
+    dispatch(setCategories(categories))
+    dispatch(setShopInfo(shopInfo))
+  }
+)
 
 const appSlice = createSlice({
   name: 'app',
   initialState,
   reducers: {
-    setCategories(state, action:  PayloadAction<Category[]>) {
+    setCategories(state, action: PayloadAction<Category[]>) {
       state.categories = action.payload
     },
-    setRecomendedProducts(state, action:  PayloadAction<ProductPreview[]>) {
+    setRecomendedProducts(state, action: PayloadAction<ProductPreview[]>) {
       state.recomendedProducts = action.payload
     },
     setStoreScrollposition(state, action: PayloadAction<number>) {
@@ -53,8 +82,7 @@ const appSlice = createSlice({
     },
     setProductFilters(state, action: PayloadAction<ProductFilter>) {
       state.filters = action.payload
-      state.store.products = []
-      state.store.scrollPosition = 0
+      state.store = initialState.store
     },
     addCartItem(state, action: PayloadAction<OrderProduct>) {
       state.shoppingCart.orderProducts.push(action.payload)
@@ -86,12 +114,16 @@ const appSlice = createSlice({
         item.productNumber = action.payload.productNumber
       }
     },
+    setShopInfo(state, action: PayloadAction<ShopInfo>) {
+      state.shopInfo = action.payload
+    },
   },
 })
 
 const { reducer } = appSlice
 export { reducer as appReducer }
 export const {
+  setShopInfo,
   addCartItem,
   setCategories,
   deleteCartItem,

@@ -1,6 +1,12 @@
 import React, { ReactNode, useCallback } from 'react'
 import cx from 'classnames'
-import { IconButton, Platform, Search, usePlatform } from '@vkontakte/vkui'
+import {
+  Counter,
+  IconButton,
+  Platform,
+  Search,
+  usePlatform,
+} from '@vkontakte/vkui'
 import { Icon28ShoppingCartOutline, Icon24Filter } from '@vkontakte/icons'
 import { useRouteNavigator } from '@vkontakte/vk-mini-app-router'
 import { PaymentPanel, StorePanelModal, ViewingPanel } from 'src/routes'
@@ -26,7 +32,7 @@ let Navbar: React.FC<NavbarProps> = ({
 }) => {
   const routeNavigator = useRouteNavigator()
   const dispatch = useAppDispatch()
-  const { filters } = useAppSelector((state) => state.app)
+  const { filters, shoppingCart } = useAppSelector((state) => state.app)
   const platfotm = usePlatform()
 
   const onSearchIconClick = useCallback(
@@ -91,6 +97,15 @@ let Navbar: React.FC<NavbarProps> = ({
             onClick={() => routeNavigator.push(`/${PaymentPanel.ShoppingCart}`)}
             fill="2688EB"
           />
+          {shoppingCart.orderProducts.length > 0 && (
+            <Counter
+              className="Navbar_iconButton_counter"
+              size="s"
+              mode="prominent"
+            >
+              {shoppingCart.orderProducts.length}
+            </Counter>
+          )}
         </IconButton>
       </div>
     </div>

@@ -6,7 +6,7 @@ import React, {
   useState,
 } from 'react'
 import * as api from 'src/api'
-import { NavIdProps, Panel } from '@vkontakte/vkui'
+import { NavIdProps, Panel, Platform, usePlatform } from '@vkontakte/vkui'
 import { Filters, Navbar, PageHeader, Products } from 'src/components'
 import { useAppDispatch, useAppSelector } from 'src/store'
 import { addStoreProducts, setStoreScrollposition } from 'src/store/app'
@@ -25,7 +25,10 @@ function findImage(element: Element) {
 
 export const Store: React.FC<NavIdProps> = (props) => {
   const dispatch = useAppDispatch()
-  const { store, filters, categories } = useAppSelector((state) => state.app)
+  const { store, filters, categories, shopInfo } = useAppSelector(
+    (state) => state.app
+  )
+  const platform = usePlatform()
   const [isFetching, setIsFetching] = useState(true)
   const [maxProducts, setMaxProducts] = useState(store.products.length)
   const [observerElements, setObserverElements] = useState<
@@ -33,13 +36,14 @@ export const Store: React.FC<NavIdProps> = (props) => {
   >([])
 
   const lastLoadItemIndex = useRef<number>(LIMIT - 1)
+  const scrollPosition = useRef(0)
   const $storeContainer = useRef<HTMLDivElement>(null)
 
   const { observer, entryElements } = useIntersectionObserver(
     observerElements,
     {
       root: $storeContainer.current,
-      rootMargin: '0px 0px 300px 0px',
+      rootMargin: '0px 0px 50px 0px',
     },
     {
       findImage,
@@ -58,6 +62,13 @@ export const Store: React.FC<NavIdProps> = (props) => {
       })
     },
     [dispatch, filters]
+  )
+
+  const onHandleScroll = useCallback(
+    (e: React.UIEvent<HTMLDivElement, UIEvent>) => {
+      scrollPosition.current = e.currentTarget.scrollTop
+    },
+    []
   )
 
   useEffect(() => {
@@ -81,15 +92,13 @@ export const Store: React.FC<NavIdProps> = (props) => {
   }, [fetchProducts, maxProducts, observer, entryElements])
 
   useLayoutEffect(() => {
-    if ($storeContainer.current && store.products.length)
+    if ($storeContainer.current)
       $storeContainer.current.scrollTop = store.scrollPosition
-  }, [fetchProducts, store])
-
-  useEffect(() => setIsFetching(true), [filters])
+  }, [store.scrollPosition])
 
   useLayoutEffect(() => {
     if (!store.products.length && isFetching) fetchProducts(0, LIMIT)
-  }, [fetchProducts, filters, store, isFetching])
+  }, [filters, store, isFetching, fetchProducts])
 
   useEffect(() => {
     lastLoadItemIndex.current = store.products.length - 1
@@ -97,6 +106,14 @@ export const Store: React.FC<NavIdProps> = (props) => {
       document.querySelectorAll('.ProductCard:not(.ProductCard__active)')
     )
   }, [store.products])
+
+  useEffect(() => {
+    setIsFetching(true)
+    scrollPosition.current = 0
+    return () => {
+      dispatch(setStoreScrollposition(scrollPosition.current))
+    }
+  }, [filters, dispatch])
 
   return (
     <Panel className="Panel__fullScreen" {...props}>
@@ -107,9 +124,7 @@ export const Store: React.FC<NavIdProps> = (props) => {
       <div
         ref={$storeContainer}
         className="Store_content"
-        onScroll={(e) =>
-          dispatch(setStoreScrollposition(e.currentTarget.scrollTop))
-        }
+        onScroll={onHandleScroll}
       >
         <Products
           lazyLoading
@@ -118,12 +133,14 @@ export const Store: React.FC<NavIdProps> = (props) => {
           maxProducts={maxProducts}
           fetching={isFetching}
         />
-        <Filters
-          minPrice={1000}
-          maxPrice={10000}
-          defaultFilter={filters}
-          categories={categories}
-        />
+        {platform === Platform.VKCOM && (
+          <Filters
+            minPrice={shopInfo.minPrice}
+            maxPrice={shopInfo.maxPrice}
+            defaultFilter={filters}
+            categories={categories}
+          />
+        )}
       </div>
     </Panel>
   )

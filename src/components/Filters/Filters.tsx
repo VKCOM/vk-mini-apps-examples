@@ -1,11 +1,19 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Button, FormItem, RangeSlider, Select } from '@vkontakte/vkui'
+import {
+  Button,
+  FormItem,
+  Platform,
+  RangeSlider,
+  Select,
+  usePlatform,
+} from '@vkontakte/vkui'
 import { setProductFilters } from 'src/store/app'
 import { CategoryCardProps } from 'src/components'
 import { useAppDispatch } from 'src/store'
 import { ProductFilter } from 'src/types'
 
 import './Filters.css'
+import { useRouteNavigator } from '@vkontakte/vk-mini-app-router'
 
 export type FiltersProps = {
   categories: Array<CategoryCardProps & { id: number }>
@@ -21,6 +29,8 @@ let Filters: React.FC<FiltersProps> = ({
   defaultFilter,
 }) => {
   const dispatch = useAppDispatch()
+  const platform = usePlatform()
+  const routeNavigator = useRouteNavigator()
   const [isFilterChange, setIsFilterChange] = useState(false)
   const [filters, setFilters] = useState<Omit<ProductFilter, 'query'>>({
     priceTo: defaultFilter.priceTo ?? maxPrice,
@@ -40,11 +50,6 @@ let Filters: React.FC<FiltersProps> = ({
     [filters]
   )
 
-  const onShowProductClick = useCallback(() => {
-    setPrevFilters({ ...filters })
-    dispatch(setProductFilters(filters))
-  }, [dispatch, filters])
-
   const onHandleSelectorChange = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
       const value = e.target.value === '' ? undefined : e.target.value
@@ -55,6 +60,19 @@ let Filters: React.FC<FiltersProps> = ({
     },
     [filters]
   )
+
+  const onShowProductClick = useCallback(() => {
+    setPrevFilters({ ...filters })
+    dispatch(setProductFilters(filters))
+    if (platform !== Platform.VKCOM) routeNavigator.back()
+  }, [dispatch, filters, platform, routeNavigator])
+
+  useEffect(() => {
+    if (!filters.priceFrom && !filters.priceTo) {
+      setFilters({ ...filters, priceFrom: minPrice, priceTo: maxPrice })
+      setPrevFilters({ ...filters, priceFrom: minPrice, priceTo: maxPrice })
+    }
+  }, [minPrice, maxPrice, filters])
 
   // Проверка фильтров на наличие изменений
   useEffect(() => {
@@ -87,10 +105,7 @@ let Filters: React.FC<FiltersProps> = ({
           min={minPrice}
           max={maxPrice}
           step={500}
-          defaultValue={[
-            prevFilters.priceFrom ?? minPrice,
-            prevFilters.priceTo ?? maxPrice,
-          ]}
+          value={[filters.priceFrom ?? minPrice, filters.priceTo ?? maxPrice]}
         />
         <div className="Filters_prices">
           <div className="Filters_prices_boundary">{filters.priceFrom}₽</div>

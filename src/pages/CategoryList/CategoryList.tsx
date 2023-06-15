@@ -1,15 +1,10 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback } from 'react'
 import { useRouteNavigator } from '@vkontakte/vk-mini-app-router'
 import { CategoryCard, Navbar, PageHeader } from 'src/components'
 import { NavIdProps, Panel } from '@vkontakte/vkui'
 import { ViewingPanel } from 'src/routes'
 import { useAppDispatch, useAppSelector } from 'src/store'
-import {
-  setCategories,
-  setProductFilters,
-} from 'src/store/app'
-import { getUserId } from 'src/utils'
-import * as api from 'src/api'
+import { setProductFilters } from 'src/store/app'
 
 import './CategoryList.css'
 
@@ -24,12 +19,6 @@ export const CategoryList: React.FC<NavIdProps> = (props) => {
     },
     [dispatch, routeNavigator, filters]
   )
-
-  useEffect(() => {
-    api.user.get({ userId: Number(getUserId()) }).then((res) => {
-      dispatch(setCategories(res.categories))
-    })
-  }, [dispatch])
 
   return (
     <Panel className="Panel__fullScreen" {...props}>

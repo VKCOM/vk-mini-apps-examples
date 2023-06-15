@@ -14,10 +14,6 @@
   max-width: 620px;
 }
 
-.Products_placeholder {
-  width: 100vw;
-}
-
 .Products_spinner {
   max-height: 100px;
   padding-top: 12px;
@@ -33,6 +29,6 @@
 
   .Products_grid {
     max-width: min(100%, 645px);
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(100px, max-content));
   }
 }

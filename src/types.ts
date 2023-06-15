@@ -1,7 +1,6 @@
 export interface Product {
   id: number
   name: string 
-  productType: string
   price: number
   description: string 
   preview: string 
@@ -38,4 +37,11 @@ export interface ProductFilter {
   priceTo?: number
   categoryId?: string
   query?: string
+}
+
+export interface ShopInfo {
+  minPrice: number
+  maxPrice: number,
+  name: string,
+  logo: string
 }

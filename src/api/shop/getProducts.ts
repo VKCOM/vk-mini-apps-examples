@@ -18,17 +18,16 @@ export const getProducts = async ({
   filters,
 }: GetProductsRequest): Promise<GetProductsResponse> => {
   const data = await makeRequest<{ data: GetProductsResponse }>({
-    path: 'store',
+    path: 'storeProducts',
     params: {
-      _start: _start.toString(),
-      _end: _end.toString(),
+      start: _start.toString(),
+      end: _end.toString(),
       filters: JSON.stringify(filters),
     },
     requestOptions: {
       method: 'get',
     },
   })
-  console.log(data)
 
   return data.data
 }

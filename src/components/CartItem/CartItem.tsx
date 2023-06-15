@@ -11,9 +11,7 @@ import { ViewingPanel } from 'src/routes'
 
 import './CartItem.css'
 
-export type CartItemProps = Omit<OrderProduct, 'productType'>
-
-let CartItem: React.FC<CartItemProps> = ({
+let CartItem: React.FC<OrderProduct> = ({
   id,
   name,
   price,

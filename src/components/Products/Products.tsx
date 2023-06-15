@@ -35,7 +35,6 @@ let Products: React.FC<ProductsProps> = ({
                 key={item.id}
                 name={item.name}
                 price={item.price}
-                productType={item.productType}
                 preview={lazyLoading ? '' : item.preview}
                 data-index={`${lazyLoading ? index : null}`}
                 data-src={`${lazyLoading ? item.preview : null}`}
@@ -44,11 +43,9 @@ let Products: React.FC<ProductsProps> = ({
           })}
       </div>
       {!maxProducts && !fetching && (
-        <div className="Products_placeholder">
-          <Placeholder icon={<Icon56HelpOutline />}>
-            По твоему запросу ничего не нашлось
-          </Placeholder>
-        </div>
+        <Placeholder icon={<Icon56HelpOutline />}>
+          По твоему запросу ничего не нашлось
+        </Placeholder>
       )}
       {fetching && (
         <div className="Products_spinner">

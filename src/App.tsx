@@ -1,5 +1,12 @@
 import React, { useEffect, useLayoutEffect } from 'react'
-import { SplitLayout, SplitCol, View, Root } from '@vkontakte/vkui'
+import {
+  SplitLayout,
+  SplitCol,
+  View,
+  Root,
+  usePlatform,
+  Platform,
+} from '@vkontakte/vkui'
 import bridge from '@vkontakte/vk-bridge'
 import {
   useActiveVkuiLocation,
@@ -12,15 +19,19 @@ import { Modals } from './modals'
 import { Main, Store, CategoryList, ShoppingCart, ProductInfo } from './pages'
 import { PaymentPanel, ShopView, ViewingPanel } from './routes'
 import { getUserId } from './utils/getUserId'
+import { fetchShop } from './store/app'
 
 const App = (): JSX.Element => {
   const routerPopout = usePopout()
+  const platform = usePlatform()
   const routeNavigator = useRouteNavigator()
   const { panel = ViewingPanel.Main, view = ShopView.Viewing } =
     useActiveVkuiLocation()
 
-  const { onboadrdingComplete } = useAppSelector((state) => state.user)
   const dispatch = useAppDispatch()
+  const onboadrdingComplete = useAppSelector(
+    (state) => state.user.onboadrdingComplete
+  )
 
   /** Получение данных пользователя */
   useLayoutEffect(() => {
@@ -49,6 +60,16 @@ const App = (): JSX.Element => {
     }
     initUser()
   }, [dispatch])
+
+  useEffect(() => {
+    if (platform === Platform.VKCOM) {
+      bridge.send('VKWebAppResizeWindow', {
+        width: 840,
+        height: window.innerHeight,
+      })
+    }
+    dispatch(fetchShop({ userId: getUserId() }))
+  }, [dispatch, platform])
 
   /** Открытие модалки при первом заходе в апп */
   useEffect(() => {

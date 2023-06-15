@@ -13,15 +13,14 @@ export const getProductInfo = async ({
   productId,
 }: GetProductInfoRequest): Promise<GetProductInfoResponse> => {
   const data = await makeRequest<{ data: GetProductInfoResponse }>({
-    path: 'productInfo',
+    path: 'product',
     params: {
-      tab: '3',
       id: productId.toString(),
     },
     requestOptions: {
       method: 'get',
     },
   })
-  console.log(data.data)
+
   return data.data
 }

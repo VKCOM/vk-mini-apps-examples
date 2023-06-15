@@ -7,7 +7,7 @@ import { useAppSelector } from 'src/store'
 const FiltersModal: React.FC<NavIdProps & { onClose: () => void }> = (
   props
 ) => {
-  const { filters, categories } = useAppSelector((state) => state.app)
+  const { filters, categories, shopInfo } = useAppSelector((state) => state.app)
   return (
     <ModalPage
       {...props}
@@ -22,8 +22,8 @@ const FiltersModal: React.FC<NavIdProps & { onClose: () => void }> = (
       <Group>
         <Filters
           defaultFilter={filters}
-          minPrice={1000}
-          maxPrice={10000}
+          minPrice={shopInfo.minPrice}
+          maxPrice={shopInfo.maxPrice}
           categories={categories}
         />
       </Group>

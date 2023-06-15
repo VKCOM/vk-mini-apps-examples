@@ -2,15 +2,17 @@ import { Category, Product } from 'src/types'
 import { makeRequest } from 'src/api/makeRequest'
 
 interface GetUserRequest {
-  userId: number
+  userId: string
 }
 
 interface GetUserResponse {
   categories: Category[]
   products: Product[]
-  storeInfo: {
+  shopInfo: {
     name: string,
-    logo: string
+    logo: string,
+    maxPrice: number,
+    minPrice: number,
   }
 }
 
@@ -20,7 +22,7 @@ export const get = async ({
   const data = await makeRequest<{data: GetUserResponse}>({
     path: 'startInfo',
     params: {
-      userId: userId.toString(),
+      userId: userId,
       limit: '10'
     },
     requestOptions: {

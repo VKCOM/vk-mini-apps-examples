@@ -24,20 +24,25 @@ let Categories: React.FC<CategoriesProps> = ({ categories }) => {
       dispatch(setProductFilters({ ...filters, categoryId: id.toString() }))
       routeNavigator.push(`/${ViewingPanel.Store}`)
     },
-    [dispatch, routeNavigator, filters]
+    [routeNavigator, filters, dispatch]
   )
 
-  const onHeaderClick = useCallback(() => {
+  const onArrowClick = useCallback(() => {
     routeNavigator.push(`/${ViewingPanel.CategoryList}`)
   }, [routeNavigator])
+
+  const onLinkClick = useCallback(() => {
+    dispatch(setProductFilters({}))
+    routeNavigator.push(`/${ViewingPanel.Store}`)
+  }, [routeNavigator, dispatch])
 
   return (
     <div className="Categories">
       <Header
-        indicator={12}
-        subtitle={<Link onClick={onHeaderClick}>Показать все</Link>}
+        indicator={categories.length}
+        subtitle={<Link onClick={onLinkClick}>Показать все товары</Link>}
         aside={
-          <IconButton aria-label="categories" onClick={onHeaderClick}>
+          <IconButton aria-label="categories" onClick={onArrowClick}>
             <Icon20ChevronRightOutline fill="#2688EB" />
           </IconButton>
         }

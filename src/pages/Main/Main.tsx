@@ -1,32 +1,24 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import cx from 'classnames'
 import { NavIdProps, Panel, Platform, usePlatform } from '@vkontakte/vkui'
 import { Categories, Navbar, Products } from 'src/components'
-import { useAppSelector, useAppDispatch } from 'src/store'
-import { setCategories, setRecomendedProducts } from 'src/store/app'
-import { getUserId } from 'src/utils'
-import * as api from 'src/api'
+import { useAppDispatch, useAppSelector } from 'src/store'
+import { setProductFilters, initialState } from 'src/store/app'
 
 import './Main.css'
 
-export const Main: React.FC<NavIdProps> = (props) => {
+let Main: React.FC<NavIdProps> = (props) => {
   const platfotm = usePlatform()
   const dispatch = useAppDispatch()
-  const [shopName, setShopName] = useState('')
-  const [shopLogo, setShopLogo] = useState('')
-  const [isFetching, setIsFetching] = useState(true)
-  const { categories, recomendedProducts } = useAppSelector(
-    (state) => state.app
+
+  const shopInfo = useAppSelector((state) => state.app.shopInfo)
+  const categories = useAppSelector((state) => state.app.categories)
+  const recomendedProducts = useAppSelector(
+    (state) => state.app.recomendedProducts
   )
 
   useEffect(() => {
-    api.user.get({ userId: Number(getUserId()) }).then((res) => {
-      setShopLogo(res.storeInfo.logo)
-      setShopName(res.storeInfo.name)
-      setIsFetching(false)
-      dispatch(setCategories(res.categories))
-      dispatch(setRecomendedProducts(res.products))
-    })
+    dispatch(setProductFilters(initialState.filters))
   }, [dispatch])
 
   return (
@@ -43,8 +35,8 @@ export const Main: React.FC<NavIdProps> = (props) => {
           >
             <div className="Main_header_title">Моя страница</div>
             <div className="Main_header_shopInfo">
-              <img src={shopLogo} />
-              <div className="Main_header_shopInfo_name">{shopName}</div>
+              <img src={shopInfo.logo} />
+              <div className="Main_header_shopInfo_name">{shopInfo.name}</div>
             </div>
           </div>
         }
@@ -52,12 +44,15 @@ export const Main: React.FC<NavIdProps> = (props) => {
       <div className="Main">
         <Categories categories={categories} />
         <Products
-          maxProducts={20}
+          maxProducts={recomendedProducts.length}
           header="Популярное"
           products={recomendedProducts}
-          fetching={isFetching}
+          fetching={!recomendedProducts.length}
         />
       </div>
     </Panel>
   )
 }
+
+Main = React.memo(Main)
+export { Main }

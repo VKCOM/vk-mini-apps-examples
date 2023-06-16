@@ -2,7 +2,7 @@ module.exports = {
   workbox: {
     method: 'inject',
     config: {
-      swSrc: 'src/service-worker.ts',
+      swSrc: 'src/serviceWorker/service-worker.ts',
     },
   },
 }

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Header, Placeholder, Spinner } from '@vkontakte/vkui'
+import { Header, Placeholder } from '@vkontakte/vkui'
 import { ProductCard } from 'src/components'
 import { ProductPreview } from 'src/types'
 import { Icon56HelpOutline } from '@vkontakte/icons'
@@ -46,11 +46,6 @@ let Products: React.FC<ProductsProps> = ({
         <Placeholder icon={<Icon56HelpOutline />}>
           По твоему запросу ничего не нашлось
         </Placeholder>
-      )}
-      {fetching && (
-        <div className="Products_spinner">
-          <Spinner size="large" />
-        </div>
       )}
     </div>
   )

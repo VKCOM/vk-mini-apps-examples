@@ -18,7 +18,6 @@ function getAction(url: string) {
 
 function matchAnswer(request: Request) {
   const action = getAction(request.url)
-  console.log(action, request.url)
   switch (action) {
     case Action.StartInfo: {
       return api.getStartInfo()

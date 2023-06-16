@@ -2,7 +2,7 @@ import axios, { AxiosRequestConfig } from 'axios'
 import axiosRetry from 'axios-retry' 
 // import { API_URL } from 'src/config/constants' 
  
-const API_URL = 'https://jsonplaceholder.typicode.com'
+const API_URL = 'https://vkStore.com'
 
 axiosRetry(axios, { 
   retries: 3, 

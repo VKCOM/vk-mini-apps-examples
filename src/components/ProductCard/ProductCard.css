@@ -7,6 +7,7 @@
 .ProductCard .vkuiCard__in {
   display: flex;
   flex-direction: column;
+  height: 100%;
 }
 
 .ProductCard_preview {

@@ -503,7 +503,6 @@
     const params = getParams(url);
     const filters = params.filters ? JSON.parse(params.filters) : {};
     const products = PRODUCTS.filter((product) => {
-      console.log("banana");
       if ("query" in filters && filters.query) {
         if (!product.name.toLowerCase().includes(filters.query.toLowerCase()))
           return false;
@@ -584,7 +583,6 @@
   }
   function matchAnswer(request) {
     const action = getAction(request.url);
-    console.log(action, request.url);
     switch (action) {
       case "startInfo" /* StartInfo */: {
         return getStartInfo();

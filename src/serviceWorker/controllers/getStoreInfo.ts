@@ -8,7 +8,6 @@ export function getStoreInfo(url: string) {
 
   // Выбираем из общего списка только подходящие товары
   const products = PRODUCTS.filter((product) => {
-    console.log('banana')
     if ('query' in filters && filters.query) {
       if (!product.name.toLowerCase().includes(filters.query.toLowerCase()))
         return false

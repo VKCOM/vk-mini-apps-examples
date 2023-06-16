@@ -22,7 +22,7 @@ export function register(config?: Config) {
 
     window.addEventListener('load', () => {
       const swUrl =
-        'https://c4ac-79-137-167-35.ngrok-free.app/service-worker.js'
+        `${window.location.href}/service-worker.js`
 
       if (isLocalhost) {
         checkValidServiceWorker(swUrl, config)

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Alert } from '@vkontakte/vkui'
-import { useRouteNavigator } from '@vkontakte/vk-mini-app-router'
+import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
 import { INITIAL_URL } from 'src/routes'
 import { useAppDispatch } from 'src/store'
 import { setShoppingCart } from 'src/store/app'

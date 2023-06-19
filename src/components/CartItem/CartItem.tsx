@@ -6,7 +6,7 @@ import { Counter } from 'src/components'
 import { OrderProduct } from 'src/types'
 import { useAppDispatch } from 'src/store'
 import { deleteCartItem, updateCartItem } from 'src/store/app'
-import { useRouteNavigator } from '@vkontakte/vk-mini-app-router'
+import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
 import { ViewingPanel } from 'src/routes'
 
 import './CartItem.css'

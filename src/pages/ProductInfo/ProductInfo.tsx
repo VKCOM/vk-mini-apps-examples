@@ -9,7 +9,7 @@ import cx from 'classnames'
 import {
   useRouteNavigator,
   useSearchParams,
-} from '@vkontakte/vk-mini-app-router'
+} from '@vkontakte/vk-mini-apps-router'
 import { Button, Gallery, NavIdProps, Panel, Separator } from '@vkontakte/vkui'
 import { Counter, Navbar, PageHeader, ProductPhoto } from 'src/components'
 import { addCartItem } from 'src/store/app'

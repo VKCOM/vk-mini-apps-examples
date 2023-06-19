@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { useRouteNavigator } from '@vkontakte/vk-mini-app-router'
+import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
 import { CategoryCard, Navbar, PageHeader } from 'src/components'
 import { NavIdProps, Panel } from '@vkontakte/vkui'
 import { ViewingPanel } from 'src/routes'

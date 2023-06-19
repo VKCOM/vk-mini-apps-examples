@@ -4,7 +4,7 @@ import {
   createPanel,
   createRoot,
   createView,
-} from '@vkontakte/vk-mini-app-router'
+} from '@vkontakte/vk-mini-apps-router'
 
 const SHOP_ROOT = 'shop'
 export const INITIAL_URL = '/'

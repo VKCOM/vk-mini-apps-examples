@@ -12,7 +12,7 @@ import {
   useActiveVkuiLocation,
   usePopout,
   useRouteNavigator,
-} from '@vkontakte/vk-mini-app-router'
+} from '@vkontakte/vk-mini-apps-router'
 import { useAppDispatch, useAppSelector } from 'src/store'
 import { setOnboardingComplete, setUserName } from 'src/store/user'
 import { Modals } from './modals'

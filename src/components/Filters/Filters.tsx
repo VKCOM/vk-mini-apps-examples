@@ -13,7 +13,7 @@ import { useAppDispatch } from 'src/store'
 import { ProductFilter } from 'src/types'
 
 import './Filters.css'
-import { useRouteNavigator } from '@vkontakte/vk-mini-app-router'
+import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
 
 export type FiltersProps = {
   categories: Array<CategoryCardProps & { id: number }>
@@ -104,7 +104,7 @@ let Filters: React.FC<FiltersProps> = ({
           onChange={onHandleSliderChange}
           min={minPrice}
           max={maxPrice}
-          step={500}
+          step={250}
           value={[filters.priceFrom ?? minPrice, filters.priceTo ?? maxPrice]}
         />
         <div className="Filters_prices">

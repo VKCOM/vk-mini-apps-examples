@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import { Button, NavIdProps, Panel, Placeholder } from '@vkontakte/vkui'
-import { useRouteNavigator } from '@vkontakte/vk-mini-app-router'
+import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
 import { Icon56UsersOutline } from '@vkontakte/icons'
 import { CartItem, Navbar, PageHeader, Subtotal } from 'src/components'
 import { PayConfirmPopout } from './PayConfirmPopout'

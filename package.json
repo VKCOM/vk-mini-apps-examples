@@ -7,8 +7,6 @@
     "build:sw": "concurrently \"nodemon --exec \\\"npm run build\\\" --watch src --ext ts,tsx\" \"serve -s build -l 10888\"",
     "predeploy": "react-scripts build",
     "deploy": "vk-miniapps-deploy",
-    "test": "jest",
-    "coverage": "jest --coverage",
     "sw": "tsc -p tsconfig.worker.json && esbuild --bundle --tsconfig=tsconfig.worker.json --outfile=public/service-worker.js src/serviceWorker/service-worker.ts --watch"
   },
   "engines": {
@@ -20,7 +18,7 @@
     "@reduxjs/toolkit": "^1.9.5",
     "@vkontakte/icons": "2.28.0",
     "@vkontakte/vk-bridge": "latest",
-    "@vkontakte/vk-mini-app-router": "file:../vk-mini-app-router/vk-mini-app-router",
+    "@vkontakte/vk-mini-apps-router": "^1.0.7",
     "@vkontakte/vk-miniapps-deploy": "0.0.26",
     "@vkontakte/vkui": "5.3.1",
     "axios": "^1.4.0",

@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { Header, IconButton, Link } from '@vkontakte/vkui'
 import { Icon20ChevronRightOutline } from '@vkontakte/icons'
-import { useRouteNavigator } from '@vkontakte/vk-mini-app-router'
+import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
 import { CategoryCardProps } from 'src/components'
 import { CategoriesRow } from './CategoriesRow'
 import { ViewingPanel } from 'src/routes'

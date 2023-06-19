@@ -4,7 +4,7 @@ import React from 'react'
 import {
   useActiveVkuiLocation,
   useRouteNavigator,
-} from '@vkontakte/vk-mini-app-router'
+} from '@vkontakte/vk-mini-apps-router'
 import { StorePanelModal } from 'src/routes'
 import { OnboardingModal } from './OnboardingModal'
 

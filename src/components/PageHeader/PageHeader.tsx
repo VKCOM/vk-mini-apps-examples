@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import {
   useFirstPageCheck,
   useRouteNavigator,
-} from '@vkontakte/vk-mini-app-router'
+} from '@vkontakte/vk-mini-apps-router'
 import { Icon28ArrowLeftOutline } from '@vkontakte/icons'
 import { IconButton } from '@vkontakte/vkui'
 import { INITIAL_URL } from 'src/routes'

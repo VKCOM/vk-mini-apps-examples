@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react'
 import cx from 'classnames'
-import { useRouteNavigator } from '@vkontakte/vk-mini-app-router'
+import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
 import { Card } from '@vkontakte/vkui'
 import { ViewingPanel } from 'src/routes'
 import { ProductPreview } from 'src/types'

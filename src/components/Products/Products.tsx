@@ -28,19 +28,17 @@ let Products: React.FC<ProductsProps> = ({
       </Header>
       <div className="Products_grid">
         {maxProducts > 0 &&
-          products.map((item, index) => {
-            return (
-              <ProductCard
-                id={item.id}
-                key={item.id}
-                name={item.name}
-                price={item.price}
-                preview={lazyLoading ? '' : item.preview}
-                data-index={`${lazyLoading ? index : null}`}
-                data-src={`${lazyLoading ? item.preview : null}`}
-              />
-            )
-          })}
+          products.map((item, index) => (
+            <ProductCard
+              id={item.id}
+              key={item.id}
+              name={item.name}
+              price={item.price}
+              preview={lazyLoading ? '' : item.preview}
+              data-index={`${lazyLoading ? index : null}`}
+              data-src={`${lazyLoading ? item.preview : null}`}
+            />
+          ))}
       </div>
       {!maxProducts && !fetching && (
         <Placeholder icon={<Icon56HelpOutline />}>

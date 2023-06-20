@@ -9,7 +9,7 @@ import { INITIAL_URL } from 'src/routes'
 
 import './ShoppingCart.css'
 
-export const ShoppingCart: React.FC<NavIdProps> = (props) => {
+let ShoppingCart: React.FC<NavIdProps> = (props) => {
   const routeNavigator = useRouteNavigator()
   const { orderProducts, totalPrice } = useAppSelector(
     (state) => state.app.shoppingCart
@@ -24,6 +24,7 @@ export const ShoppingCart: React.FC<NavIdProps> = (props) => {
   const onConfirmPayClick = useCallback(() => {
     routeNavigator.showPopout(<PayConfirmPopout />)
   }, [routeNavigator])
+  console.log('Update Shopping cart')
 
   return (
     <Panel className="Panel__fullScreen" {...props}>
@@ -52,7 +53,7 @@ export const ShoppingCart: React.FC<NavIdProps> = (props) => {
                 </Button>
               }
             >
-              Наполните ее товарами
+              Наполните ее
             </Placeholder>
           )}
         </div>
@@ -74,3 +75,7 @@ export const ShoppingCart: React.FC<NavIdProps> = (props) => {
     </Panel>
   )
 }
+
+ShoppingCart = React.memo(ShoppingCart)
+
+export { ShoppingCart }

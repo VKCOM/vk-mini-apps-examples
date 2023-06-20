@@ -63,9 +63,10 @@ let Filters: React.FC<FiltersProps> = ({
 
   const onShowProductClick = useCallback(() => {
     setPrevFilters({ ...filters })
-    dispatch(setProductFilters(filters))
+    const newFilters = Object.assign({ ...defaultFilter }, { ...filters })
+    dispatch(setProductFilters(newFilters))
     if (platform !== Platform.VKCOM) routeNavigator.back()
-  }, [dispatch, filters, platform, routeNavigator])
+  }, [filters, platform, routeNavigator, defaultFilter, dispatch])
 
   useEffect(() => {
     if (!filters.priceFrom && !filters.priceTo) {

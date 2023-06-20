@@ -6,6 +6,7 @@ import {
   Root,
   usePlatform,
   Platform,
+  ScreenSpinner,
 } from '@vkontakte/vkui'
 import bridge from '@vkontakte/vk-bridge'
 import {
@@ -21,12 +22,16 @@ import { PaymentPanel, ShopView, ViewingPanel } from './routes'
 import { getUserId } from './utils/getUserId'
 import { fetchShop } from './store/app'
 
-const App = (): JSX.Element => {
+export const App: React.FC = () => {
   const routerPopout = usePopout()
   const platform = usePlatform()
   const routeNavigator = useRouteNavigator()
-  const { panel = ViewingPanel.Main, view = ShopView.Viewing } =
-    useActiveVkuiLocation()
+  const shopFetching = useAppSelector((state) => state.app.shopFetching)
+
+  const {
+    view: activeView = ViewingPanel.Main,
+    panel: activePanel = ShopView.Viewing,
+  } = useActiveVkuiLocation()
 
   const dispatch = useAppDispatch()
   const onboadrdingComplete = useAppSelector(
@@ -59,7 +64,7 @@ const App = (): JSX.Element => {
       }
     }
     initUser()
-  }, [dispatch])
+  }, [dispatch, routeNavigator])
 
   useEffect(() => {
     if (platform === Platform.VKCOM) {
@@ -68,8 +73,25 @@ const App = (): JSX.Element => {
         height: window.innerHeight,
       })
     }
-    dispatch(fetchShop({ userId: getUserId() }))
+
+    navigator.serviceWorker.ready.then(() => {
+      dispatch(fetchShop({ userId: getUserId() }))
+    })
   }, [dispatch, platform])
+
+  useEffect(() => {
+    if (shopFetching) {
+      setTimeout(() => {
+        routeNavigator.showPopout(<ScreenSpinner size="large" />)
+      }, 100)
+    }
+    if (!shopFetching) {
+      setTimeout(() => {
+        routeNavigator.hidePopout()
+      }, 1500)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shopFetching])
 
   /** Открытие модалки при первом заходе в апп */
   useEffect(() => {
@@ -81,15 +103,15 @@ const App = (): JSX.Element => {
   return (
     <SplitLayout popout={routerPopout} modal={<Modals />}>
       <SplitCol>
-        <Root activeView={view}>
-          <View nav={ShopView.Viewing} activePanel={panel}>
+        <Root activeView={activeView}>
+          <View nav={ShopView.Viewing} activePanel={activePanel}>
             <Main nav={ViewingPanel.Main} />
             <Store nav={ViewingPanel.Store} />
             <CategoryList nav={ViewingPanel.CategoryList} />
             <ProductInfo nav={ViewingPanel.ProductInfo} />
           </View>
 
-          <View nav={ShopView.Payment} activePanel={panel}>
+          <View nav={ShopView.Payment} activePanel={activePanel}>
             <ShoppingCart nav={PaymentPanel.ShoppingCart} />
           </View>
         </Root>
@@ -97,5 +119,3 @@ const App = (): JSX.Element => {
     </SplitLayout>
   )
 }
-
-export { App }

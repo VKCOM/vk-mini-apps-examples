@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react'
 import cx from 'classnames'
 import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
 import { Card } from '@vkontakte/vkui'
+import { PriceDisplay } from 'src/components'
 import { ViewingPanel } from 'src/routes'
 import { ProductPreview } from 'src/types'
 
@@ -43,7 +44,7 @@ let ProductCard: React.FC<ProductCardProps> = ({
 
       <div className="ProductCard_info">
         <div className="ProductCard_title">{name}</div>
-        <div className="ProductCard_price">{price.toString() + ' ₽'}</div>
+        <PriceDisplay price={price} />
       </div>
     </Card>
   )

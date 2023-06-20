@@ -25,6 +25,7 @@ export interface AppStoreState {
   filters: ProductFilter
   categories: Category[]
   recomendedProducts: ProductPreview[]
+  shopFetching: boolean
 }
 
 export const initialState: AppStoreState = {
@@ -45,6 +46,7 @@ export const initialState: AppStoreState = {
   filters: {},
   recomendedProducts: [],
   categories: [],
+  shopFetching: true,
 }
 
 export const fetchShop = createAsyncThunk(
@@ -117,6 +119,11 @@ const appSlice = createSlice({
     setShopInfo(state, action: PayloadAction<ShopInfo>) {
       state.shopInfo = action.payload
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchShop.fulfilled, (state) => {
+      state.shopFetching = false
+    })
   },
 })
 

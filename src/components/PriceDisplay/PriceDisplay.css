@@ -1,0 +1,11 @@
+.PriceDisplay {
+  margin-top: 2px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 18px;
+  color: var(--vkui--color_text_primary);
+}
+
+.PriceDisplay_space {
+  white-space: nowrap;
+}

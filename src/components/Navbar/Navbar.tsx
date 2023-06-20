@@ -8,7 +8,10 @@ import {
   usePlatform,
 } from '@vkontakte/vkui'
 import { Icon28ShoppingCartOutline, Icon24Filter } from '@vkontakte/icons'
-import { useActiveVkuiLocation, useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
+import {
+  useActiveVkuiLocation,
+  useRouteNavigator,
+} from '@vkontakte/vk-mini-apps-router'
 import { PaymentPanel, StorePanelModal, ViewingPanel } from 'src/routes'
 import { useAppDispatch, useAppSelector } from 'src/store'
 import { setProductFilters } from 'src/store/app'
@@ -28,37 +31,32 @@ let Navbar: React.FC<NavbarProps> = ({
   filtersDisable,
   searchDisable,
   searchValue,
-  onInputResetFilters,
 }) => {
   const routeNavigator = useRouteNavigator()
-  const dispatch = useAppDispatch()
-  const { filters, shoppingCart } = useAppSelector((state) => state.app)
-  const { panel } = useActiveVkuiLocation()
+  const filters = useAppSelector((state) => state.app.filters)
+  const shoppingCart = useAppSelector((state) => state.app.shoppingCart)
   const platfotm = usePlatform()
+  const { panel } = useActiveVkuiLocation()
+  const dispatch = useAppDispatch()
 
-  const onSearchIconClick = useCallback(
+  const onInputKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
       if (e.key !== 'Enter' || !('value' in e.target)) return
-      if (onInputResetFilters)
-        dispatch(
-          setProductFilters({
-            ...filters,
-            categoryId: '',
-            query: e.target.value as string,
-          })
-        )
-      else
-        dispatch(
-          setProductFilters({
-            ...filters,
-            query: e.target.value as string,
-          })
-        )
+      dispatch(
+        setProductFilters({
+          ...filters,
+          query: e.target.value as string,
+        })
+      )
       if (panel !== ViewingPanel.Store)
         routeNavigator.push(`/${ViewingPanel.Store}`)
     },
-    [routeNavigator, filters, onInputResetFilters, panel, dispatch]
+    [routeNavigator, filters, panel, dispatch]
   )
+
+  React.useEffect(() => {
+    console.log(panel)
+  }, [panel])
 
   const onFiltersIconClick = useCallback(() => {
     routeNavigator.push(`/${ViewingPanel.Store}/${StorePanelModal.Filters}`)
@@ -81,7 +79,7 @@ let Navbar: React.FC<NavbarProps> = ({
         <Search
           defaultValue={searchValue}
           className="Navbar_search"
-          onKeyDown={onSearchIconClick}
+          onKeyDown={onInputKeyDown}
         />
 
         <IconButton

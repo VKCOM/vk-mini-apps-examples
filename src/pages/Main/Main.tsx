@@ -24,7 +24,6 @@ let Main: React.FC<NavIdProps> = (props) => {
   return (
     <Panel className="Panel__fullScreen" {...props}>
       <Navbar
-        onInputResetFilters
         filtersDisable
         header={
           <div

@@ -1,5 +1,6 @@
 import {
   RoutesConfig,
+  createHashRouter,
   createModal,
   createPanel,
   createRoot,
@@ -56,3 +57,5 @@ export const routes = RoutesConfig.create([
     ]),
   ]),
 ])
+
+export const router = createHashRouter(routes.getRoutes())

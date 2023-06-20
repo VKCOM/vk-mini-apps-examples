@@ -27,7 +27,7 @@ export function getStoreInfo(url: string) {
     }
 
     return true
-  })
+  }).sort((a, b) => a.id - b.id)
 
   const start = params.start ? Number(params.start) : 0
   const end = params.end ? Number(params.end) : products.length

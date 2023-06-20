@@ -521,7 +521,7 @@
           return false;
       }
       return true;
-    });
+    }).sort((a, b) => a.id - b.id);
     const start = params.start ? Number(params.start) : 0;
     const end = params.end ? Number(params.end) : products.length;
     return new Response(
@@ -553,7 +553,7 @@
     });
     const shuffled = PRODUCTS.sort(() => 0.5 - Math.random());
     const shopInfo = {
-      name: "Vk-store",
+      name: "VK Store",
       logo: "https://sun9-49.userapi.com/impg/VvBrmSqJOaJCKUmct78UWoZP0T49ETtD-kqEAA/mqePuJTVaVo.jpg?size=710x710&quality=95&sign=8f0f4cbf370abe117fc5dfcbee610aa6&type=album",
       maxPrice,
       minPrice
@@ -601,6 +601,7 @@
     console.log("ServiceWorker installed");
   });
   self.addEventListener("activate", (event) => {
+    self.clients.claim();
     event.waitUntil(
       caches.keys().then((cacheNames) => {
         return Promise.all(

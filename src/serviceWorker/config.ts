@@ -1,4 +1,6 @@
-export const PRODUCTS = [
+import { Product, Category } from '../types'
+
+export const PRODUCTS: Product[] = [
   {
     id: 1,
     name: 'Футболка Vk basic collection',
@@ -465,7 +467,7 @@ export const PRODUCTS = [
   },
 ]
 
-export const CATEGORIES = [
+export const CATEGORIES: Category[] = [
   {
     id: 1,
     name: 'Умный дом',

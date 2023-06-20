@@ -1,12 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
 
-/**
- *  findImage - callback для поиска картинки в отслеживаемом элементе
- *  delay - задержка в ms во время которой элемент должен находится в зоне видимости перед тем как начнется загрузка
- */
 export type ImageLoadingOption = {
-  findImage: (element: Element) => HTMLImageElement
+  /** Callback для поиска картинки в отслеживаемом элементе */
   delay: number
+
+  /** Задержка в ms во время которой элемент должен находится в зоне видимости перед тем как начнется загрузка  */
+  findImage: (element: Element) => HTMLImageElement
 }
 
 /** Функция отмены ленивой загрузки изображения */

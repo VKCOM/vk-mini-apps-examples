@@ -498,8 +498,8 @@
     );
   }
 
-  // src/serviceWorker/controllers/getStoreInfo.ts
-  function getStoreInfo(url) {
+  // src/serviceWorker/controllers/getFilteredProducts.ts
+  function getFilteredProducts(url) {
     const params = getParams(url);
     const filters = params.filters ? JSON.parse(params.filters) : {};
     const products = PRODUCTS.filter((product) => {
@@ -527,13 +527,13 @@
     return new Response(
       JSON.stringify({
         products: products.slice(start, end),
-        maxProducts: products.length
+        filteredProductCount: products.length
       })
     );
   }
 
-  // src/serviceWorker/controllers/getStartInfo.ts
-  function getStartInfo() {
+  // src/serviceWorker/controllers/getInitialData.ts
+  function getInitialData() {
     let minPrice = PRODUCTS[0].price;
     let maxPrice = PRODUCTS[0].price;
     PRODUCTS.forEach((item) => {
@@ -560,7 +560,7 @@
     };
     return new Response(
       JSON.stringify({
-        products: shuffled.slice(0, 9),
+        recommendedProducts: shuffled.slice(0, 9),
         categories,
         shopInfo
       })
@@ -575,7 +575,6 @@
   }
 
   // src/serviceWorker/service-worker.ts
-  var CACHE_NAME = "vk-shop";
   function getAction(url) {
     var _a;
     const action = url.match(/(\w+)($|\?)/);
@@ -584,11 +583,11 @@
   function matchAnswer(request) {
     const action = getAction(request.url);
     switch (action) {
-      case "startInfo" /* StartInfo */: {
-        return getStartInfo();
+      case "initialData" /* InitialData */: {
+        return getInitialData();
       }
-      case "storeProducts" /* Store */: {
-        return getStoreInfo(request.url);
+      case "filteredProducts" /* FilteredProducts */: {
+        return getFilteredProducts(request.url);
       }
       case "product" /* ProductInfo */: {
         return getProductInfo(request.url);
@@ -600,18 +599,8 @@
   self.addEventListener("install", () => {
     console.log("ServiceWorker installed");
   });
-  self.addEventListener("activate", (event) => {
+  self.addEventListener("activate", () => {
     self.clients.claim();
-    event.waitUntil(
-      caches.keys().then((cacheNames) => {
-        return Promise.all(
-          cacheNames.map((cache) => {
-            if (cache !== CACHE_NAME)
-              caches.delete(cache);
-          })
-        );
-      })
-    );
   });
   self.addEventListener("fetch", (event) => {
     event.respondWith(matchAnswer(event.request));

@@ -1,3 +1,3 @@
-export { getStoreInfo } from './getStoreInfo'
-export { getStartInfo } from './getStartInfo'
+export { getFilteredProducts } from './getFilteredProducts'
+export { getInitialData } from './getInitialData'
 export { getProductInfo } from './getProductInfo'

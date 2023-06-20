@@ -2,7 +2,7 @@ import { PRODUCTS } from '../config'
 import { getParams } from '../getParams'
 
 /** Получение данных из каталога с учетом выбранных пользователем фильтров */
-export function getStoreInfo(url: string) {
+export function getFilteredProducts(url: string) {
   const params = getParams(url)
   const filters = params.filters ? JSON.parse(params.filters) : {}
 
@@ -35,7 +35,7 @@ export function getStoreInfo(url: string) {
   return new Response(
     JSON.stringify({
       products: products.slice(start, end),
-      maxProducts: products.length,
+      filteredProductCount: products.length,
     })
   )
 }

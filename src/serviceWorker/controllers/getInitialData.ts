@@ -1,7 +1,7 @@
 import { CATEGORIES, PRODUCTS } from '../config'
 
 /** Получаем контент стартовой страницы */
-export function getStartInfo() {
+export function getInitialData() {
   let minPrice = PRODUCTS[0].price
   let maxPrice = PRODUCTS[0].price
 
@@ -30,7 +30,7 @@ export function getStartInfo() {
   }
   return new Response(
     JSON.stringify({
-      products: shuffled.slice(0, 9),
+      recommendedProducts: shuffled.slice(0, 9),
       categories,
       shopInfo,
     })

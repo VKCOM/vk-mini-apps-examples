@@ -18,6 +18,7 @@ let ProductPhoto: React.FC<ProductPhotoProps> = ({ photo }) => {
     undefined
   )
 
+  /** Загружаем фото и определяем его ориентацию в пространстве */
   useEffect(() => {
     const image = new Image()
     image.src = photo

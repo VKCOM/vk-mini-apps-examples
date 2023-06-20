@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
+import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
 import {
   Button,
   FormItem,
@@ -13,7 +14,6 @@ import { useAppDispatch } from 'src/store'
 import { ProductFilter } from 'src/types'
 
 import './Filters.css'
-import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
 
 export type FiltersProps = {
   categories: Array<CategoryCardProps & { id: number }>
@@ -61,13 +61,14 @@ let Filters: React.FC<FiltersProps> = ({
     [filters]
   )
 
-  const onShowProductClick = useCallback(() => {
+  const onShowProductButtonClick = useCallback(() => {
     setPrevFilters({ ...filters })
     const newFilters = Object.assign({ ...defaultFilter }, { ...filters })
     dispatch(setProductFilters(newFilters))
     if (platform !== Platform.VKCOM) routeNavigator.back()
   }, [filters, platform, routeNavigator, defaultFilter, dispatch])
 
+  /** Переопределение цены с initialValue на ненулевые значения, после ответа сервера*/
   useEffect(() => {
     if (!filters.priceFrom && !filters.priceTo) {
       setFilters({ ...filters, priceFrom: minPrice, priceTo: maxPrice })
@@ -75,7 +76,7 @@ let Filters: React.FC<FiltersProps> = ({
     }
   }, [minPrice, maxPrice, filters])
 
-  // Проверка фильтров на наличие изменений
+  /** Сравнение новых фильтров с предыдущими */
   useEffect(() => {
     let isChange = false
     let key: keyof Omit<ProductFilter, 'query'>
@@ -120,7 +121,7 @@ let Filters: React.FC<FiltersProps> = ({
           size="l"
           mode="primary"
           disabled={!isFilterChange}
-          onClick={onShowProductClick}
+          onClick={onShowProductButtonClick}
         >
           Показать товары
         </Button>

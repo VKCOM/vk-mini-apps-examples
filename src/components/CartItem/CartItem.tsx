@@ -2,12 +2,12 @@ import React, { useCallback, useEffect, useState } from 'react'
 import cx from 'classnames'
 import { IconButton } from '@vkontakte/vkui'
 import { Icon24Cancel } from '@vkontakte/icons'
+import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
+import { ViewingPanel } from 'src/routes'
 import { Counter } from 'src/components'
 import { OrderProduct } from 'src/types'
 import { useAppDispatch } from 'src/store'
 import { deleteCartItem, updateCartItem } from 'src/store/app'
-import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
-import { ViewingPanel } from 'src/routes'
 
 import './CartItem.css'
 
@@ -46,9 +46,10 @@ let CartItem: React.FC<OrderProduct> = ({
     e.stopPropagation()
   }, [])
 
+  /** Обновление товара в store при изменении количества */
   useEffect(() => {
     dispatch(updateCartItem({ id, productNumber: itemNumber }))
-  }, [itemNumber, dispatch, id])
+  }, [id, itemNumber, dispatch])
 
   return (
     <div onClick={onItemClick} className="CartItem">

@@ -1,4 +1,4 @@
-import { Category, Product } from 'src/types'
+import { ApiEndpoint, Category, Product } from 'src/types'
 import { makeRequest } from 'src/api/makeRequest'
 
 interface GetUserRequest {
@@ -6,8 +6,8 @@ interface GetUserRequest {
 }
 
 interface GetUserResponse {
+  recommendedProducts: Product[]
   categories: Category[]
-  products: Product[]
   shopInfo: {
     name: string,
     logo: string,
@@ -16,11 +16,12 @@ interface GetUserResponse {
   }
 }
 
-export const get = async ({
+/** Получение данных магазина и рекомендованных пользователю товаров */
+export const getInitialData = async ({
   userId,
 }: GetUserRequest): Promise<GetUserResponse> => {
   const data = await makeRequest<{data: GetUserResponse}>({
-    path: 'startInfo',
+    path: ApiEndpoint.InitialData,
     params: {
       userId: userId,
       limit: '10'
@@ -29,7 +30,6 @@ export const get = async ({
       method: 'get',
     },
   })
-
 
   return data.data
 }

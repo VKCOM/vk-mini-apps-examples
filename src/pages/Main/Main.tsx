@@ -17,6 +17,7 @@ let Main: React.FC<NavIdProps> = (props) => {
     (state) => state.app.recomendedProducts
   )
 
+  /** Возвращаем начальное состояние фильтров при переходе в main */
   useEffect(() => {
     dispatch(setProductFilters(initialState.filters))
   }, [dispatch])

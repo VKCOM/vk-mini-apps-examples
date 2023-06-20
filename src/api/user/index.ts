@@ -1,1 +1,1 @@
-export { get } from './get'
+export { getInitialData } from './getInitialData'

@@ -54,10 +54,6 @@ let Navbar: React.FC<NavbarProps> = ({
     [routeNavigator, filters, panel, dispatch]
   )
 
-  React.useEffect(() => {
-    console.log(panel)
-  }, [panel])
-
   const onFiltersIconClick = useCallback(() => {
     routeNavigator.push(`/${ViewingPanel.Store}/${StorePanelModal.Filters}`)
   }, [routeNavigator])

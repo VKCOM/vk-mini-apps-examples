@@ -22,16 +22,6 @@ export interface Category {
   productCount: number
 }
 
-export interface Order {
-  productId: number
-  quantity: number
-}
-
-export interface Basket {
-  userId: number
-  orders: Order[]
-}
-
 export interface ProductFilter {
   priceFrom?: number
   priceTo?: number
@@ -44,4 +34,10 @@ export interface ShopInfo {
   maxPrice: number,
   name: string,
   logo: string
+}
+
+export enum ApiEndpoint {
+  InitialData = 'initialData',
+  FilteredProducts = 'filteredProducts',
+  ProductInfo = 'product',
 }

@@ -1,14 +1,8 @@
 /// <reference lib="WebWorker" />
+import { ApiEndpoint } from '../types'
 import * as api from './controllers'
 
 declare const self: ServiceWorkerGlobalScope
-const CACHE_NAME = 'vk-shop'
-
-enum Action {
-  StartInfo = 'startInfo',
-  Store = 'storeProducts',
-  ProductInfo = 'product',
-}
 
 /** Ищем кодовое слово для загрузки контента из Action */
 function getAction(url: string) {
@@ -19,13 +13,13 @@ function getAction(url: string) {
 function matchAnswer(request: Request) {
   const action = getAction(request.url)
   switch (action) {
-    case Action.StartInfo: {
-      return api.getStartInfo()
+    case ApiEndpoint.InitialData: {
+      return api.getInitialData()
     }
-    case Action.Store: {
-      return api.getStoreInfo(request.url)
+    case ApiEndpoint.FilteredProducts: {
+      return api.getFilteredProducts(request.url)
     }
-    case Action.ProductInfo: {
+    case ApiEndpoint.ProductInfo: {
       return api.getProductInfo(request.url)
     }
     default:
@@ -38,17 +32,9 @@ self.addEventListener('install', () => {
 })
 
 /** Удаляем устаревшие данные */
-self.addEventListener('activate', (event) => {
+self.addEventListener('activate', () => {
+  /** Принудительно запускаем sw */
   self.clients.claim()
-  event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames.map((cache) => {
-          if (cache !== CACHE_NAME) caches.delete(cache)
-        })
-      )
-    })
-  )
 })
 
 /** Перехват сетевых запросов */

@@ -52,8 +52,11 @@ export const initialState: AppStoreState = {
 export const fetchShop = createAsyncThunk(
   'app/fetchShop',
   async function ({ userId }: { userId: string }, { dispatch }) {
-    const { products, categories, shopInfo } = await api.user.get({ userId })
-    dispatch(setRecomendedProducts(products))
+    const { recommendedProducts, categories, shopInfo } =
+      await api.user.getInitialData({
+        userId,
+      })
+    dispatch(setRecomendedProducts(recommendedProducts))
     dispatch(setCategories(categories))
     dispatch(setShopInfo(shopInfo))
   }

@@ -14,7 +14,7 @@ import { useIntersectionObserver } from 'src/hooks'
 
 import './Store.css'
 
-const LIMIT = 10
+const LIMIT = 15
 const IMAGE_LOAD_DELAY = 500
 
 function findImage(element: Element) {
@@ -30,7 +30,9 @@ export const Store: React.FC<NavIdProps> = (props) => {
   )
   const platform = usePlatform()
   const [isFetching, setIsFetching] = useState(true)
-  const [maxProducts, setMaxProducts] = useState(store.products.length)
+  const [filteredProductCount, setFilteredProductCount] = useState(
+    store.products.length
+  )
   const [observerElements, setObserverElements] = useState<
     NodeListOf<Element> | Element[]
   >([])
@@ -53,13 +55,16 @@ export const Store: React.FC<NavIdProps> = (props) => {
 
   const fetchProducts = useCallback(
     (_start, _end) => {
-      api.products.getProducts({ _start, _end, filters }).then((res) => {
-        if (!res.products.length) {
-          setIsFetching(false)
-        }
-        setMaxProducts(res.maxProducts)
-        dispatch(addStoreProducts(res.products))
-      })
+      api.products
+        .getFilteredProducts({ _start, _end, filters })
+        .then((res) => {
+          if (!res.products.length) {
+            setIsFetching(false)
+          }
+          console.log(res)
+          setFilteredProductCount(res.filteredProductCount)
+          dispatch(addStoreProducts(res.products))
+        })
     },
     [dispatch, filters]
   )
@@ -71,13 +76,14 @@ export const Store: React.FC<NavIdProps> = (props) => {
     []
   )
 
+  /** Сканирование элементов в IntersectionObserver */
   useEffect(() => {
     entryElements.forEach((entry) => {
       // Элемент в зоне видимости
       if (entry.isIntersecting || entry.intersectionRatio > 0) {
         const itemIndex = Number(entry.target.getAttribute('data-index'))
         if (itemIndex === lastLoadItemIndex.current) {
-          if (lastLoadItemIndex.current + 1 < maxProducts) {
+          if (lastLoadItemIndex.current + 1 < filteredProductCount) {
             fetchProducts(
               lastLoadItemIndex.current + 1,
               lastLoadItemIndex.current + 1 + LIMIT
@@ -89,17 +95,20 @@ export const Store: React.FC<NavIdProps> = (props) => {
         observer?.unobserve(entry.target)
       }
     })
-  }, [fetchProducts, maxProducts, observer, entryElements])
+  }, [fetchProducts, filteredProductCount, observer, entryElements])
 
+  /** Scroll restoration */
   useLayoutEffect(() => {
     if ($storeContainer.current)
       $storeContainer.current.scrollTop = store.scrollPosition
   }, [store.scrollPosition])
 
+  /** Запрос на получение первых Limit элементов */
   useLayoutEffect(() => {
     if (!store.products.length && isFetching) fetchProducts(0, LIMIT)
   }, [filters, store, isFetching, fetchProducts])
 
+  /** Поиск элементов для отслеживания в Intersection Onserver */
   useEffect(() => {
     lastLoadItemIndex.current = store.products.length - 1
     setObserverElements(
@@ -107,6 +116,7 @@ export const Store: React.FC<NavIdProps> = (props) => {
     )
   }, [store.products])
 
+  /** Обнуление скролла при начале загрузки и сохранение скролла при unmount */
   useEffect(() => {
     setIsFetching(true)
     scrollPosition.current = 0
@@ -127,7 +137,7 @@ export const Store: React.FC<NavIdProps> = (props) => {
           lazyLoading
           header="Товары"
           products={store.products}
-          maxProducts={maxProducts}
+          maxProducts={filteredProductCount}
           fetching={isFetching}
         />
         {platform === Platform.VKCOM && (

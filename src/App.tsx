@@ -50,7 +50,7 @@ export const App: React.FC = () => {
       if (data.keys[0].value) dispatch(setUserName(data.keys[0].value))
       else {
         const userData = await bridge.send('VKWebAppGetUserInfo', {
-          user_id: Number(getUserId()),
+          user_id: Number(userId),
         })
 
         if (userData) {
@@ -66,6 +66,7 @@ export const App: React.FC = () => {
     initUser()
   }, [dispatch, routeNavigator])
 
+  /** Растягивание экрана на всю ширину окна для десктопа */
   useEffect(() => {
     if (platform === Platform.VKCOM) {
       bridge.send('VKWebAppResizeWindow', {
@@ -79,6 +80,7 @@ export const App: React.FC = () => {
     })
   }, [dispatch, platform])
 
+  /** Loader на время получения initialData */
   useEffect(() => {
     if (shopFetching) {
       setTimeout(() => {

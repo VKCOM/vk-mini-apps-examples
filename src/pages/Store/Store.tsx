@@ -61,7 +61,6 @@ export const Store: React.FC<NavIdProps> = (props) => {
           if (!res.products.length) {
             setIsFetching(false)
           }
-          console.log(res)
           setFilteredProductCount(res.filteredProductCount)
           dispatch(addStoreProducts(res.products))
         })

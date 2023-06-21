@@ -11,7 +11,13 @@ import {
   useSearchParams,
 } from '@vkontakte/vk-mini-apps-router'
 import { Button, Gallery, NavIdProps, Panel, Separator } from '@vkontakte/vkui'
-import { Counter, Navbar, PageHeader, ProductPhoto } from 'src/components'
+import {
+  Counter,
+  Navbar,
+  PageHeader,
+  PriceDisplay,
+  ProductPhoto,
+} from 'src/components'
 import { addCartItem } from 'src/store/app'
 import { useAppDispatch, useAppSelector } from 'src/store'
 import { PaymentPanel } from 'src/routes'
@@ -88,12 +94,15 @@ export const ProductInfo: React.FC<NavIdProps> = (props) => {
               className="ProductInfo_offer_price__skeleton"
             />
           )}
-          <div className="ProductInfo_offer_price">
-            {!productInfo && (
-              <div className="ProductInfo_offer_price__skeleton" />
-            )}
-            {productInfo?.price} ₽
-          </div>
+          {productInfo && (
+            <PriceDisplay
+              price={productInfo.price}
+              className="ProductInfo_offer_price"
+            />
+          )}
+          {!productInfo && (
+            <div className="ProductInfo_offer_price__skeleton" />
+          )}
         </div>
 
         <Separator />

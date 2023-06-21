@@ -24,7 +24,6 @@ let ShoppingCart: React.FC<NavIdProps> = (props) => {
   const onConfirmPayClick = useCallback(() => {
     routeNavigator.showPopout(<PayConfirmPopout />)
   }, [routeNavigator])
-  console.log('Update Shopping cart')
 
   return (
     <Panel className="Panel__fullScreen" {...props}>

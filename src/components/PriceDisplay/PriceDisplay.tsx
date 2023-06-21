@@ -2,25 +2,36 @@ import React from 'react'
 
 import './PriceDisplay.css'
 
-export type PriceDisplayProps = {
-  price: number
+function splitArrayFromEnd(splitString: string[], every: number) {
+  const res: string[] = []
+  while (splitString.length) {
+    const startIndex = splitString.length - every
+    res.push(
+      splitString.splice(startIndex > 0 ? startIndex : 0, every).join('')
+    )
+  }
+  return res.reverse()
 }
 
-let PriceDisplay: React.FC<PriceDisplayProps> = ({ price }) => {
-  const thousandsCount = Math.floor(price / 1000)
-  const priceRemainder = price % 1000
-  return (
-    <div className="PriceDisplay">
-      {thousandsCount > 0 && (
-        <span className="PriceDisplay_name">
-          {thousandsCount.toString()}
-          <span>&thinsp;</span>
-        </span>
-      )}
+export type PriceDisplayProps = {
+  price: number
+  currency?: string
+}
 
-      {priceRemainder.toString().padEnd(3, '0')}
-      <span className="PriceDisplay_name">&thinsp;</span>
-      {'₽'}
+let PriceDisplay: React.FC<
+  PriceDisplayProps & React.HtmlHTMLAttributes<HTMLDivElement>
+> = ({ price, currency = '₽', ...props }) => {
+  const pricebyNumber = price.toString().split('')
+
+  return (
+    <div {...props}>
+      {splitArrayFromEnd(pricebyNumber, 3).map((item, index) => (
+        <span key={index}>
+          {item}
+          <span className="PriceDisplay_space">&thinsp;</span>
+        </span>
+      ))}
+      {currency}
     </div>
   )
 }

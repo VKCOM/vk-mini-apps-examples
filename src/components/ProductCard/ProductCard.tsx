@@ -44,7 +44,7 @@ let ProductCard: React.FC<ProductCardProps> = ({
 
       <div className="ProductCard_info">
         <div className="ProductCard_title">{name}</div>
-        <PriceDisplay price={price} />
+        <PriceDisplay className="ProductCard_price" price={price} />
       </div>
     </Card>
   )

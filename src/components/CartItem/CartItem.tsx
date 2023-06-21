@@ -4,7 +4,7 @@ import { IconButton } from '@vkontakte/vkui'
 import { Icon24Cancel } from '@vkontakte/icons'
 import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
 import { ViewingPanel } from 'src/routes'
-import { Counter } from 'src/components'
+import { Counter, PriceDisplay } from 'src/components'
 import { OrderProduct } from 'src/types'
 import { useAppDispatch } from 'src/store'
 import { deleteCartItem, updateCartItem } from 'src/store/app'
@@ -63,7 +63,11 @@ let CartItem: React.FC<OrderProduct> = ({
 
       <div className="CartItem_info">
         <div className="CartItem_info_name">{name}</div>
-        <div className="CartItem_info_price">{price * itemNumber} ₽</div>
+        
+        <PriceDisplay
+          price={price * itemNumber}
+          className="CartItem_info_price"
+        />
 
         <div className="CartItem_info_controller">
           <IconButton onClick={onCancelClick} aria-label="cancel">

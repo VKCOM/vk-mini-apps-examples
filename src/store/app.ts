@@ -21,6 +21,7 @@ export interface AppStoreState {
   store: {
     products: ProductPreview[]
     scrollPosition: number
+    filteredProductCount: number
   }
   filters: ProductFilter
   categories: Category[]
@@ -42,6 +43,7 @@ export const initialState: AppStoreState = {
   store: {
     products: [],
     scrollPosition: 0,
+    filteredProductCount: 0,
   },
   filters: {},
   recomendedProducts: [],
@@ -62,6 +64,31 @@ export const fetchShop = createAsyncThunk(
   }
 )
 
+export const fetchFilteredProducts = createAsyncThunk(
+  'app/fetchFilteredProducts',
+  async function (
+    {
+      _start,
+      _end,
+      filters,
+      onFetched
+    }: { _start: number; _end: number; filters: ProductFilter, onFetched: () => void },
+    { dispatch }
+  ) {
+    const res = await api.products.getFilteredProducts({
+      _start,
+      _end,
+      filters,
+    })
+    if (_end >= res.filteredProductCount) onFetched()
+    if (!res.filteredProductCount) dispatch(resetStore())
+    else {
+      dispatch(addStoreProducts(res.products))
+      dispatch(setStorefilteredProductCount(res.filteredProductCount))
+    }
+  }
+)
+
 const appSlice = createSlice({
   name: 'app',
   initialState,
@@ -69,11 +96,17 @@ const appSlice = createSlice({
     setCategories(state, action: PayloadAction<Category[]>) {
       state.categories = action.payload
     },
+    resetStore(state) {
+      state.store = initialState.store
+    },
     setRecomendedProducts(state, action: PayloadAction<ProductPreview[]>) {
       state.recomendedProducts = action.payload
     },
     setStoreScrollposition(state, action: PayloadAction<number>) {
       state.store.scrollPosition = action.payload
+    },
+    setStorefilteredProductCount(state, action: PayloadAction<number>) {
+      state.store.filteredProductCount = action.payload
     },
     addStoreProducts(state, action: PayloadAction<ProductPreview[]>) {
       state.store.products = state.store.products.concat(action.payload)
@@ -133,6 +166,7 @@ const appSlice = createSlice({
 const { reducer } = appSlice
 export { reducer as appReducer }
 export const {
+  resetStore,
   setShopInfo,
   addCartItem,
   setCategories,
@@ -143,4 +177,5 @@ export const {
   setProductFilters,
   setRecomendedProducts,
   setStoreScrollposition,
+  setStorefilteredProductCount,
 } = appSlice.actions

@@ -1,8 +1,18 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
+
+export type IntersectionObserverOption = Omit<
+  IntersectionObserverInit,
+  'root'
+> & {
+  root: React.RefObject<HTMLElement>
+}
 
 export type ImageLoadingOption = {
   /** Callback для поиска картинки в отслеживаемом элементе */
   delay: number
+
+  /** Имя аттрибута в котором хранится url картинки */
+  attributeName: string
 
   /** Задержка в ms во время которой элемент должен находится в зоне видимости перед тем как начнется загрузка  */
   findImage: (element: Element) => HTMLImageElement
@@ -19,9 +29,10 @@ const cancelDelayLoad = (element: Element) => {
 /** Функция, немедленно загружающая изображение */
 const loadAndUnobserve = (
   element: Element,
+  attributeName: string,
   findImage: (element: Element) => HTMLImageElement
 ) => {
-  const src = element.getAttribute('data-src')
+  const src = element.getAttribute(attributeName)
   const img = findImage(element)
   if (img && src) img.src = src
 }
@@ -30,13 +41,14 @@ const loadAndUnobserve = (
 const delayLoad = (
   element: Element,
   delayTime: number,
+  attributeName: string,
   findImage: (element: Element) => HTMLImageElement
 ) => {
   const timeoutId = element.getAttribute('data-time')
   if (timeoutId) return
 
   const newTimeoutId = setTimeout(function () {
-    loadAndUnobserve(element, findImage)
+    loadAndUnobserve(element, attributeName, findImage)
     cancelDelayLoad(element)
   }, delayTime)
   element.setAttribute('data-time', String(newTimeoutId))
@@ -44,10 +56,9 @@ const delayLoad = (
 
 /**
  * Хук для использования IntersectionObserver и поддержки ленивой прогрузки картинок
- * @param observableElements - список элементов за которыми необходимо следить при скролле
- * @param options - настройки для IntersectionObserver
+ * @param initialObserverOptions - настройки для IntersectionObserver
  * @param imageLoadingOptions - дополнительные настройки для ленивой загрузки фотографий
- * @returns список entry(отслеживаемых элементов) и ссылку на обработчик
+ * @returns список entry(отслеживаемых элементов), ссылку на обработчик и callback для мгновенной звгрузки, если передаются imageLoadingOptions
  * @example 
  *  const { observer, entryElements } = useIntersectionObserver(
     observerElements,
@@ -56,45 +67,50 @@ const delayLoad = (
       rootMargin: '0px 0px 300px 0px',
     },
     {
-      findImage,
+      findImage: (el: Element) => el.getElementsByTagName('img')[0]),
       delay: IMAGE_LOAD_DELAY,
+      attributeName: 'data-image'
     }
   )
  */
-export const useIntersectionObserver = (
-  observableElements: Element[] | NodeListOf<Element>,
-  options?: IntersectionObserverInit,
-  imageLoadingOptions?: ImageLoadingOption
-) => {
-  const observer = useRef<IntersectionObserver | null>(null)
+
+export function useIntersectionObserver(
+  initialObserverOptions: IntersectionObserverOption,
+  imageLoadingOptions: ImageLoadingOption
+) {
+  const [observer, setObserver] = useState<IntersectionObserver | null>(null)
   const [entryElements, setEntryElements] = useState<
     IntersectionObserverEntry[]
   >([])
 
+  const { root, rootMargin, threshold } = initialObserverOptions
+  const { delay, attributeName, findImage } = imageLoadingOptions
+
+  const immediatelyLoading = useCallback(
+    (el: Element) => {
+      cancelDelayLoad(el)
+      loadAndUnobserve(el, attributeName, findImage)
+    },
+    [attributeName, findImage]
+  )
+
   /** Инициализация/Обновление intersectionObserver */
   useEffect(() => {
-    observer.current = new IntersectionObserver((entries, observer) => {
-      setEntryElements(entries)
-      if (!imageLoadingOptions) return
+    setObserver(
+      new IntersectionObserver(
+        (entries) => {
+          setEntryElements(entries)
 
-      entries.forEach((entry) => {
-        if (entry.isIntersecting || entry.intersectionRatio > 0) {
-          delayLoad(
-            entry.target,
-            imageLoadingOptions.delay,
-            imageLoadingOptions.findImage
-          )
-          observer.unobserve(entry.target)
-        } else cancelDelayLoad(entry.target)
-      })
-    }, options)
-  }, [options, imageLoadingOptions])
+          entries.forEach((entry) => {
+            if (entry.isIntersecting || entry.intersectionRatio > 0) {
+              delayLoad(entry.target, delay, attributeName, findImage)
+            } else cancelDelayLoad(entry.target)
+          })
+        },
+        { root: root.current, rootMargin, threshold }
+      )
+    )
+  }, [root, rootMargin, threshold, delay, attributeName, findImage])
 
-  /** Запуск слежения за кждым из полученных элементов */
-  useEffect(() => {
-    observer.current?.disconnect()
-    observableElements.forEach((item) => observer.current?.observe(item))
-  }, [observableElements])
-
-  return { entryElements, observer: observer.current }
+  return { entryElements, observer, immediatelyLoading }
 }

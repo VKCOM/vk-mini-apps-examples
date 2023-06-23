@@ -90,7 +90,7 @@ export const App: React.FC = () => {
     if (!shopFetching) {
       setTimeout(() => {
         routeNavigator.hidePopout()
-      }, 1500)
+      }, 200)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shopFetching])

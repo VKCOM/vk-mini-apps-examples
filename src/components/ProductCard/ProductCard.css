@@ -2,6 +2,7 @@
   width: 100%;
   max-width: 150px;
   cursor: pointer;
+  border-radius: 16px 16px 8px 8px !important;
 }
 
 .ProductCard .vkuiCard__in {
@@ -19,21 +20,16 @@
 }
 
 .ProductCard_preview__unload {
-  backface-visibility: hidden;
-  will-change: transform;
-  transform: translateZ(0);
-  animation: 3s skeletonAnimation linear infinite;
-  background: var(--skeleton-background);
-  background-size: 300% 200%;
+  overflow: hidden;
+  background-color: #e1e1e1;
 }
 
 .ProductCard_preview__unload img {
   opacity: 0;
-  width: 150px !important;
 }
 
 .ProductCard_preview img {
-  width: 100%;
+  width: 150px;
   border-radius: 12px;
   user-select: none;
 }

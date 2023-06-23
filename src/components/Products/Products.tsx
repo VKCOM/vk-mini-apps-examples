@@ -2,7 +2,6 @@ import React from 'react'
 import { Header, Placeholder } from '@vkontakte/vkui'
 import { ProductCard } from 'src/components'
 import { ProductPreview } from 'src/types'
-import { Icon56HelpOutline } from '@vkontakte/icons'
 
 import './Products.css'
 
@@ -41,9 +40,7 @@ let Products: React.FC<ProductsProps> = ({
           ))}
       </div>
       {!maxProducts && !fetching && (
-        <Placeholder icon={<Icon56HelpOutline />}>
-          По твоему запросу ничего не нашлось
-        </Placeholder>
+        <Placeholder>По твоему запросу ничего не нашлось</Placeholder>
       )}
     </div>
   )

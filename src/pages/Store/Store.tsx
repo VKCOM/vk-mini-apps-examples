@@ -5,16 +5,16 @@ import React, {
   useRef,
   useState,
 } from 'react'
-import * as api from 'src/api'
+
 import { NavIdProps, Panel, Platform, usePlatform } from '@vkontakte/vkui'
 import { Filters, Navbar, PageHeader, Products } from 'src/components'
 import { useAppDispatch, useAppSelector } from 'src/store'
-import { addStoreProducts, setStoreScrollposition } from 'src/store/app'
+import { fetchFilteredProducts, setStoreScrollposition } from 'src/store/app'
 import { useIntersectionObserver } from 'src/hooks'
 
 import './Store.css'
 
-const LIMIT = 15
+const LIMIT = 12
 const IMAGE_LOAD_DELAY = 500
 
 function findImage(element: Element) {
@@ -30,40 +30,29 @@ export const Store: React.FC<NavIdProps> = (props) => {
   )
   const platform = usePlatform()
   const [isFetching, setIsFetching] = useState(true)
-  const [filteredProductCount, setFilteredProductCount] = useState(
-    store.products.length
-  )
-  const [observerElements, setObserverElements] = useState<
-    NodeListOf<Element> | Element[]
-  >([])
 
   const lastLoadItemIndex = useRef<number>(LIMIT - 1)
   const scrollPosition = useRef(0)
   const $storeContainer = useRef<HTMLDivElement>(null)
+  const $header = useRef(<PageHeader header="Каталог" />)
 
-  const { observer, entryElements } = useIntersectionObserver(
-    observerElements,
-    {
-      root: $storeContainer.current,
-      rootMargin: '0px 0px 50px 0px',
-    },
-    {
-      findImage,
-      delay: IMAGE_LOAD_DELAY,
-    }
-  )
+  const { observer, entryElements, immediatelyLoading } =
+    useIntersectionObserver(
+      {
+        root: $storeContainer,
+        rootMargin: '0px 0px 50px 0px',
+      },
+      {
+        findImage,
+        delay: IMAGE_LOAD_DELAY,
+        attributeName: 'data-src',
+      }
+    )
 
   const fetchProducts = useCallback(
-    (_start, _end) => {
-      api.products
-        .getFilteredProducts({ _start, _end, filters })
-        .then((res) => {
-          if (!res.products.length) {
-            setIsFetching(false)
-          }
-          setFilteredProductCount(res.filteredProductCount)
-          dispatch(addStoreProducts(res.products))
-        })
+    (_start: number, _end: number) => {
+      const onFetched = () => setIsFetching(false)
+      dispatch(fetchFilteredProducts({ _start, _end, filters, onFetched }))
     },
     [dispatch, filters]
   )
@@ -82,7 +71,7 @@ export const Store: React.FC<NavIdProps> = (props) => {
       if (entry.isIntersecting || entry.intersectionRatio > 0) {
         const itemIndex = Number(entry.target.getAttribute('data-index'))
         if (itemIndex === lastLoadItemIndex.current) {
-          if (lastLoadItemIndex.current + 1 < filteredProductCount) {
+          if (lastLoadItemIndex.current + 1 < store.filteredProductCount) {
             fetchProducts(
               lastLoadItemIndex.current + 1,
               lastLoadItemIndex.current + 1 + LIMIT
@@ -91,10 +80,22 @@ export const Store: React.FC<NavIdProps> = (props) => {
             lastLoadItemIndex.current += LIMIT
           } else setIsFetching(false)
         }
+      }
+      if (entry.target.classList.contains('ProductCard__active')) {
         observer?.unobserve(entry.target)
       }
     })
-  }, [fetchProducts, filteredProductCount, observer, entryElements])
+  }, [fetchProducts, store.filteredProductCount, observer, entryElements])
+
+  /** Немедленно загружаем элементы в зоне видимости при обновлении контента*/
+  useEffect(() => {
+    if (scrollPosition.current !== store.scrollPosition) return
+    entryElements.forEach((entry) => {
+      if (entry.isIntersecting && entry.intersectionRatio > 0.7) {
+        immediatelyLoading(entry.target)
+      }
+    })
+  }, [entryElements, store.scrollPosition, immediatelyLoading])
 
   /** Scroll restoration */
   useLayoutEffect(() => {
@@ -107,13 +108,15 @@ export const Store: React.FC<NavIdProps> = (props) => {
     if (!store.products.length && isFetching) fetchProducts(0, LIMIT)
   }, [filters, store, isFetching, fetchProducts])
 
-  /** Поиск элементов для отслеживания в Intersection Onserver */
-  useEffect(() => {
+  /** Следим за новыми элементами при загрузке новой партии продуктов */
+  useLayoutEffect(() => {
     lastLoadItemIndex.current = store.products.length - 1
-    setObserverElements(
-      document.querySelectorAll('.ProductCard:not(.ProductCard__active)')
-    )
-  }, [store.products])
+    document
+      .querySelectorAll('.ProductCard:not(.ProductCard__active)')
+      .forEach((el) => {
+        observer?.observe(el)
+      })
+  }, [store, observer])
 
   /** Обнуление скролла при начале загрузки и сохранение скролла при unmount */
   useEffect(() => {
@@ -126,7 +129,7 @@ export const Store: React.FC<NavIdProps> = (props) => {
 
   return (
     <Panel className="Panel__fullScreen" {...props}>
-      <Navbar searchValue={''} header={<PageHeader header="Каталог" />} />
+      <Navbar searchValue={''} header={$header.current} />
       <div
         ref={$storeContainer}
         className="Store_content"
@@ -136,7 +139,7 @@ export const Store: React.FC<NavIdProps> = (props) => {
           lazyLoading
           header="Товары"
           products={store.products}
-          maxProducts={filteredProductCount}
+          maxProducts={store.filteredProductCount}
           fetching={isFetching}
         />
         {platform === Platform.VKCOM && (

@@ -575,6 +575,12 @@
   }
 
   // src/serviceWorker/service-worker.ts
+  var CACHE_NAME = "my-offline-cache";
+  var urlsToCache = [
+    "/",
+    "/static/css/main.50433c98.css",
+    "/static/js/main.61eb03a2.js"
+  ];
   function getAction(url) {
     var _a;
     const action = url.match(/(\w+)($|\?)/);
@@ -593,11 +599,18 @@
         return getProductInfo(request.url);
       }
       default:
-        return fetch(request);
+        return caches.match(request).then(function(response) {
+          return response != null ? response : fetch(request);
+        });
     }
   }
-  self.addEventListener("install", () => {
+  self.addEventListener("install", (event) => {
     console.log("ServiceWorker installed");
+    event.waitUntil(
+      caches.open(CACHE_NAME).then(function(cache) {
+        return cache.addAll(urlsToCache);
+      })
+    );
   });
   self.addEventListener("activate", () => {
     self.clients.claim();

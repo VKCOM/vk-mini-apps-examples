@@ -33,6 +33,7 @@ export const Store: React.FC<NavIdProps> = (props) => {
 
   const lastLoadItemIndex = useRef<number>(LIMIT - 1)
   const scrollPosition = useRef(0)
+  const isSavedContent = useRef(store.products.length > 0)
   const $storeContainer = useRef<HTMLDivElement>(null)
   const $header = useRef(<PageHeader header="Каталог" />)
 
@@ -76,9 +77,8 @@ export const Store: React.FC<NavIdProps> = (props) => {
               lastLoadItemIndex.current + 1,
               lastLoadItemIndex.current + 1 + LIMIT
             )
-            setIsFetching(true)
             lastLoadItemIndex.current += LIMIT
-          } else setIsFetching(false)
+          }
         }
       }
       if (entry.target.classList.contains('ProductCard__active')) {
@@ -87,7 +87,7 @@ export const Store: React.FC<NavIdProps> = (props) => {
     })
   }, [fetchProducts, store.filteredProductCount, observer, entryElements])
 
-  /** Немедленно загружаем элементы в зоне видимости при обновлении контента*/
+  /** Немедленно загружаем первые элементы в зоне видимости*/
   useEffect(() => {
     if (scrollPosition.current !== store.scrollPosition) return
     entryElements.forEach((entry) => {
@@ -105,8 +105,9 @@ export const Store: React.FC<NavIdProps> = (props) => {
 
   /** Запрос на получение первых Limit элементов */
   useLayoutEffect(() => {
-    if (!store.products.length && isFetching) fetchProducts(0, LIMIT)
-  }, [filters, store, isFetching, fetchProducts])
+    if (!isSavedContent.current) fetchProducts(0, LIMIT)
+    isSavedContent.current = false
+  }, [filters, fetchProducts])
 
   /** Следим за новыми элементами при загрузке новой партии продуктов */
   useLayoutEffect(() => {
@@ -120,7 +121,6 @@ export const Store: React.FC<NavIdProps> = (props) => {
 
   /** Обнуление скролла при начале загрузки и сохранение скролла при unmount */
   useEffect(() => {
-    setIsFetching(true)
     scrollPosition.current = 0
     return () => {
       dispatch(setStoreScrollposition(scrollPosition.current))

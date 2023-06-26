@@ -71,8 +71,13 @@ export const fetchFilteredProducts = createAsyncThunk(
       _start,
       _end,
       filters,
-      onFetched
-    }: { _start: number; _end: number; filters: ProductFilter, onFetched: () => void },
+      onFetched,
+    }: {
+      _start: number
+      _end: number
+      filters: ProductFilter
+      onFetched: () => void
+    },
     { dispatch }
   ) {
     const res = await api.products.getFilteredProducts({
@@ -80,12 +85,9 @@ export const fetchFilteredProducts = createAsyncThunk(
       _end,
       filters,
     })
+    if (!_start) dispatch(setStore({ ...res, scrollPosition: 0 }))
+    else dispatch(addStoreProducts(res.products))
     if (_end >= res.filteredProductCount) onFetched()
-    if (!res.filteredProductCount) dispatch(resetStore())
-    else {
-      dispatch(addStoreProducts(res.products))
-      dispatch(setStorefilteredProductCount(res.filteredProductCount))
-    }
   }
 )
 
@@ -96,8 +98,8 @@ const appSlice = createSlice({
     setCategories(state, action: PayloadAction<Category[]>) {
       state.categories = action.payload
     },
-    resetStore(state) {
-      state.store = initialState.store
+    setStore(state, action: PayloadAction<AppStoreState['store']>) {
+      state.store = action.payload
     },
     setRecomendedProducts(state, action: PayloadAction<ProductPreview[]>) {
       state.recomendedProducts = action.payload
@@ -120,7 +122,6 @@ const appSlice = createSlice({
     },
     setProductFilters(state, action: PayloadAction<ProductFilter>) {
       state.filters = action.payload
-      state.store = initialState.store
     },
     addCartItem(state, action: PayloadAction<OrderProduct>) {
       state.shoppingCart.orderProducts.push(action.payload)
@@ -166,7 +167,7 @@ const appSlice = createSlice({
 const { reducer } = appSlice
 export { reducer as appReducer }
 export const {
-  resetStore,
+  setStore,
   setShopInfo,
   addCartItem,
   setCategories,

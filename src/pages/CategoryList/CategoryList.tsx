@@ -1,10 +1,10 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
 import { CategoryCard, Navbar, PageHeader } from 'src/components'
 import { NavIdProps, Panel } from '@vkontakte/vkui'
 import { ViewingPanel } from 'src/routes'
 import { useAppDispatch, useAppSelector } from 'src/store'
-import { setProductFilters } from 'src/store/app'
+import { initialState, setProductFilters, setStore } from 'src/store/app'
 
 import './CategoryList.css'
 
@@ -19,6 +19,12 @@ export const CategoryList: React.FC<NavIdProps> = (props) => {
     },
     [dispatch, routeNavigator, filters]
   )
+
+  /** Возвращаем начальное состояние фильтров и сохраненных товаров */
+  useEffect(() => {
+    dispatch(setProductFilters(initialState.filters))
+    dispatch(setStore(initialState.store))
+  }, [dispatch])
 
   return (
     <Panel className="Panel__fullScreen" {...props}>

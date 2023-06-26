@@ -70,6 +70,7 @@ let Filters: React.FC<FiltersProps> = ({
 
   /** Переопределение цены с initialValue на ненулевые значения, после ответа сервера*/
   useEffect(() => {
+    if (!minPrice && !maxPrice) return
     if (!filters.priceFrom && !filters.priceTo) {
       setFilters({ ...filters, priceFrom: minPrice, priceTo: maxPrice })
       setPrevFilters({ ...filters, priceFrom: minPrice, priceTo: maxPrice })

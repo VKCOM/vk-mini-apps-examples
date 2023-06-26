@@ -32,13 +32,9 @@
 
 @media (min-width: 768px) {
   .CategoryList {
-    margin: auto;
-    margin-bottom: 12px;
-    margin-top: 12px;
+    margin: 12px;
     border-radius: 16px;
     height: 100%;
-    min-width: 100%;
-    max-width: 800px;
     box-sizing: border-box;
   }
 }

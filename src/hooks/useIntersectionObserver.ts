@@ -58,7 +58,7 @@ const delayLoad = (
  * Хук для использования IntersectionObserver и поддержки ленивой прогрузки картинок
  * @param initialObserverOptions - настройки для IntersectionObserver
  * @param imageLoadingOptions - дополнительные настройки для ленивой загрузки фотографий
- * @returns список entry(отслеживаемых элементов), ссылку на обработчик и callback для мгновенной звгрузки, если передаются imageLoadingOptions
+ * @returns список entry(отслеживаемых элементов), ссылку на обработчик и callback для мгновенной звгрузки
  * @example 
  *  const { observer, entryElements } = useIntersectionObserver(
     observerElements,

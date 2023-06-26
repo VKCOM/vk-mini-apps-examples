@@ -64,6 +64,7 @@ export const ProductInfo: React.FC<NavIdProps> = (props) => {
 
   // Находится ли карта в корзине
   useLayoutEffect(() => {
+    if (!id) return
     setIsProductInCart(orderProducts.some((item) => item.id === Number(id)))
   }, [orderProducts, id])
 
@@ -116,13 +117,8 @@ export const ProductInfo: React.FC<NavIdProps> = (props) => {
             ProductInfo_footer__scroll: isScroll,
           })}
         >
-          <Button
-            stretched
-            size="l"
-            mode="secondary"
-            onClick={addToShoppingCart}
-          >
-            {!isProductInCart ? 'Добавить в корзину' : 'Посмотреть в корзине'}
+          <Button stretched size="l" mode="primary" onClick={addToShoppingCart}>
+            {!isProductInCart ? 'В корзину' : 'Посмотреть в корзине'}
           </Button>
 
           {!isProductInCart && (

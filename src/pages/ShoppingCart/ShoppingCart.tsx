@@ -1,5 +1,13 @@
 import React, { useCallback } from 'react'
-import { Button, NavIdProps, Panel, Placeholder } from '@vkontakte/vkui'
+import {
+  Button,
+  Card,
+  NavIdProps,
+  Panel,
+  Placeholder,
+  Platform,
+  usePlatform,
+} from '@vkontakte/vkui'
 import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
 import { Icon56UsersOutline } from '@vkontakte/icons'
 import { CartItem, Navbar, PageHeader, Subtotal } from 'src/components'
@@ -11,6 +19,7 @@ import './ShoppingCart.css'
 
 let ShoppingCart: React.FC<NavIdProps> = (props) => {
   const routeNavigator = useRouteNavigator()
+  const platform = usePlatform()
   const { orderProducts, totalPrice } = useAppSelector(
     (state) => state.app.shoppingCart
   )
@@ -51,14 +60,17 @@ let ShoppingCart: React.FC<NavIdProps> = (props) => {
                   За покупками
                 </Button>
               }
-            >
-              Наполните ее
-            </Placeholder>
+            />
           )}
         </div>
 
         <div className="ShoppingCart_checkout">
-          <Subtotal totalPrice={totalPrice} />
+          {platform === Platform.VKCOM && <Subtotal totalPrice={totalPrice} />}
+          {platform !== Platform.VKCOM && (
+            <Card>
+              <Subtotal totalPrice={totalPrice} />
+            </Card>
+          )}
           <div className="ShoppingCart_confirmPay">
             <Button
               stretched

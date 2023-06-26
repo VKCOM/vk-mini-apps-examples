@@ -1,7 +1,6 @@
 import React from 'react'
 import { Alert } from '@vkontakte/vkui'
 import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
-import { INITIAL_URL } from 'src/routes'
 import { useAppDispatch } from 'src/store'
 import { setShoppingCart } from 'src/store/app'
 
@@ -18,7 +17,7 @@ export const PayConfirmPopout: React.FC = () => {
           mode: 'default',
           action: () =>
             setTimeout(() => {
-              routeNavigator.replace(INITIAL_URL)
+              routeNavigator.hidePopout()
               dispatch(setShoppingCart([]))
             }, 200),
         },

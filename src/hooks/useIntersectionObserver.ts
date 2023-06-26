@@ -112,5 +112,9 @@ export function useIntersectionObserver(
     )
   }, [root, rootMargin, threshold, delay, attributeName, findImage])
 
+  useEffect(() => {
+    return () => setObserver(null)
+  }, [])
+
   return { entryElements, observer, immediatelyLoading }
 }

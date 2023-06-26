@@ -11,6 +11,8 @@ import { Filters, Navbar, PageHeader, Products } from 'src/components'
 import { useAppDispatch, useAppSelector } from 'src/store'
 import { fetchFilteredProducts, setStoreScrollposition } from 'src/store/app'
 import { useIntersectionObserver } from 'src/hooks'
+import { useActiveVkuiLocation } from '@vkontakte/vk-mini-apps-router'
+import { ViewingPanel } from 'src/routes'
 
 import './Store.css'
 
@@ -25,6 +27,7 @@ function findImage(element: Element) {
 
 export const Store: React.FC<NavIdProps> = (props) => {
   const dispatch = useAppDispatch()
+  const { panel } = useActiveVkuiLocation()
   const { store, filters, categories, shopInfo } = useAppSelector(
     (state) => state.app
   )
@@ -105,9 +108,14 @@ export const Store: React.FC<NavIdProps> = (props) => {
 
   /** Запрос на получение первых Limit элементов */
   useLayoutEffect(() => {
+    if (panel !== ViewingPanel.Store) return
+    document
+      .querySelectorAll('.ProductCard__active')
+      .forEach((el) => el.classList.remove('ProductCard__active'))
+
     if (!isSavedContent.current) fetchProducts(0, LIMIT)
     isSavedContent.current = false
-  }, [filters, fetchProducts])
+  }, [filters, panel, fetchProducts])
 
   /** Следим за новыми элементами при загрузке новой партии продуктов */
   useLayoutEffect(() => {

@@ -32,8 +32,10 @@ let Main: React.FC<NavIdProps> = (props) => {
 
   /** Возвращаем начальное состояние фильтров и сохраненных товаров */
   useEffect(() => {
-    dispatch(setProductFilters(initialState.filters))
-    dispatch(setStore(initialState.store))
+    setTimeout(() => {
+      dispatch(setProductFilters(initialState.filters))
+      dispatch(setStore(initialState.store))
+    }, 300)
   }, [dispatch])
 
   return (

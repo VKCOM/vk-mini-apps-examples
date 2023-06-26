@@ -4,12 +4,12 @@ import * as api from './controllers'
 
 declare const self: ServiceWorkerGlobalScope
 
-const CACHE_NAME = 'my-offline-cache'
-const urlsToCache = [
-  '/',
-  '/static/css/main.50433c98.css',
-  '/static/js/main.61eb03a2.js',
-]
+// const CACHE_NAME = 'my-offline-cache'
+// const urlsToCache = [
+//   '/',
+//   '/static/css/main.50433c98.css',
+//   '/static/js/main.61eb03a2.js',
+// ]
 
 /** Ищем кодовое слово для загрузки контента из Action */
 function getAction(url: string) {
@@ -30,19 +30,12 @@ function matchAnswer(request: Request) {
       return api.getProductInfo(request.url)
     }
     default:
-      return caches.match(request).then(function (response) {
-        return response ?? fetch(request)
-      })
+      return fetch(request)
   }
 }
 
-self.addEventListener('install', (event) => {
+self.addEventListener('install', () => {
   console.log('ServiceWorker installed')
-  event.waitUntil(
-    caches.open(CACHE_NAME).then(function (cache) {
-      return cache.addAll(urlsToCache)
-    })
-  )
 })
 
 /** Удаляем устаревшие данные */

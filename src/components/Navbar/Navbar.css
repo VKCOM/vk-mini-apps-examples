@@ -36,9 +36,8 @@
   display: none !important;
 }
 
-.Navbar_iconButton:last-of-type svg {
-  padding-right: 12px !important;
-  position: relative;
+.Navbar_iconButton:last-of-type {
+  margin-right: 12px !important;
 }
 
 .Navbar_iconButton_counter {

@@ -73,8 +73,4 @@
   .Navbar__desktop .Navbar_iconButton:first-of-type svg {
     display: none;
   }
-
-  .Navbar__mobile .Navbar_iconButton:first-of-type svg {
-    display: none;
-  }
 }

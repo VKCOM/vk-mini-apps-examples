@@ -1,8 +1,8 @@
 .CategoryCard {
   width: max-content;
   cursor: pointer;
-  border-radius: 12px 12px 28px 12px !important;
-  padding: 8px 4px 4px 12px !important;
+  border-radius: 12px !important;
+  padding: 8px 24px 4px 12px !important;
 }
 
 .CategoryCard .vkuiCard__in {

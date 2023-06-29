@@ -1,6 +1,16 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Button, FormItem, RangeSlider, Select } from '@vkontakte/vkui'
+import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
+import {
+  Button,
+  FormItem,
+  Platform,
+  RangeSlider,
+  Select,
+  usePlatform,
+} from '@vkontakte/vkui'
+import { setProductFilters } from 'src/store/app'
 import { CategoryCardProps } from 'src/components'
+import { useAppDispatch } from 'src/store'
 import { ProductFilter } from 'src/types'
 
 import './Filters.css'
@@ -18,13 +28,16 @@ let Filters: React.FC<FiltersProps> = ({
   minPrice,
   defaultFilter,
 }) => {
+  const dispatch = useAppDispatch()
+  const platform = usePlatform()
+  const routeNavigator = useRouteNavigator()
   const [isFilterChange, setIsFilterChange] = useState(false)
   const [filters, setFilters] = useState<Omit<ProductFilter, 'query'>>({
     priceTo: defaultFilter.priceTo ?? maxPrice,
     priceFrom: defaultFilter.priceFrom ?? minPrice,
     categoryId: defaultFilter.categoryId,
   })
-  const [prevFilters] = useState({ ...filters })
+  const [prevFilters, setPrevFilters] = useState({ ...filters })
 
   const onHandleSliderChange = useCallback(
     (e: [number, number]) => {
@@ -48,7 +61,23 @@ let Filters: React.FC<FiltersProps> = ({
     [filters]
   )
 
-  // Проверка фильтров на наличие изменений
+  const onShowProductButtonClick = useCallback(() => {
+    setPrevFilters({ ...filters })
+    const newFilters = Object.assign({ ...defaultFilter }, { ...filters })
+    dispatch(setProductFilters(newFilters))
+    if (platform !== Platform.VKCOM) routeNavigator.back()
+  }, [filters, platform, routeNavigator, defaultFilter, dispatch])
+
+  /** Переопределение цены с initialValue на ненулевые значения, после ответа сервера*/
+  useEffect(() => {
+    if (!minPrice && !maxPrice) return
+    if (!filters.priceFrom && !filters.priceTo) {
+      setFilters({ ...filters, priceFrom: minPrice, priceTo: maxPrice })
+      setPrevFilters({ ...filters, priceFrom: minPrice, priceTo: maxPrice })
+    }
+  }, [minPrice, maxPrice, filters])
+
+  /** Сравнение новых фильтров с предыдущими */
   useEffect(() => {
     let isChange = false
     let key: keyof Omit<ProductFilter, 'query'>
@@ -64,6 +93,7 @@ let Filters: React.FC<FiltersProps> = ({
       <FormItem top="Категория">
         <Select
           onChange={onHandleSelectorChange}
+          value={filters.categoryId}
           placeholder="Не выбран"
           options={categories.map((category) => ({
             label: category.name,
@@ -77,11 +107,8 @@ let Filters: React.FC<FiltersProps> = ({
           onChange={onHandleSliderChange}
           min={minPrice}
           max={maxPrice}
-          step={500}
-          defaultValue={[
-            prevFilters.priceFrom ?? minPrice,
-            prevFilters.priceTo ?? maxPrice,
-          ]}
+          step={250}
+          value={[filters.priceFrom ?? minPrice, filters.priceTo ?? maxPrice]}
         />
         <div className="Filters_prices">
           <div className="Filters_prices_boundary">{filters.priceFrom}₽</div>
@@ -90,7 +117,13 @@ let Filters: React.FC<FiltersProps> = ({
       </FormItem>
 
       <FormItem>
-        <Button disabled={!isFilterChange} stretched size="l" mode="primary">
+        <Button
+          stretched
+          size="l"
+          mode="primary"
+          disabled={!isFilterChange}
+          onClick={onShowProductButtonClick}
+        >
           Показать товары
         </Button>
       </FormItem>

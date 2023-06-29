@@ -1,8 +1,8 @@
 .CategoryCard {
   width: max-content;
   cursor: pointer;
-  border-radius: 12px 12px 28px 12px !important;
-  padding: 8px 4px 4px 12px !important;
+  border-radius: 12px !important;
+  padding: 8px 24px 4px 12px !important;
 }
 
 .CategoryCard .vkuiCard__in {
@@ -11,18 +11,21 @@
   gap: 32px !important;
   width: max-content;
   max-height: 60px;
+  cursor: pointer;
 }
 
 .CategoryCard_info {
   letter-spacing: 0.2px;
   line-height: 18px;
   max-width: 122px;
+  cursor: pointer;
   height: 60px;
 }
 
 .CategoryCard_counter {
   font-weight: 400;
   font-size: 14px;
+  cursor: pointer;
   color: var(--vkui--color_text_secondary);
   user-select: none;
 }
@@ -30,6 +33,7 @@
 .CategoryCard_name {
   font-weight: 500;
   font-size: 14px;
+  cursor: pointer;
   color: var(--vkui--color_text_primary);
 }
 
@@ -37,6 +41,7 @@
   background: rgba(38, 136, 235, 0.12);
   border-radius: 100px;
   display: flex;
+  cursor: pointer;
   justify-content: center;
   align-items: center;
   min-width: 52px;

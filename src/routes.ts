@@ -1,10 +1,11 @@
 import {
   RoutesConfig,
+  createHashRouter,
   createModal,
   createPanel,
   createRoot,
   createView,
-} from '@vkontakte/vk-mini-app-router'
+} from '@vkontakte/vk-mini-apps-router'
 
 const SHOP_ROOT = 'shop'
 export const INITIAL_URL = '/'
@@ -56,3 +57,5 @@ export const routes = RoutesConfig.create([
     ]),
   ]),
 ])
+
+export const router = createHashRouter(routes.getRoutes())

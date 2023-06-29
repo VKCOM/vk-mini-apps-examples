@@ -3,7 +3,7 @@
   flex-direction: column;
   justify-content: center;
   margin: 0 auto;
-  height: max-content;
+  height: 260px;
   background: inherit;
 }
 
@@ -25,9 +25,10 @@
 @media (min-width: 768px) {
   .Filters {
     margin-top: 12px;
-    padding-bottom: 0;
+    padding: 6px 0px;
     position: sticky;
     width: 100%;
+    height: max-content;
     top: 12px;
     max-width: 375px;
     border-radius: 16px;

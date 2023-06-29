@@ -1,29 +1,25 @@
 export interface Product {
-  id: number // 2
-  name: string // Щедрая душа
-  productType: string // Шоколадка
-  price: number // 2000
-  description: string // Большая удобная, абсолютно бесполезная
-  preview: string // hhtps://image.com
-  categoryId: number[] // Продукты
-  maxAvailable: number // 23 штуки
+  id: number
+  name: string 
+  price: number
+  description: string 
+  preview: string 
+  photos: string[]
+  categoryId: number[]
+  maxAvailable: number 
 }
+
+export type ProductPreview = Omit<
+  Product,
+  'categoryId' | 'photos' | 'description'
+>
+
+export type OrderProduct = ProductPreview & { productNumber: number }
 
 export interface Category {
   id: number
   name: string
-  description: string
-  preview: string
-}
-
-export interface Order {
-  productId: number
-  quantity: number
-}
-
-export interface Basket {
-  userId: number
-  orders: Order[]
+  productCount: number
 }
 
 export interface ProductFilter {
@@ -31,4 +27,17 @@ export interface ProductFilter {
   priceTo?: number
   categoryId?: string
   query?: string
+}
+
+export interface ShopInfo {
+  minPrice: number
+  maxPrice: number,
+  name: string,
+  logo: string
+}
+
+export enum ApiEndpoint {
+  InitialData = 'initialData',
+  FilteredProducts = 'filteredProducts',
+  ProductInfo = 'product',
 }

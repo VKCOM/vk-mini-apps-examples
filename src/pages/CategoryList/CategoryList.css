@@ -18,8 +18,8 @@
 }
 
 .CategoryList_grid .CategoryCard {
-  width: calc(100% - 16px);
-  max-width: 200px;
+  width: calc(100% - 36px);
+  max-width: 300px;
 }
 
 .CategoryList_grid .CategoryCard .vkuiCard__in {
@@ -32,13 +32,9 @@
 
 @media (min-width: 768px) {
   .CategoryList {
-    margin: auto;
-    margin-bottom: 12px;
-    margin-top: 12px;
+    margin: 12px;
     border-radius: 16px;
     height: 100%;
-    min-width: 100%;
-    max-width: 800px;
     box-sizing: border-box;
   }
 }

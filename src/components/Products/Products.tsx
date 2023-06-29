@@ -1,11 +1,12 @@
 import React from 'react'
-import { Header, Spinner } from '@vkontakte/vkui'
-import { ProductCard, ProductCardProps } from '../ProductCard/ProductCard'
+import { Header, Placeholder } from '@vkontakte/vkui'
+import { ProductCard } from 'src/components'
+import { ProductPreview } from 'src/types'
 
 import './Products.css'
 
 export type ProductsProps = {
-  products: Array<ProductCardProps & { id: number }>
+  products: ProductPreview[]
   header: string
   maxProducts: number
   lazyLoading?: boolean
@@ -25,24 +26,21 @@ let Products: React.FC<ProductsProps> = ({
         {header}
       </Header>
       <div className="Products_grid">
-        {products.map((item, index) => {
-          return (
+        {maxProducts > 0 &&
+          products.map((item, index) => (
             <ProductCard
+              id={item.id}
               key={item.id}
-              price={item.price}
-              productType={item.productType}
               name={item.name}
+              price={item.price}
               preview={lazyLoading ? '' : item.preview}
               data-index={`${lazyLoading ? index : null}`}
               data-src={`${lazyLoading ? item.preview : null}`}
             />
-          )
-        })}
+          ))}
       </div>
-      {fetching && (
-        <div className="Products_spinner">
-          <Spinner size="large" />
-        </div>
+      {!maxProducts && !fetching && (
+        <Placeholder>По твоему запросу ничего не нашлось</Placeholder>
       )}
     </div>
   )

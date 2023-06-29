@@ -1,29 +1,63 @@
-import React, { ReactNode } from 'react'
+import React, { ReactNode, useCallback } from 'react'
 import cx from 'classnames'
-import { IconButton, Platform, Search, usePlatform } from '@vkontakte/vkui'
 import {
-  Icon28ShoppingCartOutline,
-  Icon24Filter,
-  Icon24SendOutline,
-} from '@vkontakte/icons'
-import { useRouteNavigator } from '@vkontakte/vk-mini-app-router'
+  Counter,
+  IconButton,
+  Platform,
+  Search,
+  usePlatform,
+} from '@vkontakte/vkui'
+import { Icon28ShoppingCartOutline, Icon24Filter } from '@vkontakte/icons'
+import {
+  useActiveVkuiLocation,
+  useRouteNavigator,
+} from '@vkontakte/vk-mini-apps-router'
 import { PaymentPanel, StorePanelModal, ViewingPanel } from 'src/routes'
+import { useAppDispatch, useAppSelector } from 'src/store'
+import { setProductFilters } from 'src/store/app'
 
 import './Navbar.css'
 
 export type NavbarProps = {
-  header?: ReactNode
+  children?: ReactNode
+  searchValue?: string
   filtersDisable?: boolean
   searchDisable?: boolean
+  onInputResetFilters?: boolean
 }
 
 let Navbar: React.FC<NavbarProps> = ({
-  header,
   filtersDisable,
   searchDisable,
+  searchValue,
+  children,
 }) => {
   const routeNavigator = useRouteNavigator()
+  const filters = useAppSelector((state) => state.app.filters)
+  const shoppingCart = useAppSelector((state) => state.app.shoppingCart)
   const platfotm = usePlatform()
+  const { panel } = useActiveVkuiLocation()
+
+  const dispatch = useAppDispatch()
+
+  const onInputKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.key !== 'Enter' || !('value' in e.target)) return
+      dispatch(
+        setProductFilters({
+          ...filters,
+          query: e.target.value as string,
+        })
+      )
+      if (panel !== ViewingPanel.Store)
+        routeNavigator.push(`/${ViewingPanel.Store}`)
+    },
+    [routeNavigator, filters, panel, dispatch]
+  )
+
+  const onFiltersIconClick = useCallback(() => {
+    routeNavigator.push(`/${ViewingPanel.Store}/${StorePanelModal.Filters}`)
+  }, [routeNavigator])
 
   return (
     <div
@@ -32,17 +66,17 @@ let Navbar: React.FC<NavbarProps> = ({
         Navbar__desktop: platfotm === Platform.VKCOM,
       })}
     >
-      {header}
+      {children}
       <div
         className={cx('Navbar_content', {
-          Navbar_content__stretched: !header,
+          Navbar_content__stretched: !children,
           Navbar_content__disabled: searchDisable,
         })}
       >
         <Search
-          onIconClick={() => routeNavigator.push(`/${ViewingPanel.Store}`)}
-          icon={<Icon24SendOutline />}
+          defaultValue={searchValue}
           className="Navbar_search"
+          onKeyDown={onInputKeyDown}
         />
 
         <IconButton
@@ -50,11 +84,7 @@ let Navbar: React.FC<NavbarProps> = ({
           className={cx('Navbar_iconButton', {
             Navbar_iconButton__disabled: filtersDisable,
           })}
-          onClick={() =>
-            routeNavigator.push(
-              `/${ViewingPanel.Store}/${StorePanelModal.Filters}`
-            )
-          }
+          onClick={onFiltersIconClick}
         >
           <Icon24Filter width={28} fill="2688EB" />
         </IconButton>
@@ -64,6 +94,15 @@ let Navbar: React.FC<NavbarProps> = ({
             onClick={() => routeNavigator.push(`/${PaymentPanel.ShoppingCart}`)}
             fill="2688EB"
           />
+          {shoppingCart.orderProducts.length > 0 && (
+            <Counter
+              className="Navbar_iconButton_counter"
+              size="s"
+              mode="prominent"
+            >
+              {shoppingCart.orderProducts.length}
+            </Counter>
+          )}
         </IconButton>
       </div>
     </div>

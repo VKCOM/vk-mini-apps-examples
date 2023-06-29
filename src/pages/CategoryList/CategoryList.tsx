@@ -1,26 +1,48 @@
-import React from 'react'
-import { useRouteNavigator } from '@vkontakte/vk-mini-app-router'
+import React, { useCallback, useEffect } from 'react'
+import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
 import { CategoryCard, Navbar, PageHeader } from 'src/components'
 import { NavIdProps, Panel } from '@vkontakte/vkui'
-import { CATEGORIES_TEST } from 'src/config'
 import { ViewingPanel } from 'src/routes'
+import { useAppDispatch, useAppSelector } from 'src/store'
+import { initialState, setProductFilters, setStore } from 'src/store/app'
 
 import './CategoryList.css'
 
 export const CategoryList: React.FC<NavIdProps> = (props) => {
   const routeNavigator = useRouteNavigator()
+  const dispatch = useAppDispatch()
+  const { categories, filters } = useAppSelector((state) => state.app)
+  const onCategoryCardClick = useCallback(
+    (id: number) => {
+      dispatch(setProductFilters({ ...filters, categoryId: id.toString() }))
+      routeNavigator.push(`/${ViewingPanel.Store}`)
+    },
+    [dispatch, routeNavigator, filters]
+  )
+
+  /** Возвращаем начальное состояние фильтров и сохраненных товаров */
+  useEffect(() => {
+    setTimeout(() => {
+      dispatch(setProductFilters(initialState.filters))
+      dispatch(setStore(initialState.store))
+    }, 300)
+  }, [dispatch])
+
   return (
     <Panel className="Panel__fullScreen" {...props}>
-      <Navbar searchDisable header={<PageHeader header="Категории" />} />
+      <Navbar searchDisable>
+        <PageHeader header="Категории" />
+      </Navbar>
+      
       <div className="CategoryList">
         <div className="CategoryList_grid">
-          {CATEGORIES_TEST.map((item) => {
+          {categories.map((item) => {
             return (
               <CategoryCard
                 productCount={item.productCount}
                 name={item.name}
                 key={item.id}
-                onClick={() => routeNavigator.push(`/${ViewingPanel.Store}`)}
+                onClick={() => onCategoryCardClick(item.id)}
               />
             )
           })}

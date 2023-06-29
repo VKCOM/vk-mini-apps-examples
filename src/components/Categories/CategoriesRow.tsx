@@ -5,7 +5,7 @@ import './Categories.css'
 
 type CategoriesRowProps = {
   categories: Array<CategoryCardProps & { id: number }>
-  onItemClick: () => void
+  onItemClick: (id: number) => void
 }
 
 let CategoriesRow: React.FC<CategoriesRowProps> = ({
@@ -19,7 +19,7 @@ let CategoriesRow: React.FC<CategoriesRowProps> = ({
           key={item.id}
           productCount={item.productCount}
           name={item.name}
-          onClick={onItemClick}
+          onClick={() => onItemClick(item.id)}
         />
       ))}
     </div>

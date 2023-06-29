@@ -1,4 +1,4 @@
-import { Product } from 'src/types'
+import { ApiEndpoint, Product } from 'src/types'
 import { makeRequest } from 'src/api/makeRequest'
 
 interface GetProductInfoRequest {
@@ -8,19 +8,19 @@ interface GetProductInfoResponse {
   product: Product
 }
 
-/** Данные для страницы "ProductInfo" */
+/** Получение информации по конкретному товару */
 export const getProductInfo = async ({
   productId,
 }: GetProductInfoRequest): Promise<GetProductInfoResponse> => {
-  const data = await makeRequest<GetProductInfoResponse>({
-    path: 'shop/getProductInfo',
+  const data = await makeRequest<{ data: GetProductInfoResponse }>({
+    path: ApiEndpoint.ProductInfo,
     params: {
-      productId: productId.toString(),
+      id: productId.toString(),
     },
     requestOptions: {
       method: 'get',
     },
   })
 
-  return data
+  return data.data
 }

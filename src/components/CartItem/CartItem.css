@@ -4,12 +4,14 @@
   align-items: center;
   gap: 8px;
   width: 100%;
+  cursor: pointer;
 }
 
 .CartItem_preview {
   position: relative;
   width: 90px;
   min-width: 90px;
+  height: 90px;
   aspect-ratio: 1/1;
   border-radius: 12px;
   left: 0;
@@ -23,8 +25,7 @@
 }
 
 .CartItem_preview__unload {
-  animation: 3s skeletonAnimation linear infinite;
-  background: var(--skeleton-background);
+  background: #e1e1e1;
   background-size: 300% 200%;
 }
 

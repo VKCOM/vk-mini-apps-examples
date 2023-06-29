@@ -5,6 +5,10 @@
   padding: 16px;
 }
 
+.Subtotal__desktop {
+  padding: 0;
+}
+
 .Subtotal_price {
   width: 100%;
   display: flex;

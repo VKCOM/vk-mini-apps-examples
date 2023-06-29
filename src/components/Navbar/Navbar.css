@@ -36,8 +36,14 @@
   display: none !important;
 }
 
-.Navbar_iconButton:last-of-type svg {
-  padding-right: 10px !important;
+.Navbar_iconButton:last-of-type {
+  margin-right: 12px !important;
+}
+
+.Navbar_iconButton_counter {
+  top: 0;
+  right: -3px;
+  position: absolute !important;
 }
 
 .Navbar__desktop {
@@ -64,10 +70,6 @@
 
 @media (min-width: 768px) {
   .Navbar__desktop .Navbar_iconButton:first-of-type svg {
-    display: none;
-  }
-
-  .Navbar__mobile .Navbar_iconButton:first-of-type svg {
     display: none;
   }
 }

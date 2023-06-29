@@ -18,13 +18,19 @@ let ProductPhoto: React.FC<ProductPhotoProps> = ({ photo }) => {
     undefined
   )
 
+  /** Загружаем фото и определяем его ориентацию в пространстве */
   useEffect(() => {
     const image = new Image()
     image.src = photo
-    image.onload = () => {
+    const onImageLoad = () => {
       if (image.width > image.height) setOrientation(Orientation.Horizontal)
       else if (image.width < image.height) setOrientation(Orientation.Vertical)
       else setOrientation(Orientation.Square)
+    }
+    image.addEventListener('load', onImageLoad)
+
+    return () => {
+      image.removeEventListener('load', onImageLoad)
     }
   }, [photo])
 

@@ -66,15 +66,16 @@ export const Store: React.FC<NavIdProps> = (props) => {
   const onHandleScroll = useCallback(
     (e: React.UIEvent<HTMLDivElement, UIEvent>) => {
       scrollPosition.current = e.currentTarget.scrollTop
+      console.log(scrollPosition.current, 'UPDATE')
     },
     []
   )
 
   /** Немедленно загружаем первые элементы в зоне видимости*/
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (scrollPosition.current !== store.scrollPosition) return
     entryElements.forEach((entry) => {
-      if (entry.isIntersecting && entry.intersectionRatio > 0.7) {
+      if (entry.isIntersecting && entry.intersectionRatio > 0.3) {
         immediatelyLoading(entry.target)
       }
     })
@@ -103,7 +104,7 @@ export const Store: React.FC<NavIdProps> = (props) => {
   }, [fetchProducts, store.filteredProductCount, observer, entryElements])
 
   /** Обнуление скролла при начале загрузки и сохранение скролла при unmount */
-  useEffect(() => {
+  useLayoutEffect(() => {
     scrollPosition.current = 0
     return () => {
       dispatch(setStoreScrollposition(scrollPosition.current))
@@ -112,8 +113,9 @@ export const Store: React.FC<NavIdProps> = (props) => {
 
   /** Scroll restoration */
   useLayoutEffect(() => {
-    if ($storeContainer.current)
-      $storeContainer.current.scrollTop = store.scrollPosition
+    if (!$storeContainer.current) return
+    $storeContainer.current.scrollTop = store.scrollPosition
+    scrollPosition.current = store.scrollPosition
   }, [store.scrollPosition])
 
   /** Запрос на получение первых Limit элементов */

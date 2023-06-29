@@ -2,6 +2,7 @@ import React, {
   useCallback,
   useEffect,
   useLayoutEffect,
+  useMemo,
   useRef,
   useState,
 } from 'react'
@@ -38,7 +39,8 @@ export const Store: React.FC<NavIdProps> = (props) => {
   const scrollPosition = useRef(0)
   const isSavedContent = useRef(store.products.length > 0)
   const $storeContainer = useRef<HTMLDivElement>(null)
-  const $header = useRef(<PageHeader header="Каталог" />)
+
+  const StoreHeader = useMemo(() => <PageHeader header="Каталог" />, [])
 
   const { observer, entryElements, immediatelyLoading } =
     useIntersectionObserver(
@@ -68,6 +70,16 @@ export const Store: React.FC<NavIdProps> = (props) => {
     []
   )
 
+  /** Немедленно загружаем первые элементы в зоне видимости*/
+  useEffect(() => {
+    if (scrollPosition.current !== store.scrollPosition) return
+    entryElements.forEach((entry) => {
+      if (entry.isIntersecting && entry.intersectionRatio > 0.7) {
+        immediatelyLoading(entry.target)
+      }
+    })
+  }, [entryElements, store.scrollPosition, immediatelyLoading])
+
   /** Сканирование элементов в IntersectionObserver */
   useEffect(() => {
     entryElements.forEach((entry) => {
@@ -90,15 +102,13 @@ export const Store: React.FC<NavIdProps> = (props) => {
     })
   }, [fetchProducts, store.filteredProductCount, observer, entryElements])
 
-  /** Немедленно загружаем первые элементы в зоне видимости*/
+  /** Обнуление скролла при начале загрузки и сохранение скролла при unmount */
   useEffect(() => {
-    if (scrollPosition.current !== store.scrollPosition) return
-    entryElements.forEach((entry) => {
-      if (entry.isIntersecting && entry.intersectionRatio > 0.7) {
-        immediatelyLoading(entry.target)
-      }
-    })
-  }, [entryElements, store.scrollPosition, immediatelyLoading])
+    scrollPosition.current = 0
+    return () => {
+      dispatch(setStoreScrollposition(scrollPosition.current))
+    }
+  }, [filters, dispatch])
 
   /** Scroll restoration */
   useLayoutEffect(() => {
@@ -127,17 +137,10 @@ export const Store: React.FC<NavIdProps> = (props) => {
       })
   }, [store, observer])
 
-  /** Обнуление скролла при начале загрузки и сохранение скролла при unmount */
-  useEffect(() => {
-    scrollPosition.current = 0
-    return () => {
-      dispatch(setStoreScrollposition(scrollPosition.current))
-    }
-  }, [filters, dispatch])
-
   return (
     <Panel className="Panel__fullScreen" {...props}>
-      <Navbar searchValue={''} header={$header.current} />
+      <Navbar searchValue={''}>{StoreHeader}</Navbar>
+
       <div
         ref={$storeContainer}
         className="Store_content"

@@ -8,13 +8,13 @@ import './Counter.css'
 export type CounterProps = {
   value: number
   maxValue: number
-  onSubtract: (e: React.MouseEvent) => void
   onAdd: (e: React.MouseEvent) => void
+  onSubtract: (e: React.MouseEvent) => void
 }
 
 let Counter: React.FC<CounterProps> = ({
-  maxValue,
   value,
+  maxValue,
   onAdd,
   onSubtract,
 }) => {

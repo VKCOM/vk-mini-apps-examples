@@ -42,7 +42,7 @@
 
 .Navbar_iconButton_counter {
   top: 0;
-  right: 2px;
+  right: -3px;
   position: absolute !important;
 }
 

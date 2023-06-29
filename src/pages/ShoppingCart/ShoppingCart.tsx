@@ -36,7 +36,10 @@ let ShoppingCart: React.FC<NavIdProps> = (props) => {
 
   return (
     <Panel className="Panel__fullScreen" {...props}>
-      <Navbar searchDisable header={<PageHeader header="Корзина" />} />
+      <Navbar searchDisable>
+        <PageHeader header="Корзина" />
+      </Navbar>
+      
       <div className="ShoppingCart">
         <div className="ShoppingCart_productList">
           {orderProducts.map((item) => (

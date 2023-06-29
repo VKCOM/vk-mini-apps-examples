@@ -30,7 +30,10 @@ export const CategoryList: React.FC<NavIdProps> = (props) => {
 
   return (
     <Panel className="Panel__fullScreen" {...props}>
-      <Navbar searchDisable header={<PageHeader header="Категории" />} />
+      <Navbar searchDisable>
+        <PageHeader header="Категории" />
+      </Navbar>
+      
       <div className="CategoryList">
         <div className="CategoryList_grid">
           {categories.map((item) => {

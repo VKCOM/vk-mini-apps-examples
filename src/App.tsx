@@ -82,18 +82,9 @@ export const App: React.FC = () => {
 
   /** Loader на время получения initialData */
   useEffect(() => {
-    if (shopFetching) {
-      setTimeout(() => {
-        routeNavigator.showPopout(<ScreenSpinner size="large" />)
-      }, 100)
-    }
-    if (!shopFetching) {
-      setTimeout(() => {
-        routeNavigator.hidePopout()
-      }, 200)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [shopFetching])
+    if (shopFetching) routeNavigator.showPopout(<ScreenSpinner size="large" />)
+    if (!shopFetching) routeNavigator.hidePopout()
+  }, [shopFetching, routeNavigator])
 
   /** Открытие модалки при первом заходе в апп */
   useEffect(() => {

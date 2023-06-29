@@ -70,7 +70,9 @@ export const ProductInfo: React.FC<NavIdProps> = (props) => {
 
   return (
     <Panel className="Panel__fullScreen" {...props}>
-      <Navbar searchDisable header={<PageHeader header="Товар" />} />
+      <Navbar searchDisable>
+        <PageHeader header="Товар" />
+      </Navbar>
       <div ref={$content} className="ProductInfo">
         <Gallery
           showArrows

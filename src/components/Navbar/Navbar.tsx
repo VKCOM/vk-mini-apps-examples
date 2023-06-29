@@ -19,7 +19,7 @@ import { setProductFilters } from 'src/store/app'
 import './Navbar.css'
 
 export type NavbarProps = {
-  header?: ReactNode
+  children?: ReactNode
   searchValue?: string
   filtersDisable?: boolean
   searchDisable?: boolean
@@ -27,16 +27,17 @@ export type NavbarProps = {
 }
 
 let Navbar: React.FC<NavbarProps> = ({
-  header,
   filtersDisable,
   searchDisable,
   searchValue,
+  children,
 }) => {
   const routeNavigator = useRouteNavigator()
   const filters = useAppSelector((state) => state.app.filters)
   const shoppingCart = useAppSelector((state) => state.app.shoppingCart)
   const platfotm = usePlatform()
   const { panel } = useActiveVkuiLocation()
+
   const dispatch = useAppDispatch()
 
   const onInputKeyDown = useCallback(
@@ -65,10 +66,10 @@ let Navbar: React.FC<NavbarProps> = ({
         Navbar__desktop: platfotm === Platform.VKCOM,
       })}
     >
-      {header}
+      {children}
       <div
         className={cx('Navbar_content', {
-          Navbar_content__stretched: !header,
+          Navbar_content__stretched: !children,
           Navbar_content__disabled: searchDisable,
         })}
       >

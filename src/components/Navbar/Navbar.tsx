@@ -15,7 +15,7 @@ import {
 } from '@vkontakte/vk-mini-apps-router'
 import { PaymentPanel, StorePanelModal, ViewingPanel } from 'src/routes'
 import { useAppDispatch, useAppSelector } from 'src/store'
-import { setProductFilters } from 'src/store/app'
+import { setProductFilters } from 'src/store/app.reducer'
 
 import './Navbar.css'
 
@@ -35,7 +35,7 @@ let Navbar: React.FC<NavbarProps> = ({
 }) => {
   const routeNavigator = useRouteNavigator()
   const filters = useAppSelector((state) => state.app.filters)
-  const shoppingCart = useAppSelector((state) => state.app.shoppingCart)
+  const shoppingCart = useAppSelector((state) => state.shoppingCart)
   const platfotm = usePlatform()
   const { isDesktop } = useAdaptivityWithJSMediaQueries()
   const { panel } = useActiveVkuiLocation()

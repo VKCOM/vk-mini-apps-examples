@@ -7,7 +7,7 @@ import {
   Select,
   useAdaptivityWithJSMediaQueries,
 } from '@vkontakte/vkui'
-import { setProductFilters } from 'src/store/app'
+import { setProductFilters } from 'src/store/app.reducer'
 import { CategoryCardProps } from 'src/components'
 import { useAppDispatch } from 'src/store'
 import { ProductFilter } from 'src/types'

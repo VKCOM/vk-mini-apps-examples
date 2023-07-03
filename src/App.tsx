@@ -15,12 +15,12 @@ import {
   useRouteNavigator,
 } from '@vkontakte/vk-mini-apps-router'
 import { useAppDispatch, useAppSelector } from 'src/store'
-import { setOnboardingComplete, setUserName } from 'src/store/user'
+import { setOnboardingComplete, setUserName } from 'src/store/user.reducer'
 import { Modals } from './modals'
 import { Main, Store, CategoryList, ShoppingCart, ProductInfo } from './pages'
 import { PaymentPanel, ShopView, ViewingPanel } from './routes'
 import { getUserId } from './utils/getUserId'
-import { fetchShop } from './store/app'
+import { fetchShop } from 'src/store/app.reducer'
 
 export const App: React.FC = () => {
   const routerPopout = usePopout()

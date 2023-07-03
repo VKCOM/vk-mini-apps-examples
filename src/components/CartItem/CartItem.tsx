@@ -7,7 +7,7 @@ import { ViewingPanel } from 'src/routes'
 import { Counter, PriceDisplay } from 'src/components'
 import { OrderProduct } from 'src/types'
 import { useAppDispatch } from 'src/store'
-import { deleteCartItem, updateCartItem } from 'src/store/app'
+import { deleteCartItem, updateCartItem } from 'src/store/shoppingCart.reducer'
 
 import './CartItem.css'
 
@@ -63,7 +63,7 @@ let CartItem: React.FC<OrderProduct> = ({
 
       <div className="CartItem_info">
         <div className="CartItem_info_name">{name}</div>
-        
+
         <PriceDisplay
           price={price * itemNumber}
           className="CartItem_info_price"

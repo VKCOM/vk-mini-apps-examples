@@ -6,7 +6,7 @@ import { CategoryCardProps } from 'src/components'
 import { CategoriesRow } from './CategoriesRow'
 import { ViewingPanel } from 'src/routes'
 import { useAppDispatch, useAppSelector } from 'src/store'
-import { setProductFilters } from 'src/store/app'
+import { setProductFilters } from 'src/store/app.reducer'
 
 import './Categories.css'
 

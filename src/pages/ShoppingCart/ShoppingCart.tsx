@@ -21,7 +21,7 @@ let ShoppingCart: React.FC<NavIdProps> = (props) => {
   const routeNavigator = useRouteNavigator()
   const platform = usePlatform()
   const { orderProducts, totalPrice } = useAppSelector(
-    (state) => state.app.shoppingCart
+    (state) => state.shoppingCart
   )
 
   const isCartEmpty = orderProducts.length === 0
@@ -39,7 +39,7 @@ let ShoppingCart: React.FC<NavIdProps> = (props) => {
       <Navbar searchDisable>
         <PageHeader header="Корзина" />
       </Navbar>
-      
+
       <div className="ShoppingCart">
         <div className="ShoppingCart_productList">
           {orderProducts.map((item) => (

@@ -9,7 +9,8 @@ import {
 } from '@vkontakte/vkui'
 import { Categories, Navbar, Products, TechInfo } from 'src/components'
 import { useAppDispatch, useAppSelector } from 'src/store'
-import { setProductFilters, initialState, setStore } from 'src/store/app'
+import { setProductFilters, appInitialState } from 'src/store/app.reducer'
+import { setStore, storeInitialState } from 'src/store/store.reducer'
 import { ITEMS, SECTIONS } from './techConfig'
 
 import './Main.css'
@@ -34,8 +35,8 @@ let Main: React.FC<NavIdProps> = (props) => {
   /** Возвращаем начальное состояние фильтров и сохраненных товаров */
   useEffect(() => {
     setTimeout(() => {
-      dispatch(setProductFilters(initialState.filters))
-      dispatch(setStore(initialState.store))
+      dispatch(setProductFilters(appInitialState.filters))
+      dispatch(setStore(storeInitialState))
     }, 300)
   }, [dispatch])
 

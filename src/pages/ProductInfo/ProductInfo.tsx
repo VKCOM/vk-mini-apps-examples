@@ -18,7 +18,7 @@ import {
   PriceDisplay,
   ProductPhoto,
 } from 'src/components'
-import { addCartItem } from 'src/store/app'
+import { addCartItem } from 'src/store/shoppingCart.reducer'
 import { useAppDispatch, useAppSelector } from 'src/store'
 import { PaymentPanel } from 'src/routes'
 import { Product } from 'src/types'
@@ -38,9 +38,7 @@ export const ProductInfo: React.FC<NavIdProps> = (props) => {
   const $content = useRef<HTMLDivElement>(null)
   const id = params.get('id')
 
-  const {
-    shoppingCart: { orderProducts },
-  } = useAppSelector((state) => state.app)
+  const { orderProducts } = useAppSelector((state) => state.shoppingCart)
 
   const addToShoppingCart = useCallback(() => {
     if (productInfo && !isProductInCart)

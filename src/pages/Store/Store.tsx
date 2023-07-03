@@ -14,7 +14,10 @@ import {
 } from '@vkontakte/vkui'
 import { Filters, Navbar, PageHeader, Products, TechInfo } from 'src/components'
 import { useAppDispatch, useAppSelector } from 'src/store'
-import { fetchFilteredProducts, setStoreScrollposition } from 'src/store/app'
+import {
+  fetchFilteredProducts,
+  setStoreScrollposition,
+} from 'src/store/store.reducer'
 import { useIntersectionObserver } from 'src/hooks'
 import { useActiveVkuiLocation } from '@vkontakte/vk-mini-apps-router'
 import { ViewingPanel } from 'src/routes'
@@ -35,9 +38,9 @@ function findImage(element: Element) {
 export const Store: React.FC<NavIdProps> = (props) => {
   const dispatch = useAppDispatch()
   const { panel } = useActiveVkuiLocation()
-  const { store, filters, categories, shopInfo } = useAppSelector(
-    (state) => state.app
-  )
+  const { filters, categories, shopInfo } = useAppSelector((state) => state.app)
+  const store = useAppSelector((state) => state.store)
+
   const { isDesktop } = useAdaptivityWithJSMediaQueries()
   const [isFetching, setIsFetching] = useState(true)
 

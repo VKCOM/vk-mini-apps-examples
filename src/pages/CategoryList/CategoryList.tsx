@@ -4,14 +4,16 @@ import { CategoryCard, Navbar, PageHeader } from 'src/components'
 import { NavIdProps, Panel } from '@vkontakte/vkui'
 import { ViewingPanel } from 'src/routes'
 import { useAppDispatch, useAppSelector } from 'src/store'
-import { initialState, setProductFilters, setStore } from 'src/store/app'
+import { appInitialState, setProductFilters } from 'src/store/app.reducer'
+import { storeInitialState, setStore } from 'src/store/store.reducer'
 
 import './CategoryList.css'
 
 export const CategoryList: React.FC<NavIdProps> = (props) => {
-  const routeNavigator = useRouteNavigator()
   const dispatch = useAppDispatch()
+  const routeNavigator = useRouteNavigator()
   const { categories, filters } = useAppSelector((state) => state.app)
+
   const onCategoryCardClick = useCallback(
     (id: number) => {
       dispatch(setProductFilters({ ...filters, categoryId: id.toString() }))
@@ -23,8 +25,8 @@ export const CategoryList: React.FC<NavIdProps> = (props) => {
   /** Возвращаем начальное состояние фильтров и сохраненных товаров */
   useEffect(() => {
     setTimeout(() => {
-      dispatch(setProductFilters(initialState.filters))
-      dispatch(setStore(initialState.store))
+      dispatch(setProductFilters(appInitialState.filters))
+      dispatch(setStore(storeInitialState))
     }, 300)
   }, [dispatch])
 
@@ -33,7 +35,7 @@ export const CategoryList: React.FC<NavIdProps> = (props) => {
       <Navbar searchDisable>
         <PageHeader header="Категории" />
       </Navbar>
-      
+
       <div className="CategoryList">
         <div className="CategoryList_grid">
           {categories.map((item) => {

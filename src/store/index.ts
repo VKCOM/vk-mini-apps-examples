@@ -1,9 +1,13 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import { useDispatch, TypedUseSelectorHook, useSelector } from 'react-redux'
-import { userReducer } from './user'
-import { appReducer } from './app'
+import { userReducer } from './user.reducer'
+import { storeReducer } from './store.reducer'
+import { appReducer } from './app.reducer'
+import { shoppingCartReducer } from './shoppingCart.reducer'
 
 const rootReducer = combineReducers({
+  shoppingCart: shoppingCartReducer,
+  store: storeReducer,
   user: userReducer,
   app: appReducer
 })

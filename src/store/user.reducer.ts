@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-export interface UserStoreState {
+export interface UserState {
   name: string
   onboadrdingComplete: boolean
 }
 
-const initialState: UserStoreState = {
+const initialState: UserState = {
   name: '',
   onboadrdingComplete: true,
 }

@@ -67,9 +67,3 @@
 .Navbar__desktop .Navbar_content__stretched {
   width: 100%;
 }
-
-@media (min-width: 768px) {
-  .Navbar__desktop .Navbar_iconButton:first-of-type svg {
-    display: none;
-  }
-}

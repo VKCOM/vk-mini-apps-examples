@@ -1,4 +1,4 @@
-.Store_content {
+.Store {
   display: flex;
   flex-direction: column;
   max-height: 100%;
@@ -6,24 +6,25 @@
   flex: 1;
 }
 
-.Store_content::-webkit-scrollbar {
+.Store_sidebar {
+  min-width: 375px;
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.Store::-webkit-scrollbar {
   width: 0;
   height: 0;
 }
 
-@media (max-width: 767px) {
-  .Store_content .Filters {
-    display: none;
-  }
-}
-
-@media (min-width: 768px) {
-  .Store_content {
-    gap: 10px;
-    margin: 0 10px;
-    backface-visibility: hidden;
-    will-change: transform;
-    flex-direction: row;
-    justify-content: space-around;
-  }
+.Store__desktop {
+  gap: 10px;
+  margin: 0 10px;
+  backface-visibility: hidden;
+  will-change: transform;
+  flex-direction: row;
+  justify-content: space-around;
 }

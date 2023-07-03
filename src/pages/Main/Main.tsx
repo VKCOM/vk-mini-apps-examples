@@ -1,14 +1,22 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import cx from 'classnames'
-import { NavIdProps, Panel, Platform, usePlatform } from '@vkontakte/vkui'
-import { Categories, Navbar, Products } from 'src/components'
+import {
+  NavIdProps,
+  Panel,
+  Platform,
+  useAdaptivityWithJSMediaQueries,
+  usePlatform,
+} from '@vkontakte/vkui'
+import { Categories, Navbar, Products, TechInfo } from 'src/components'
 import { useAppDispatch, useAppSelector } from 'src/store'
 import { setProductFilters, initialState, setStore } from 'src/store/app'
+import { ITEMS, SECTIONS } from './techConfig'
 
 import './Main.css'
 
 let Main: React.FC<NavIdProps> = (props) => {
   const platfotm = usePlatform()
+  const { isDesktop } = useAdaptivityWithJSMediaQueries()
   const dispatch = useAppDispatch()
 
   const shopInfo = useAppSelector((state) => state.app.shopInfo)
@@ -57,8 +65,14 @@ let Main: React.FC<NavIdProps> = (props) => {
     <Panel className="Panel__fullScreen" {...props}>
       <Navbar filtersDisable>{MainHeader}</Navbar>
 
-      <div className="Main">
-        <Categories categories={categories} />
+      <div className={cx('Main', { Main__desktop: isDesktop })}>
+        <div
+          className={cx('Main_sidebar', { Main_sidebar__desktop: isDesktop })}
+        >
+          <Categories categories={categories} />
+          {isDesktop && <TechInfo sections={SECTIONS} items={ITEMS} />}
+        </div>
+
         <Products
           maxProducts={recomendedProducts.length}
           header="Популярное"

@@ -5,6 +5,7 @@ import {
   IconButton,
   Platform,
   Search,
+  useAdaptivityWithJSMediaQueries,
   usePlatform,
 } from '@vkontakte/vkui'
 import { Icon28ShoppingCartOutline, Icon24Filter } from '@vkontakte/icons'
@@ -36,6 +37,7 @@ let Navbar: React.FC<NavbarProps> = ({
   const filters = useAppSelector((state) => state.app.filters)
   const shoppingCart = useAppSelector((state) => state.app.shoppingCart)
   const platfotm = usePlatform()
+  const { isDesktop } = useAdaptivityWithJSMediaQueries()
   const { panel } = useActiveVkuiLocation()
 
   const dispatch = useAppDispatch()
@@ -79,15 +81,17 @@ let Navbar: React.FC<NavbarProps> = ({
           onKeyDown={onInputKeyDown}
         />
 
-        <IconButton
-          aria-label="filter"
-          className={cx('Navbar_iconButton', {
-            Navbar_iconButton__disabled: filtersDisable,
-          })}
-          onClick={onFiltersIconClick}
-        >
-          <Icon24Filter width={28} fill="2688EB" />
-        </IconButton>
+        {!isDesktop && (
+          <IconButton
+            aria-label="filter"
+            className={cx('Navbar_iconButton', {
+              Navbar_iconButton__disabled: filtersDisable,
+            })}
+            onClick={onFiltersIconClick}
+          >
+            <Icon24Filter width={28} fill="2688EB" />
+          </IconButton>
+        )}
 
         <IconButton aria-label="cart" className="Navbar_iconButton">
           <Icon28ShoppingCartOutline

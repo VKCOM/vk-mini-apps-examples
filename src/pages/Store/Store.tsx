@@ -7,13 +7,19 @@ import React, {
   useState,
 } from 'react'
 
-import { NavIdProps, Panel, Platform, usePlatform } from '@vkontakte/vkui'
-import { Filters, Navbar, PageHeader, Products } from 'src/components'
+import {
+  NavIdProps,
+  Panel,
+  useAdaptivityWithJSMediaQueries,
+} from '@vkontakte/vkui'
+import { Filters, Navbar, PageHeader, Products, TechInfo } from 'src/components'
 import { useAppDispatch, useAppSelector } from 'src/store'
 import { fetchFilteredProducts, setStoreScrollposition } from 'src/store/app'
 import { useIntersectionObserver } from 'src/hooks'
 import { useActiveVkuiLocation } from '@vkontakte/vk-mini-apps-router'
 import { ViewingPanel } from 'src/routes'
+import { ITEMS, SECTIONS } from './techConfig'
+import cx from 'classnames'
 
 import './Store.css'
 
@@ -32,7 +38,7 @@ export const Store: React.FC<NavIdProps> = (props) => {
   const { store, filters, categories, shopInfo } = useAppSelector(
     (state) => state.app
   )
-  const platform = usePlatform()
+  const { isDesktop } = useAdaptivityWithJSMediaQueries()
   const [isFetching, setIsFetching] = useState(true)
 
   const lastLoadItemIndex = useRef<number>(LIMIT - 1)
@@ -66,7 +72,6 @@ export const Store: React.FC<NavIdProps> = (props) => {
   const onHandleScroll = useCallback(
     (e: React.UIEvent<HTMLDivElement, UIEvent>) => {
       scrollPosition.current = e.currentTarget.scrollTop
-      console.log(scrollPosition.current, 'UPDATE')
     },
     []
   )
@@ -145,7 +150,7 @@ export const Store: React.FC<NavIdProps> = (props) => {
 
       <div
         ref={$storeContainer}
-        className="Store_content"
+        className={cx('Store', { Store__desktop: isDesktop })}
         onScroll={onHandleScroll}
       >
         <Products
@@ -155,13 +160,16 @@ export const Store: React.FC<NavIdProps> = (props) => {
           maxProducts={store.filteredProductCount}
           fetching={isFetching}
         />
-        {platform === Platform.VKCOM && (
-          <Filters
-            minPrice={shopInfo.minPrice}
-            maxPrice={shopInfo.maxPrice}
-            defaultFilter={filters}
-            categories={categories}
-          />
+        {isDesktop && (
+          <div className="Store_sidebar">
+            <Filters
+              minPrice={shopInfo.minPrice}
+              maxPrice={shopInfo.maxPrice}
+              defaultFilter={filters}
+              categories={categories}
+            />
+            <TechInfo sections={SECTIONS} items={ITEMS} />
+          </div>
         )}
       </div>
     </Panel>

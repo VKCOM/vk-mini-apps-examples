@@ -43,8 +43,6 @@
 @media (min-width: 768px) {
   .Categories {
     margin-top: 12px;
-    position: sticky;
-    top: 12px;
     max-width: 375px;
     padding: 0px 0px 12px 0px;
     border-radius: 16px;

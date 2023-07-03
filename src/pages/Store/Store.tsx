@@ -7,13 +7,19 @@ import React, {
   useState,
 } from 'react'
 
-import { NavIdProps, Panel, Platform, usePlatform } from '@vkontakte/vkui'
-import { Filters, Navbar, PageHeader, Products } from 'src/components'
+import {
+  NavIdProps,
+  Panel,
+  useAdaptivityWithJSMediaQueries,
+} from '@vkontakte/vkui'
+import { Filters, Navbar, PageHeader, Products, TechInfo } from 'src/components'
 import { useAppDispatch, useAppSelector } from 'src/store'
 import { fetchFilteredProducts, setStoreScrollposition } from 'src/store/app'
 import { useIntersectionObserver } from 'src/hooks'
 import { useActiveVkuiLocation } from '@vkontakte/vk-mini-apps-router'
 import { ViewingPanel } from 'src/routes'
+import { ITEMS, SECTIONS } from './techConfig'
+import cx from 'classnames'
 
 import './Store.css'
 
@@ -32,7 +38,7 @@ export const Store: React.FC<NavIdProps> = (props) => {
   const { store, filters, categories, shopInfo } = useAppSelector(
     (state) => state.app
   )
-  const platform = usePlatform()
+  const { isDesktop } = useAdaptivityWithJSMediaQueries()
   const [isFetching, setIsFetching] = useState(true)
 
   const lastLoadItemIndex = useRef<number>(LIMIT - 1)
@@ -71,10 +77,10 @@ export const Store: React.FC<NavIdProps> = (props) => {
   )
 
   /** Немедленно загружаем первые элементы в зоне видимости*/
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (scrollPosition.current !== store.scrollPosition) return
     entryElements.forEach((entry) => {
-      if (entry.isIntersecting && entry.intersectionRatio > 0.7) {
+      if (entry.isIntersecting && entry.intersectionRatio > 0.3) {
         immediatelyLoading(entry.target)
       }
     })
@@ -103,7 +109,7 @@ export const Store: React.FC<NavIdProps> = (props) => {
   }, [fetchProducts, store.filteredProductCount, observer, entryElements])
 
   /** Обнуление скролла при начале загрузки и сохранение скролла при unmount */
-  useEffect(() => {
+  useLayoutEffect(() => {
     scrollPosition.current = 0
     return () => {
       dispatch(setStoreScrollposition(scrollPosition.current))
@@ -112,8 +118,9 @@ export const Store: React.FC<NavIdProps> = (props) => {
 
   /** Scroll restoration */
   useLayoutEffect(() => {
-    if ($storeContainer.current)
-      $storeContainer.current.scrollTop = store.scrollPosition
+    if (!$storeContainer.current) return
+    $storeContainer.current.scrollTop = store.scrollPosition
+    scrollPosition.current = store.scrollPosition
   }, [store.scrollPosition])
 
   /** Запрос на получение первых Limit элементов */
@@ -143,7 +150,7 @@ export const Store: React.FC<NavIdProps> = (props) => {
 
       <div
         ref={$storeContainer}
-        className="Store_content"
+        className={cx('Store', { Store__desktop: isDesktop })}
         onScroll={onHandleScroll}
       >
         <Products
@@ -153,13 +160,16 @@ export const Store: React.FC<NavIdProps> = (props) => {
           maxProducts={store.filteredProductCount}
           fetching={isFetching}
         />
-        {platform === Platform.VKCOM && (
-          <Filters
-            minPrice={shopInfo.minPrice}
-            maxPrice={shopInfo.maxPrice}
-            defaultFilter={filters}
-            categories={categories}
-          />
+        {isDesktop && (
+          <div className="Store_sidebar">
+            <Filters
+              minPrice={shopInfo.minPrice}
+              maxPrice={shopInfo.maxPrice}
+              defaultFilter={filters}
+              categories={categories}
+            />
+            <TechInfo sections={SECTIONS} items={ITEMS} />
+          </div>
         )}
       </div>
     </Panel>

@@ -11,6 +11,12 @@
   height: 0;
 }
 
+.Main_sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 .Main_header__mobile {
   width: 100%;
   display: flex;
@@ -76,18 +82,21 @@
   font-weight: 600;
   font-size: 20px;
   padding-right: 8px;
-  border-right: 1px solid rgba(0, 0, 0, 0.12);
+  border-right: 1px solid var(--vkui--color_text_secondary);
 }
 
 .Main_header__desktop .Main_header_shopInfo_name {
   font-size: 16px;
 }
 
-@media (min-width: 768px) {
-  .Main {
-    gap: 10px;
-    margin: 0 10px;
-    flex-direction: row-reverse;
-    justify-content: space-around;
-  }
+.Main__desktop {
+  gap: 10px;
+  margin: 0 10px;
+  flex-direction: row-reverse;
+  justify-content: space-around;
+}
+
+.Main_sidebar__desktop {
+  position: sticky;
+  top: 0;
 }

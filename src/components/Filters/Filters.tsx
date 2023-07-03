@@ -3,10 +3,9 @@ import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
 import {
   Button,
   FormItem,
-  Platform,
   RangeSlider,
   Select,
-  usePlatform,
+  useAdaptivityWithJSMediaQueries,
 } from '@vkontakte/vkui'
 import { setProductFilters } from 'src/store/app'
 import { CategoryCardProps } from 'src/components'
@@ -29,7 +28,7 @@ let Filters: React.FC<FiltersProps> = ({
   defaultFilter,
 }) => {
   const dispatch = useAppDispatch()
-  const platform = usePlatform()
+  const { isDesktop } = useAdaptivityWithJSMediaQueries()
   const routeNavigator = useRouteNavigator()
   const [isFilterChange, setIsFilterChange] = useState(false)
   const [filters, setFilters] = useState<Omit<ProductFilter, 'query'>>({
@@ -65,8 +64,8 @@ let Filters: React.FC<FiltersProps> = ({
     setPrevFilters({ ...filters })
     const newFilters = Object.assign({ ...defaultFilter }, { ...filters })
     dispatch(setProductFilters(newFilters))
-    if (platform !== Platform.VKCOM) routeNavigator.back()
-  }, [filters, platform, routeNavigator, defaultFilter, dispatch])
+    if (!isDesktop) routeNavigator.back()
+  }, [filters, isDesktop, routeNavigator, defaultFilter, dispatch])
 
   /** Переопределение цены с initialValue на ненулевые значения, после ответа сервера*/
   useEffect(() => {

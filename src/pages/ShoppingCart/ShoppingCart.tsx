@@ -5,8 +5,7 @@ import {
   NavIdProps,
   Panel,
   Placeholder,
-  Platform,
-  usePlatform,
+  useAdaptivityWithJSMediaQueries,
 } from '@vkontakte/vkui'
 import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
 import { Icon56UsersOutline } from '@vkontakte/icons'
@@ -14,12 +13,13 @@ import { CartItem, Navbar, PageHeader, Subtotal } from 'src/components'
 import { PayConfirmPopout } from './PayConfirmPopout'
 import { useAppSelector } from 'src/store'
 import { INITIAL_URL } from 'src/routes'
+import cx from 'classnames'
 
 import './ShoppingCart.css'
 
 let ShoppingCart: React.FC<NavIdProps> = (props) => {
   const routeNavigator = useRouteNavigator()
-  const platform = usePlatform()
+  const { isDesktop } = useAdaptivityWithJSMediaQueries()
   const { orderProducts, totalPrice } = useAppSelector(
     (state) => state.shoppingCart
   )
@@ -40,8 +40,16 @@ let ShoppingCart: React.FC<NavIdProps> = (props) => {
         <PageHeader header="Корзина" />
       </Navbar>
 
-      <div className="ShoppingCart">
-        <div className="ShoppingCart_productList">
+      <div
+        className={cx('ShoppingCart', {
+          ShoppingCart__desktop: isDesktop,
+        })}
+      >
+        <div
+          className={cx('ShoppingCart_productList', {
+            ShoppingCart_productList__desktop: isDesktop,
+          })}
+        >
           {orderProducts.map((item) => (
             <CartItem
               id={item.id}
@@ -67,14 +75,22 @@ let ShoppingCart: React.FC<NavIdProps> = (props) => {
           )}
         </div>
 
-        <div className="ShoppingCart_checkout">
-          {platform === Platform.VKCOM && <Subtotal totalPrice={totalPrice} />}
-          {platform !== Platform.VKCOM && (
+        <div
+          className={cx('ShoppingCart_checkout', {
+            ShoppingCart_checkout__desktop: isDesktop,
+          })}
+        >
+          {isDesktop && <Subtotal totalPrice={totalPrice} />}
+          {!isDesktop && (
             <Card>
               <Subtotal totalPrice={totalPrice} />
             </Card>
           )}
-          <div className="ShoppingCart_confirmPay">
+          <div
+            className={cx('ShoppingCart_confirmPay', {
+              ShoppingCart_confirmPay__desktop: isDesktop,
+            })}
+          >
             <Button
               stretched
               size="l"

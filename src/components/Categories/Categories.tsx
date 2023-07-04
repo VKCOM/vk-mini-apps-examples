@@ -1,5 +1,10 @@
 import React, { useCallback } from 'react'
-import { Header, IconButton, Link } from '@vkontakte/vkui'
+import {
+  Header,
+  IconButton,
+  Link,
+  useAdaptivityWithJSMediaQueries,
+} from '@vkontakte/vkui'
 import { Icon20ChevronRightOutline } from '@vkontakte/icons'
 import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
 import { CategoryCardProps } from 'src/components'
@@ -7,6 +12,7 @@ import { CategoriesRow } from './CategoriesRow'
 import { ViewingPanel } from 'src/routes'
 import { useAppDispatch, useAppSelector } from 'src/store'
 import { setProductFilters } from 'src/store/app.reducer'
+import cx from 'classnames'
 
 import './Categories.css'
 
@@ -17,6 +23,7 @@ export type CategoriesProps = {
 let Categories: React.FC<CategoriesProps> = ({ categories }) => {
   const routeNavigator = useRouteNavigator()
   const dispatch = useAppDispatch()
+  const { isDesktop } = useAdaptivityWithJSMediaQueries()
   const { filters } = useAppSelector((state) => state.app)
 
   const onItemClick = useCallback(
@@ -37,7 +44,7 @@ let Categories: React.FC<CategoriesProps> = ({ categories }) => {
   }, [routeNavigator, dispatch])
 
   return (
-    <div className="Categories">
+    <div className={cx('Categories', { Categories__desktop: isDesktop })}>
       <Header
         indicator={categories.length}
         subtitle={<Link onClick={onLinkClick}>Показать все товары</Link>}

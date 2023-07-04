@@ -2,7 +2,14 @@ import React from 'react'
 
 import './PriceDisplay.css'
 
-function splitArrayFromEnd(splitString: string[], every: number) {
+/**
+ * Функция разбивает строку на подстроки через каждые every символов начиная с конца
+ * @param string - исходная строка
+ * @param every - максимальная длина подстрок
+ * @returns массив строк
+ */
+function splitArrayFromEnd(string: string, every: number) {
+  const splitString = string.split('')
   const res: string[] = []
   while (splitString.length) {
     const startIndex = splitString.length - every
@@ -21,7 +28,7 @@ export type PriceDisplayProps = {
 let PriceDisplay: React.FC<
   PriceDisplayProps & React.HtmlHTMLAttributes<HTMLDivElement>
 > = ({ price, currency = '₽', ...props }) => {
-  const pricebyNumber = price.toString().split('')
+  const pricebyNumber = price.toString()
 
   return (
     <div {...props}>

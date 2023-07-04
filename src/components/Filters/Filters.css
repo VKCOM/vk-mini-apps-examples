@@ -22,16 +22,14 @@
   line-height: 20px;
 }
 
-@media (min-width: 768px) {
-  .Filters {
-    margin-top: 12px;
-    padding: 6px 0px;
-    position: sticky;
-    width: 100%;
-    height: max-content;
-    top: 12px;
-    max-width: 375px;
-    border-radius: 16px;
-    background: var(--vkui--color_background_content);
-  }
+.Filters__desktop {
+  margin-top: 12px;
+  padding: 6px 0px;
+  position: sticky;
+  width: 100%;
+  height: max-content;
+  top: 12px;
+  max-width: 375px;
+  border-radius: 16px;
+  background: var(--vkui--color_background_content);
 }

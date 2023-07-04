@@ -9,10 +9,15 @@ const isLocalhost = Boolean(
 )
 
 type Config = {
+  /** Callback на успешную установку service-worker */
   onSuccess?: (registration: ServiceWorkerRegistration) => void
+
+  /** Callback на успешную обновление */
   onUpdate?: (registration: ServiceWorkerRegistration) => void
 }
 
+// Здесь мы проверяем, есть ли поддержка Service Worker в браузере, используя проверку 'serviceWorker' in navigator. 
+// Если эта проверка успешна, то это означает, что SW можно установить. В таком случае, мы вызываем функцию registerValidSW()
 export function register(config?: Config) {
   if ('serviceWorker' in navigator) {
     const publicUrl = new URL(window.location.href)
@@ -38,6 +43,7 @@ export function register(config?: Config) {
   }
 }
 
+/** Регестрируем SW вызываем & callback функции & выводим в логи результат */
 function registerValidSW(swUrl: string, config?: Config) {
   navigator.serviceWorker
     .register(swUrl)
@@ -73,6 +79,7 @@ function registerValidSW(swUrl: string, config?: Config) {
     })
 }
 
+/** Проверка наличия работующего service-worker и установка в случае отсутствия */
 function checkValidServiceWorker(swUrl: string, config?: Config) {
   fetch(swUrl, {
     headers: { 'Service-Worker': 'script' },
@@ -99,6 +106,7 @@ function checkValidServiceWorker(swUrl: string, config?: Config) {
     })
 }
 
+/** Функция для удаления сервисного работника */
 export function unregister() {
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.ready

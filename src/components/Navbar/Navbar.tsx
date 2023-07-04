@@ -36,7 +36,7 @@ let Navbar: React.FC<NavbarProps> = ({
   const routeNavigator = useRouteNavigator()
   const filters = useAppSelector((state) => state.app.filters)
   const shoppingCart = useAppSelector((state) => state.shoppingCart)
-  const platfotm = usePlatform()
+  const platform = usePlatform()
   const { isDesktop } = useAdaptivityWithJSMediaQueries()
   const { panel } = useActiveVkuiLocation()
 
@@ -64,15 +64,14 @@ let Navbar: React.FC<NavbarProps> = ({
   return (
     <div
       className={cx({
-        Navbar__mobile: platfotm !== Platform.VKCOM,
-        Navbar__desktop: platfotm === Platform.VKCOM,
+        Navbar__mobile: platform !== Platform.VKCOM,
+        Navbar__desktop: platform === Platform.VKCOM,
       })}
     >
       {children}
-      <div
+      {!searchDisable && <div
         className={cx('Navbar_content', {
           Navbar_content__stretched: !children,
-          Navbar_content__disabled: searchDisable,
         })}
       >
         <Search
@@ -82,33 +81,37 @@ let Navbar: React.FC<NavbarProps> = ({
         />
 
         {!isDesktop && (
-          <IconButton
-            aria-label="filter"
+          <div
             className={cx('Navbar_iconButton', {
               Navbar_iconButton__disabled: filtersDisable,
             })}
-            onClick={onFiltersIconClick}
           >
-            <Icon24Filter width={28} fill="2688EB" />
-          </IconButton>
+            <IconButton aria-label="filter" onClick={onFiltersIconClick}>
+              <Icon24Filter height={28} width={28} fill="2688EB" />
+            </IconButton>
+          </div>
         )}
 
-        <IconButton aria-label="cart" className="Navbar_iconButton">
-          <Icon28ShoppingCartOutline
-            onClick={() => routeNavigator.push(`/${PaymentPanel.ShoppingCart}`)}
-            fill="2688EB"
-          />
+        <div className="Navbar_iconButton">
           {shoppingCart.orderProducts.length > 0 && (
-            <Counter
-              className="Navbar_iconButton_counter"
-              size="s"
-              mode="prominent"
-            >
-              {shoppingCart.orderProducts.length}
-            </Counter>
+            <div className="Navbar_iconButton_counter">
+              <Counter size="s" mode="prominent">
+                {shoppingCart.orderProducts.length}
+              </Counter>
+            </div>
           )}
-        </IconButton>
-      </div>
+          <IconButton aria-label="cart">
+            <Icon28ShoppingCartOutline
+              height={28}
+              width={28}
+              onClick={() =>
+                routeNavigator.push(`/${PaymentPanel.ShoppingCart}`)
+              }
+              fill="2688EB"
+            />
+          </IconButton>
+        </div>
+      </div>}
     </div>
   )
 }

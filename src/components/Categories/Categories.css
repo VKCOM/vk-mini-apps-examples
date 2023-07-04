@@ -21,12 +21,6 @@
   width: max-content;
 }
 
-.Categories_horizontalScroll_row .CategoryCard:last-of-type .vkuiCard__in {
-  justify-content: space-between;
-  gap: 0px !important;
-  width: 100%;
-}
-
 .Categories_horizontalScroll_row .CategoryCard:last-of-type {
   flex: 1;
 }
@@ -40,11 +34,9 @@
   height: 0;
 }
 
-@media (min-width: 768px) {
-  .Categories {
-    margin-top: 12px;
-    max-width: 375px;
-    padding: 0px 0px 12px 0px;
-    border-radius: 16px;
-  }
+.Categories__desktop {
+  margin-top: 12px;
+  max-width: 375px;
+  padding: 0px 0px 12px 0px;
+  border-radius: 16px;
 }

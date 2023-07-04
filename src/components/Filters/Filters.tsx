@@ -11,6 +11,7 @@ import { setProductFilters } from 'src/store/app.reducer'
 import { CategoryCardProps } from 'src/components'
 import { useAppDispatch } from 'src/store'
 import { ProductFilter } from 'src/types'
+import cx from 'classnames'
 
 import './Filters.css'
 
@@ -88,7 +89,7 @@ let Filters: React.FC<FiltersProps> = ({
   }, [filters, prevFilters])
 
   return (
-    <div className="Filters">
+    <div className={cx('Filters', { Filters__desktop: isDesktop })}>
       <FormItem top="Категория">
         <Select
           onChange={onHandleSelectorChange}

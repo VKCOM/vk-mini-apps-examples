@@ -15,35 +15,34 @@
   max-width: 100%;
   width: 100%;
   user-select: none;
+  gap: 10px;
   background: var(--vkui--color_background_content);
 }
 
-.Navbar_content__disabled {
-  display: none !important;
-}
-
 .Navbar_search {
-  padding-right: 5px !important;
-  border: none !important;
+  border: none;
 }
 
-.Navbar_iconButton svg {
-  padding-left: 5px !important;
-  padding-right: 5px !important;
+.Navbar_iconButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 28px;
+  max-width: 28px;
+  border-radius: 100%;
+  position: relative;
+  right: 13px;
 }
 
 .Navbar_iconButton__disabled {
-  display: none !important;
-}
-
-.Navbar_iconButton:last-of-type {
-  margin-right: 12px !important;
+  display: none;
 }
 
 .Navbar_iconButton_counter {
-  top: 0;
-  right: -3px;
-  position: absolute !important;
+  z-index: 999;
+  top: 0px;
+  right: -8px;
+  position: absolute;
 }
 
 .Navbar__desktop {

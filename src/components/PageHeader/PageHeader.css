@@ -1,5 +1,6 @@
 .PageHeader {
   display: flex;
+  height: 52px;
   flex-direction: row;
   align-items: center;
 }
@@ -16,8 +17,6 @@
   white-space: nowrap;
 }
 
-@media (min-width: 768px) {
-  .PageHeader_title {
-    max-width: 100%;
-  }
+.PageHeader_title__desktop {
+  max-width: 100%;
 }

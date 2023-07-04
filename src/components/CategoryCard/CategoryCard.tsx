@@ -14,7 +14,7 @@ let CategoryCard: React.FC<
   CategoryCardProps & React.HtmlHTMLAttributes<HTMLDivElement>
 > = ({ name, productCount, ...props }) => {
   return (
-    <Card {...props} className="CategoryCard">
+    <Card className="CategoryCard" {...props}>
       <div className="CategoryCard_info">
         <div className="CategoryCard_name">{name}</div>
         <div className="CategoryCard_counter">

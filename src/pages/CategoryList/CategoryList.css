@@ -30,11 +30,9 @@
   min-width: min-content;
 }
 
-@media (min-width: 768px) {
-  .CategoryList {
-    margin: 12px;
-    border-radius: 16px;
-    height: 100%;
-    box-sizing: border-box;
-  }
+.CategoryList__desktop {
+  margin: 12px;
+  border-radius: 16px;
+  height: 100%;
+  box-sizing: border-box;
 }

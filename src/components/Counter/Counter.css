@@ -6,11 +6,15 @@
   align-items: center;
   max-height: 28px;
   user-select: none;
+  gap: 4px;
 }
 
 .Counter_button {
-  width: 48px;
-  display: flex !important;
+  overflow: hidden;
+  width: 32px;
+  height: 32px;
+  border-radius: 100%;
+  display: flex;
   justify-content: center;
   align-items: center;
 }

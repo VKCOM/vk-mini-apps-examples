@@ -1,6 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
-import { Input, Platform, usePlatform } from '@vkontakte/vkui'
+import { Input, useAdaptivityWithJSMediaQueries } from '@vkontakte/vkui'
 import { PriceDisplay } from 'src/components'
 
 import './Subtotal.css'
@@ -10,11 +10,11 @@ export type SubtotalProps = {
 }
 
 let Subtotal: React.FC<SubtotalProps> = ({ totalPrice }) => {
-  const platform = usePlatform()
+  const { isDesktop } = useAdaptivityWithJSMediaQueries()
   return (
     <div
       className={cx('Subtotal', {
-        Subtotal__desktop: platform === Platform.VKCOM,
+        Subtotal__desktop: isDesktop,
       })}
     >
       <div className="Subtotal_price">

@@ -70,9 +70,11 @@ let CartItem: React.FC<OrderProduct> = ({
         />
 
         <div className="CartItem_info_controller">
-          <IconButton onClick={onCancelClick} aria-label="cancel">
-            <Icon24Cancel fill="#99A2AD" />
-          </IconButton>
+          <div className="CartItem_info_controller_iconButton">
+            <IconButton onClick={onCancelClick} aria-label="cancel">
+              <Icon24Cancel fill="#99A2AD" />
+            </IconButton>
+          </div>
           <Counter
             maxValue={maxAvailable}
             value={itemNumber}

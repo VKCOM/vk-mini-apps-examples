@@ -30,6 +30,7 @@ export enum StorePanelModal {
   Filters = 'filters',
 }
 
+/** Настройка типизированной конфигурации маршрутов */
 export const routes = RoutesConfig.create([
   createRoot(SHOP_ROOT, [
     createView(ShopView.Viewing, [
@@ -58,4 +59,5 @@ export const routes = RoutesConfig.create([
   ]),
 ])
 
+/** Передача массива маршрутов для создания роутера */
 export const router = createHashRouter(routes.getRoutes())

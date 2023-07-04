@@ -16,7 +16,7 @@ import { ITEMS, SECTIONS } from './techConfig'
 import './Main.css'
 
 let Main: React.FC<NavIdProps> = (props) => {
-  const platfotm = usePlatform()
+  const platform = usePlatform()
   const { isDesktop } = useAdaptivityWithJSMediaQueries()
   const dispatch = useAppDispatch()
 
@@ -44,8 +44,8 @@ let Main: React.FC<NavIdProps> = (props) => {
     () => (
       <div
         className={cx({
-          Main_header__mobile: platfotm !== Platform.VKCOM,
-          Main_header__desktop: platfotm === Platform.VKCOM,
+          Main_header__mobile: platform !== Platform.VKCOM,
+          Main_header__desktop: platform === Platform.VKCOM,
         })}
       >
         <div className="Main_header_title">Моя страница</div>
@@ -59,7 +59,7 @@ let Main: React.FC<NavIdProps> = (props) => {
         </div>
       </div>
     ),
-    [logoLoaded, platfotm, shopInfo.logo, shopInfo.name, onLogoLoad]
+    [logoLoaded, platform, shopInfo.logo, shopInfo.name, onLogoLoad]
   )
 
   return (

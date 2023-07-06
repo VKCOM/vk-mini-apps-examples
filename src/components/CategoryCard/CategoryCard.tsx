@@ -26,5 +26,6 @@ let CategoryCard: React.FC<
   )
 }
 
+/** React.memo - HOC, кэширующий результат выполнения функции, rerender компонента произойдет только при изменении props */
 CategoryCard = React.memo(CategoryCard)
 export { CategoryCard }

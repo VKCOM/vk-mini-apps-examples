@@ -66,9 +66,9 @@ let Main: React.FC<NavIdProps> = (props) => {
     <Panel className="Panel__fullScreen" {...props}>
       <Navbar filtersDisable>{MainHeader}</Navbar>
 
-      <div className={cx('Main', { Main__desktop: isDesktop })}>
+      <div className="Main">
         <div
-          className={cx('Main_sidebar', { Main_sidebar__desktop: isDesktop })}
+          className="Main_sidebar"
         >
           <Categories categories={categories} />
           {isDesktop && <TechInfo sections={SECTIONS} items={ITEMS} />}

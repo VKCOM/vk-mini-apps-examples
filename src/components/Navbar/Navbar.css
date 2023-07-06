@@ -59,7 +59,7 @@
   justify-content: center;
   align-items: center;
   max-width: 100%;
-  width: 375px;
+  width: var(--sidebar-width);
   background: var(--vkui--color_background_content);
 }
 

@@ -87,5 +87,6 @@ let CartItem: React.FC<OrderProduct> = ({
   )
 }
 
+/** React.memo - HOC, кэширующий результат выполнения функции, rerender компонента произойдет только при изменении props */
 CartItem = React.memo(CartItem)
 export { CartItem }

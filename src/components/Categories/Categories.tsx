@@ -3,7 +3,6 @@ import {
   Header,
   IconButton,
   Link,
-  useAdaptivityWithJSMediaQueries,
 } from '@vkontakte/vkui'
 import { Icon20ChevronRightOutline } from '@vkontakte/icons'
 import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
@@ -12,7 +11,7 @@ import { CategoriesRow } from './CategoriesRow'
 import { ViewingPanel } from 'src/routes'
 import { useAppDispatch, useAppSelector } from 'src/store'
 import { setProductFilters } from 'src/store/app.reducer'
-import cx from 'classnames'
+import baseTheme from '@vkontakte/vkui-tokens/themes/vkBase/cssVars/theme'
 
 import './Categories.css'
 
@@ -23,7 +22,6 @@ export type CategoriesProps = {
 let Categories: React.FC<CategoriesProps> = ({ categories }) => {
   const routeNavigator = useRouteNavigator()
   const dispatch = useAppDispatch()
-  const { isDesktop } = useAdaptivityWithJSMediaQueries()
   const { filters } = useAppSelector((state) => state.app)
 
   const onItemClick = useCallback(
@@ -44,13 +42,15 @@ let Categories: React.FC<CategoriesProps> = ({ categories }) => {
   }, [routeNavigator, dispatch])
 
   return (
-    <div className={cx('Categories', { Categories__desktop: isDesktop })}>
+    <div className="Categories">
       <Header
         indicator={categories.length}
         subtitle={<Link onClick={onLinkClick}>Показать все товары</Link>}
         aside={
           <IconButton aria-label="categories" onClick={onArrowClick}>
-            <Icon20ChevronRightOutline fill="#2688EB" />
+            <Icon20ChevronRightOutline
+              fill={baseTheme.colorPanelHeaderIcon.active.value}
+            />
           </IconButton>
         }
         size="large"
@@ -75,5 +75,6 @@ let Categories: React.FC<CategoriesProps> = ({ categories }) => {
   )
 }
 
+/** React.memo - HOC, кэширующий результат выполнения функции, rerender компонента произойдет только при изменении props */
 Categories = React.memo(Categories)
 export { Categories }

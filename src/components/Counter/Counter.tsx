@@ -49,5 +49,6 @@ let Counter: React.FC<CounterProps> = ({
   )
 }
 
+/** React.memo - HOC, кэширующий результат выполнения функции, rerender компонента произойдет только при изменении props */
 Counter = React.memo(Counter)
 export { Counter }

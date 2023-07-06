@@ -18,21 +18,23 @@
 }
 
 .CategoryList_grid .CategoryCard {
-  width: calc(100% - 36px);
+  width: 100%;
   max-width: 300px;
+  box-sizing: border-box;
 }
 
 .CategoryList_grid .CategoryCard .vkuiCard__in {
   min-height: 130px;
   justify-content: space-between;
-  gap: 0px !important;
   width: 100%;
   min-width: min-content;
 }
 
-.CategoryList__desktop {
-  margin: 12px;
-  border-radius: 16px;
-  height: 100%;
-  box-sizing: border-box;
+@media (min-width: 768px) {
+  .CategoryList {
+    margin: 12px;
+    border-radius: 16px;
+    height: 100%;
+    box-sizing: border-box;
+  }
 }

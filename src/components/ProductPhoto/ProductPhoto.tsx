@@ -18,7 +18,7 @@ let ProductPhoto: React.FC<ProductPhotoProps> = ({ photo }) => {
     undefined
   )
 
-  /** Загружаем фото и определяем его ориентацию в пространстве */
+  /** Загружаем фото и определяем его ориентацию в пространстве для правильного растягивания по вертикали/горизонали */
   useEffect(() => {
     const image = new Image()
     image.src = photo
@@ -62,5 +62,6 @@ let ProductPhoto: React.FC<ProductPhotoProps> = ({ photo }) => {
   )
 }
 
+/** React.memo - HOC, кэширующий результат выполнения функции, rerender компонента произойдет только при изменении props */
 ProductPhoto = React.memo(ProductPhoto)
 export { ProductPhoto }

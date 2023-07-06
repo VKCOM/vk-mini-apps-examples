@@ -15,8 +15,11 @@
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+  color: var(--vkui--color_text_primary);
 }
 
-.PageHeader_title__desktop {
-  max-width: 100%;
+@media (min-width: 768px) {
+  .PageHeader_title {
+    max-width: 100%;
+  }
 }

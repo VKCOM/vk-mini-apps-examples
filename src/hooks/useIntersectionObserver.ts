@@ -8,13 +8,14 @@ export type IntersectionObserverOption = Omit<
 }
 
 export type ImageLoadingOption = {
-  /** Callback для поиска картинки в отслеживаемом элементе */
+  
+  /** Задержка в ms во время которой элемент должен находится в зоне видимости перед тем как начнется загрузка  */
   delay: number
 
   /** Имя аттрибута в котором хранится url картинки */
   attributeName: string
 
-  /** Задержка в ms во время которой элемент должен находится в зоне видимости перед тем как начнется загрузка  */
+  /** Callback для поиска картинки в отслеживаемом элементе */
   findImage: (element: Element) => HTMLImageElement
 }
 
@@ -86,7 +87,7 @@ export function useIntersectionObserver(
   const { root, rootMargin, threshold } = initialObserverOptions
   const { delay, attributeName, findImage } = imageLoadingOptions
 
-  const immediatelyLoading = useCallback(
+  const immediatelyLoad = useCallback(
     (el: Element) => {
       cancelDelayLoad(el)
       loadAndUnobserve(el, attributeName, findImage)
@@ -116,5 +117,5 @@ export function useIntersectionObserver(
     return () => setObserver(null)
   }, [])
 
-  return { entryElements, observer, immediatelyLoading }
+  return { entryElements, observer, immediatelyLoad }
 }

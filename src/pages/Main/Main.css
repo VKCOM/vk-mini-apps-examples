@@ -89,14 +89,16 @@
   font-size: 16px;
 }
 
-.Main__desktop {
-  gap: 10px;
-  margin: 0 10px;
-  flex-direction: row-reverse;
-  justify-content: space-around;
-}
+@media (min-width: 768px) {
+  .Main {
+    gap: 10px;
+    margin: 0 10px;
+    flex-direction: row-reverse;
+    justify-content: space-around;
+  }
 
-.Main_sidebar__desktop {
-  position: sticky;
-  top: 0;
+  .Main_sidebar {
+    position: sticky;
+    top: 0;
+  }
 }

@@ -25,7 +25,7 @@
 }
 
 .CartItem_preview__unload {
-  background: #e1e1e1;
+  background: var(--skeleton-background-color);
   background-size: 300% 200%;
 }
 

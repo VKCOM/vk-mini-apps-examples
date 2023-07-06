@@ -1,16 +1,11 @@
 import React, { useCallback, useEffect } from 'react'
 import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
 import { CategoryCard, Navbar, PageHeader } from 'src/components'
-import {
-  NavIdProps,
-  Panel,
-  useAdaptivityWithJSMediaQueries,
-} from '@vkontakte/vkui'
+import { NavIdProps, Panel } from '@vkontakte/vkui'
 import { ViewingPanel } from 'src/routes'
 import { useAppDispatch, useAppSelector } from 'src/store'
 import { appInitialState, setProductFilters } from 'src/store/app.reducer'
 import { storeInitialState, setStore } from 'src/store/store.reducer'
-import cx from 'classnames'
 
 import './CategoryList.css'
 
@@ -18,7 +13,6 @@ export const CategoryList: React.FC<NavIdProps> = (props) => {
   const dispatch = useAppDispatch()
   const routeNavigator = useRouteNavigator()
   const { categories, filters } = useAppSelector((state) => state.app)
-  const { isDesktop } = useAdaptivityWithJSMediaQueries()
 
   const onCategoryCardClick = useCallback(
     (id: number) => {
@@ -42,7 +36,7 @@ export const CategoryList: React.FC<NavIdProps> = (props) => {
         <PageHeader header="Категории" />
       </Navbar>
 
-      <div className={cx('CategoryList', { CategoryList__desktop: isDesktop })}>
+      <div className="CategoryList">
         <div className="CategoryList_grid">
           {categories.map((item) => {
             return (

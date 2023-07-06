@@ -11,6 +11,7 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 
 /** Подключаем стили vkui из собранной папки dist в node_modules/vkontakte/vkui/ */
 import '@vkontakte/vkui/dist/vkui.css'
+import '@vkontakte/vkui-tokens/themes/paradigmBase/cssVars/declarations/index.css'
 /** Подключаем кастомные глобальные стили */
 import 'src/index.css'
 

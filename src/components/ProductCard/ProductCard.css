@@ -20,7 +20,7 @@
 
 .ProductCard_preview__unload {
   overflow: hidden;
-  background-color: #e1e1e1;
+  background-color: var(--skeleton-background-color);
 }
 
 .ProductCard_preview__unload img {

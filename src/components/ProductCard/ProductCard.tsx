@@ -50,5 +50,6 @@ let ProductCard: React.FC<ProductCardProps> = ({
   )
 }
 
+/** React.memo - HOC, кэширующий результат выполнения функции, rerender компонента произойдет только при изменении props */
 ProductCard = React.memo(ProductCard)
 export { ProductCard }

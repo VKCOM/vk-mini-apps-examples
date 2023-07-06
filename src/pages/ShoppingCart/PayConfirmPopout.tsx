@@ -16,6 +16,7 @@ export const PayConfirmPopout: React.FC = () => {
           autoClose: false,
           mode: 'default',
           action: () =>
+            // Таймаут для плавного перехода
             setTimeout(() => {
               routeNavigator.hidePopout()
               dispatch(setShoppingCart([]))

@@ -32,10 +32,10 @@ export const ProductInfo: React.FC<NavIdProps> = (props) => {
   const [isProductInCart, setIsProductInCart] = useState(false)
   const [productInfo, setProductInfo] = useState<Product | null>(null)
   const [productNumber, setProductNumber] = useState(1)
-  const [isScroll, setIsScroll] = useState(false)
+  const [isScrollPresent, setIsScrollPresent] = useState(false)
   const [params] = useSearchParams()
 
-  const $content = useRef<HTMLDivElement>(null)
+  const $productInfoContent = useRef<HTMLDivElement>(null)
   const id = params.get('id')
 
   const { orderProducts } = useAppSelector((state) => state.shoppingCart)
@@ -56,8 +56,9 @@ export const ProductInfo: React.FC<NavIdProps> = (props) => {
 
   // Следим появляется ли у нас скролл
   useLayoutEffect(() => {
-    if ($content.current)
-      setIsScroll($content.current.clientHeight < $content.current.scrollHeight)
+    const productContent = $productInfoContent.current
+    if (productContent)
+      setIsScrollPresent(productContent.clientHeight < productContent.scrollHeight)
   }, [productInfo])
 
   // Находится ли карта в корзине
@@ -71,7 +72,7 @@ export const ProductInfo: React.FC<NavIdProps> = (props) => {
       <Navbar searchDisable>
         <PageHeader header="Товар" />
       </Navbar>
-      <div ref={$content} className="ProductInfo">
+      <div ref={$productInfoContent} className="ProductInfo">
         <Gallery
           showArrows
           align="center"
@@ -114,7 +115,7 @@ export const ProductInfo: React.FC<NavIdProps> = (props) => {
 
         <div
           className={cx('ProductInfo_footer', {
-            ProductInfo_footer__scroll: isScroll,
+            ProductInfo_footer__scroll: isScrollPresent,
           })}
         >
           <Button stretched size="l" mode="primary" onClick={addToShoppingCart}>

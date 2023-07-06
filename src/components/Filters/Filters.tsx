@@ -11,7 +11,6 @@ import { setProductFilters } from 'src/store/app.reducer'
 import { CategoryCardProps } from 'src/components'
 import { useAppDispatch } from 'src/store'
 import { ProductFilter } from 'src/types'
-import cx from 'classnames'
 
 import './Filters.css'
 
@@ -32,6 +31,7 @@ let Filters: React.FC<FiltersProps> = ({
   const { isDesktop } = useAdaptivityWithJSMediaQueries()
   const routeNavigator = useRouteNavigator()
   const [isFilterChange, setIsFilterChange] = useState(false)
+  /** Удаляем поле query из фильтров, так как оно контолируется из src/components/Navbar.tsx */
   const [filters, setFilters] = useState<Omit<ProductFilter, 'query'>>({
     priceTo: defaultFilter.priceTo ?? maxPrice,
     priceFrom: defaultFilter.priceFrom ?? minPrice,
@@ -68,15 +68,6 @@ let Filters: React.FC<FiltersProps> = ({
     if (!isDesktop) routeNavigator.back()
   }, [filters, isDesktop, routeNavigator, defaultFilter, dispatch])
 
-  /** Переопределение цены с initialValue на ненулевые значения, после ответа сервера*/
-  useEffect(() => {
-    if (!minPrice && !maxPrice) return
-    if (!filters.priceFrom && !filters.priceTo) {
-      setFilters({ ...filters, priceFrom: minPrice, priceTo: maxPrice })
-      setPrevFilters({ ...filters, priceFrom: minPrice, priceTo: maxPrice })
-    }
-  }, [minPrice, maxPrice, filters])
-
   /** Сравнение новых фильтров с предыдущими */
   useEffect(() => {
     let isChange = false
@@ -89,7 +80,7 @@ let Filters: React.FC<FiltersProps> = ({
   }, [filters, prevFilters])
 
   return (
-    <div className={cx('Filters', { Filters__desktop: isDesktop })}>
+    <div className="Filters">
       <FormItem top="Категория">
         <Select
           onChange={onHandleSelectorChange}
@@ -131,5 +122,6 @@ let Filters: React.FC<FiltersProps> = ({
   )
 }
 
+/** React.memo - HOC, кэширующий результат выполнения функции, rerender компонента произойдет только при изменении props */
 Filters = React.memo(Filters)
 export { Filters }

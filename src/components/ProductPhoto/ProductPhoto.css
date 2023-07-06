@@ -7,7 +7,7 @@
   position: relative;
   overflow: hidden;
   animation: 3s skeletonAnimation linear infinite;
-  background: var(--skeleton-background);
+  background: var(--skeleton-background-gradient);
   background-size: 300% 200%;
 }
 

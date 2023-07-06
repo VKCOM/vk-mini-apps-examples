@@ -34,9 +34,15 @@
   height: 0;
 }
 
-.Categories__desktop {
-  margin-top: 12px;
-  max-width: 375px;
-  padding: 0px 0px 12px 0px;
-  border-radius: 16px;
+.Categories .vkuiHeader {
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .Categories {
+    margin-top: 12px;
+    max-width: var(--sidebar-width);
+    padding: 0px 0px 12px 0px;
+    border-radius: 16px;
+  }
 }

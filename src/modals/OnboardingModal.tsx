@@ -12,9 +12,14 @@ const OnboardingModal: React.FC<NavIdProps & { onClose: () => void }> = (
       {...props}
       icon={<Icon56MoneyTransferOutline />}
       header={`Привет ${name}!`}
-      subheader="Добро пожаловать в шаблон мини-приложения) Магазин доступен только в_деморежиме, товары из_него приобрести нельзя."
+      subheader="Добро пожаловать в шаблон мини-приложения) Магазин доступен только в деморежиме, товары из него приобрести нельзя."
       actions={
-        <Button size="l" mode="primary" stretched onClick={props.onClose}>
+        <Button
+          size="l"
+          mode="primary"
+          stretched
+          onClick={props.onClose}
+        >
           Продолжить
         </Button>
       }

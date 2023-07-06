@@ -12,13 +12,14 @@ export type ProductCardProps = Omit<ProductPreview, 'maxAvailable'>
 
 let ProductCard: React.FC<ProductCardProps> = ({
   id,
-  preview,
-  price,
   name,
+  price,
+  preview,
   ...props
 }) => {
-  const [isPreviewLoad, setIsPreviewLoad] = useState(false)
+  // Объект для навигации по приложению
   const routeNavigator = useRouteNavigator()
+  const [isPreviewLoad, setIsPreviewLoad] = useState(false)
 
   const onProductCardClick = useCallback(() => {
     routeNavigator.push(`/${ViewingPanel.ProductInfo}?id=${id}`)

@@ -15,6 +15,7 @@ export type PageHeaderProps = {
 }
 
 let PageHeader: React.FC<PageHeaderProps> = ({ header }) => {
+  // Получаем объект для навигации по приложению
   const routeNavigator = useRouteNavigator()
   // Проверка является ли текущая страница первой в истории навигации
   const isFirstPage = useFirstPageCheck()

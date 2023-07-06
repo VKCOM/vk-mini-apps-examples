@@ -104,7 +104,10 @@ export function useIntersectionObserver(
 
           entries.forEach((entry) => {
             if (entry.isIntersecting || entry.intersectionRatio > 0) {
+              // При попадании в зону видимости включаем таймер на ImageLoadingOption.delay
+              // По окончании таймера картинка загружается
               delayLoad(entry.target, delay, attributeName, findImage)
+              // Если элемент вышел из зоны загрузки, загрузка отменяется
             } else cancelDelayLoad(entry.target)
           })
         },

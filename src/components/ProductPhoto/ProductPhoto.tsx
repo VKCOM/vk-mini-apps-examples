@@ -39,6 +39,7 @@ let ProductPhoto: React.FC<ProductPhotoProps> = ({ photo }) => {
       {orientation && orientation !== Orientation.Square && (
         <img
           src={photo}
+          // В зависимости от ориентации выюираем нужный стиль
           className={cx('ProductPhoto_back', {
             ProductPhoto_back__vertical: orientation === Orientation.Vertical,
             ProductPhoto_back__horizontal:

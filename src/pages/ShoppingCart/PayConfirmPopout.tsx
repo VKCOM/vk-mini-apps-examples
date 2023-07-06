@@ -2,7 +2,7 @@ import React from 'react'
 import { Alert } from '@vkontakte/vkui'
 import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
 import { useAppDispatch } from 'src/store'
-import { setShoppingCart } from 'src/store/shoppingCart.reducer'
+import { setShoppingCart, initialState } from 'src/store/shoppingCart.reducer'
 
 export const PayConfirmPopout: React.FC = () => {
   const routeNavigator = useRouteNavigator()
@@ -16,10 +16,10 @@ export const PayConfirmPopout: React.FC = () => {
           autoClose: false,
           mode: 'default',
           action: () =>
-            // Таймаут для плавного перехода
+            // Таймаут для плавного перехода между страницами
             setTimeout(() => {
               routeNavigator.hidePopout()
-              dispatch(setShoppingCart([]))
+              dispatch(setShoppingCart(initialState.orderProducts))
             }, 200),
         },
       ]}

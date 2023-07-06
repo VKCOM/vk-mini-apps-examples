@@ -18,8 +18,11 @@ import cx from 'classnames'
 import './ShoppingCart.css'
 
 let ShoppingCart: React.FC<NavIdProps> = (props) => {
+  // Получаем объект для навигации в приложении
   const routeNavigator = useRouteNavigator()
+  // Узнаем десктопный ли размер экрана
   const { isDesktop } = useAdaptivityWithJSMediaQueries()
+  // Подписываемся на изменения в store
   const { orderProducts, totalPrice } = useAppSelector(
     (state) => state.shoppingCart
   )
@@ -27,6 +30,7 @@ let ShoppingCart: React.FC<NavIdProps> = (props) => {
   const isCartEmpty = orderProducts.length === 0
 
   const onPlaceholderClick = useCallback(() => {
+    // Совершаем переход на стартовую страницу без сохранения истории в навигации
     routeNavigator.replace(INITIAL_URL)
   }, [routeNavigator])
 

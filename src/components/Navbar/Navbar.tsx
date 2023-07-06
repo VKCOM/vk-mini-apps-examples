@@ -34,12 +34,19 @@ let Navbar: React.FC<NavbarProps> = ({
   searchValue,
   children,
 }) => {
+  // Объект для навигации в приложении
   const routeNavigator = useRouteNavigator()
+  // Текущая панель
+  const { panel } = useActiveVkuiLocation()
+
+  // Платформа, с которой мы заходим VK.COM ANDROID IOS
+  const platform = usePlatform()
+  // Узнаем десктопный ли размер экрана
+  const { isDesktop } = useAdaptivityWithJSMediaQueries()
+
+  // Подписываемся на изменения
   const filters = useAppSelector((state) => state.app.filters)
   const shoppingCart = useAppSelector((state) => state.shoppingCart)
-  const platform = usePlatform()
-  const { isDesktop } = useAdaptivityWithJSMediaQueries()
-  const { panel } = useActiveVkuiLocation()
 
   const dispatch = useAppDispatch()
 

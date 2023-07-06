@@ -29,6 +29,11 @@ const LIMIT = 12
 const IMAGE_LOAD_DELAY = 500
 const ENTRY_IMMEDIATLY_LOAD_MIN_RATIO = 0.3
 
+/**
+ * Функция для поиска img тега в ProductCard
+ * @param element - ProductCard
+ * @returns productCardpreview
+ */
 function findImage(element: Element) {
   return element
     .getElementsByClassName('ProductCard_preview')[0]
@@ -160,7 +165,7 @@ export const Store: React.FC<NavIdProps> = (props) => {
           maxProducts={store.filteredProductCount}
           fetching={isFetching}
         />
-        {isDesktop && shopInfo.maxPrice && (
+        {isDesktop && (
           <div className="Store_sidebar">
             <Filters
               minPrice={shopInfo.minPrice}

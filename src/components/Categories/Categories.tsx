@@ -10,7 +10,8 @@ import { CategoryCardProps } from 'src/components'
 import { CategoriesRow } from './CategoriesRow'
 import { ViewingPanel } from 'src/routes'
 import { useAppDispatch, useAppSelector } from 'src/store'
-import { setProductFilters } from 'src/store/app.reducer'
+import { setProductFilters, appInitialState } from 'src/store/app.reducer'
+/** Импортируем цветовую тему из vk-ui токенов */
 import baseTheme from '@vkontakte/vkui-tokens/themes/vkBase/cssVars/theme'
 
 import './Categories.css'
@@ -20,24 +21,32 @@ export type CategoriesProps = {
 }
 
 let Categories: React.FC<CategoriesProps> = ({ categories }) => {
-  const routeNavigator = useRouteNavigator()
+  // Получаем функцию для отправки данных в store
   const dispatch = useAppDispatch()
+  // Получаем объект для навигации по приложению
+  const routeNavigator = useRouteNavigator()
+  // Подписываемся на изменения в состоянии
   const { filters } = useAppSelector((state) => state.app)
 
   const onItemClick = useCallback(
     (id: number) => {
+      // Обновляем фильтры при переходе на конкретную категорию
       dispatch(setProductFilters({ ...filters, categoryId: id.toString() }))
+      // Затем переходим на страницу каталога с сохранением в историю переходов
       routeNavigator.push(`/${ViewingPanel.Store}`)
     },
     [routeNavigator, filters, dispatch]
   )
 
   const onArrowClick = useCallback(() => {
+    // Совершаем переход на страницу категорий с сохранением в историю переходов
     routeNavigator.push(`/${ViewingPanel.CategoryList}`)
   }, [routeNavigator])
 
   const onLinkClick = useCallback(() => {
-    dispatch(setProductFilters({}))
+    // Обнуляем фильтры
+    dispatch(setProductFilters(appInitialState.filters))
+    // Совершаем переход в каталог с сохранением в историю переходов
     routeNavigator.push(`/${ViewingPanel.Store}`)
   }, [routeNavigator, dispatch])
 
@@ -49,6 +58,8 @@ let Categories: React.FC<CategoriesProps> = ({ categories }) => {
         aside={
           <IconButton aria-label="categories" onClick={onArrowClick}>
             <Icon20ChevronRightOutline
+              // Используем значение vk-ui переменной для задания цвета иконке
+              // При смене темы в ВК иконка автоматически поменяет свой цвет
               fill={baseTheme.colorPanelHeaderIcon.active.value}
             />
           </IconButton>

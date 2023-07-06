@@ -27,15 +27,20 @@ import * as api from 'src/api'
 import './ProductInfo.css'
 
 export const ProductInfo: React.FC<NavIdProps> = (props) => {
+  // Получаем функцию для отправки данных в store
   const dispatch = useAppDispatch()
+  // Получаем объект для навигации по приложению
   const routeNavigator = useRouteNavigator()
+  // Получаем параметры из url
+  const [params] = useSearchParams()
   const [isProductInCart, setIsProductInCart] = useState(false)
   const [productInfo, setProductInfo] = useState<Product | null>(null)
   const [productNumber, setProductNumber] = useState(1)
   const [isScrollPresent, setIsScrollPresent] = useState(false)
-  const [params] = useSearchParams()
 
   const $productInfoContent = useRef<HTMLDivElement>(null)
+
+  // Вытаскиваем параметр id из параметров url
   const id = params.get('id')
 
   const { orderProducts } = useAppSelector((state) => state.shoppingCart)

@@ -19,13 +19,17 @@ let CartItem: React.FC<OrderProduct> = ({
   maxAvailable,
   productNumber,
 }) => {
+  // Получаем функцию для отправки данных в store
   const dispatch = useAppDispatch()
+  // Объект для навигации по приложению
   const routeNavigator = useRouteNavigator()
+
   const [isPreviewLoad, setIsPreviewLoad] = useState(false)
   const [itemNumber, setItemNumber] = useState(productNumber)
 
   const onCancelClick = useCallback(
     (e: React.MouseEvent) => {
+      // Удаляем карточку по id в корзине
       dispatch(deleteCartItem(id))
       e.stopPropagation()
     },

@@ -19,13 +19,17 @@ let CartItem: React.FC<OrderProduct> = ({
   maxAvailable,
   productNumber,
 }) => {
+  // Получаем функцию для отправки данных в store
   const dispatch = useAppDispatch()
+  // Объект для навигации по приложению
   const routeNavigator = useRouteNavigator()
+
   const [isPreviewLoad, setIsPreviewLoad] = useState(false)
   const [itemNumber, setItemNumber] = useState(productNumber)
 
   const onCancelClick = useCallback(
     (e: React.MouseEvent) => {
+      // Удаляем карточку по id в корзине
       dispatch(deleteCartItem(id))
       e.stopPropagation()
     },
@@ -70,9 +74,11 @@ let CartItem: React.FC<OrderProduct> = ({
         />
 
         <div className="CartItem_info_controller">
-          <IconButton onClick={onCancelClick} aria-label="cancel">
-            <Icon24Cancel fill="#99A2AD" />
-          </IconButton>
+          <div className="CartItem_info_controller_iconButton">
+            <IconButton onClick={onCancelClick} aria-label="cancel">
+              <Icon24Cancel fill="#99A2AD" />
+            </IconButton>
+          </div>
           <Counter
             maxValue={maxAvailable}
             value={itemNumber}
@@ -85,5 +91,6 @@ let CartItem: React.FC<OrderProduct> = ({
   )
 }
 
+/** React.memo - HOC, кэширующий результат выполнения функции, rerender компонента произойдет только при изменении props */
 CartItem = React.memo(CartItem)
 export { CartItem }

@@ -27,16 +27,21 @@ let Filters: React.FC<FiltersProps> = ({
   minPrice,
   defaultFilter,
 }) => {
+  // Получаем функцию для отправки данных в store
   const dispatch = useAppDispatch()
+  // Узнаем десктопный ли размер экрана
   const { isDesktop } = useAdaptivityWithJSMediaQueries()
+  // Объект для навигации в приложении
   const routeNavigator = useRouteNavigator()
-  const [isFilterChange, setIsFilterChange] = useState(false)
+
+  /** Удаляем поле query из фильтров, так как оно меняется в src/components/Navbar.tsx */
   const [filters, setFilters] = useState<Omit<ProductFilter, 'query'>>({
     priceTo: defaultFilter.priceTo ?? maxPrice,
     priceFrom: defaultFilter.priceFrom ?? minPrice,
     categoryId: defaultFilter.categoryId,
   })
   const [prevFilters, setPrevFilters] = useState({ ...filters })
+  const [isFilterChange, setIsFilterChange] = useState(false)
 
   const onHandleSliderChange = useCallback(
     (e: [number, number]) => {
@@ -67,15 +72,6 @@ let Filters: React.FC<FiltersProps> = ({
     if (!isDesktop) routeNavigator.back()
   }, [filters, isDesktop, routeNavigator, defaultFilter, dispatch])
 
-  /** Переопределение цены с initialValue на ненулевые значения, после ответа сервера*/
-  useEffect(() => {
-    if (!minPrice && !maxPrice) return
-    if (!filters.priceFrom && !filters.priceTo) {
-      setFilters({ ...filters, priceFrom: minPrice, priceTo: maxPrice })
-      setPrevFilters({ ...filters, priceFrom: minPrice, priceTo: maxPrice })
-    }
-  }, [minPrice, maxPrice, filters])
-
   /** Сравнение новых фильтров с предыдущими */
   useEffect(() => {
     let isChange = false
@@ -86,6 +82,12 @@ let Filters: React.FC<FiltersProps> = ({
     }
     setIsFilterChange(isChange)
   }, [filters, prevFilters])
+
+  /** Переопределение цены с initialValue на ненулевые значения, после ответа сервера*/
+  useEffect(() => {
+    if (maxPrice && !filters.priceTo)
+      setFilters({ ...filters, priceFrom: minPrice, priceTo: maxPrice })
+  }, [minPrice, maxPrice, filters])
 
   return (
     <div className="Filters">
@@ -102,13 +104,15 @@ let Filters: React.FC<FiltersProps> = ({
       </FormItem>
 
       <FormItem top="Цена">
-        <RangeSlider
-          onChange={onHandleSliderChange}
-          min={minPrice}
-          max={maxPrice}
-          step={250}
-          value={[filters.priceFrom ?? minPrice, filters.priceTo ?? maxPrice]}
-        />
+        {maxPrice && (
+          <RangeSlider
+            onChange={onHandleSliderChange}
+            min={minPrice}
+            max={maxPrice}
+            step={250}
+            value={[filters.priceFrom ?? minPrice, filters.priceTo ?? maxPrice]}
+          />
+        )}
         <div className="Filters_prices">
           <div className="Filters_prices_boundary">{filters.priceFrom}₽</div>
           <div className="Filters_prices_boundary">{filters.priceTo}₽</div>
@@ -130,5 +134,6 @@ let Filters: React.FC<FiltersProps> = ({
   )
 }
 
+/** React.memo - HOC, кэширующий результат выполнения функции, rerender компонента произойдет только при изменении props */
 Filters = React.memo(Filters)
 export { Filters }

@@ -51,5 +51,6 @@ let TechInfo: React.FC<TechInfoProps> = ({ sections, items }) => {
   )
 }
 
+/** React.memo - HOC, кэширующий результат выполнения функции, rerender компонента произойдет только при изменении props */
 TechInfo = React.memo(TechInfo)
 export { TechInfo }

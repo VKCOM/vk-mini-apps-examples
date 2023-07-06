@@ -46,5 +46,6 @@ let Products: React.FC<ProductsProps> = ({
   )
 }
 
+/** React.memo - HOC, кэширующий результат выполнения функции, rerender компонента произойдет только при изменении props */
 Products = React.memo(Products)
 export { Products }

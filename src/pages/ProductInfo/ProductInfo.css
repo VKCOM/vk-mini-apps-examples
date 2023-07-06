@@ -43,7 +43,7 @@
   margin-right: 10px;
   border-radius: 15px;
   animation: 3s skeletonAnimation linear infinite;
-  background: var(--skeleton-background);
+  background: var(--skeleton-background-gradient);
   background-size: 300% 200%;
 }
 
@@ -92,13 +92,13 @@
 
 @media (min-width: 420px) {
   .ProductInfo_gallery {
-    max-width: 350px;
+    max-width: var(--product-photo-max-size);
     margin: 0 auto;
   }
 
   .ProductPhoto {
-    max-width: 350px;
-    max-height: 350px;
+    max-width: var(--product-photo-max-size);
+    max-height: var(--product-photo-max-size);
   }
 }
 

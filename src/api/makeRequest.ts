@@ -1,15 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios'
-import axiosRetry from 'axios-retry'
 
 const API_URL = 'https://vkStore.com'
-
-/** Функция, выполняющая повторный API-запрос в случае неудачи первого запроса. */
-axiosRetry(axios, {
-  retries: 3,
-  retryDelay: () => {
-    return 1000
-  },
-})
 
 interface Arguments {
   /** API метод - url */
@@ -22,7 +13,7 @@ interface Arguments {
   requestOptions?: AxiosRequestConfig
 }
 
-/** Обертка над axios запросом */
+/** Обертка над http запросом, чтобы обеспечить независимость от используемых библиотек */
 export const makeRequest = async <T = never>({
   path,
   params,

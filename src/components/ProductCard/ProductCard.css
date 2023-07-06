@@ -2,7 +2,6 @@
   width: 100%;
   max-width: 150px;
   cursor: pointer;
-  border-radius: 16px 16px 8px 8px !important;
 }
 
 .ProductCard .vkuiCard__in {
@@ -21,7 +20,7 @@
 
 .ProductCard_preview__unload {
   overflow: hidden;
-  background-color: #e1e1e1;
+  background-color: var(--skeleton-background-color);
 }
 
 .ProductCard_preview__unload img {

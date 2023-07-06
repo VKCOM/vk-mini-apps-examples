@@ -9,10 +9,15 @@ import { StorePanelModal } from 'src/routes'
 import { OnboardingModal } from './OnboardingModal'
 
 const Modals: React.FC = () => {
+  // Получаем активную модальную страницу
   const { modal } = useActiveVkuiLocation()
+  // Получаем объект для навигации по приложению
   const routeNavigator = useRouteNavigator()
+
   return (
-    <ModalRoot activeModal={modal} onClose={() => null}>
+    // ModalRoot - контейнер для модальных страниц и карточек
+    // activeModal - текущая открытая модальная страница | undefind
+    <ModalRoot activeModal={modal}>
       <FiltersModal
         onClose={() => routeNavigator.hideModal()}
         nav={StorePanelModal.Filters}

@@ -24,28 +24,31 @@ let Counter: React.FC<CounterProps> = ({
 
   return (
     <div onClick={onCounterClick} className="Counter">
-      <IconButton
-        onClick={onSubtract}
-        aria-label="add"
+      <div
         className={cx('Counter_button', {
           Counter_button__disable: value === 1,
         })}
       >
-        <Icon16Minus />
-      </IconButton>
+        <IconButton onClick={onSubtract} aria-label="add">
+          <Icon16Minus />
+        </IconButton>
+      </div>
+
       <div>{value}</div>
-      <IconButton
+
+      <div
         className={cx('Counter_button', {
           Counter_button__disable: value === maxValue,
         })}
-        onClick={onAdd}
-        aria-label="remove"
       >
-        <Icon16Add />
-      </IconButton>
+        <IconButton onClick={onAdd} aria-label="remove">
+          <Icon16Add />
+        </IconButton>
+      </div>
     </div>
   )
 }
 
+/** React.memo - HOC, кэширующий результат выполнения функции, rerender компонента произойдет только при изменении props */
 Counter = React.memo(Counter)
 export { Counter }

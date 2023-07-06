@@ -5,10 +5,6 @@
   padding: 16px;
 }
 
-.Subtotal__desktop {
-  padding: 0;
-}
-
 .Subtotal_price {
   width: 100%;
   display: flex;
@@ -16,7 +12,7 @@
   justify-content: space-between;
 }
 
-.Sutotal_price_title {
+.Subtotal_price_title {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -27,9 +23,15 @@
   color: var(--vkui--color_text_primary);
 }
 
-.Sutotal_price_counter {
+.Subtotal_price_counter {
   font-weight: 500;
   font-size: 24px;
   line-height: 30px;
-  color: var(--vkui--color_text_primary); 
+  color: var(--vkui--color_text_primary);
+}
+
+@media (min-width: 768px) {
+  .Subtotal {
+    padding: 0;
+  }
 }

@@ -5,8 +5,8 @@ import {
   IconButton,
   Platform,
   Search,
-  useAdaptivityWithJSMediaQueries,
   usePlatform,
+  useAdaptivityWithJSMediaQueries,
 } from '@vkontakte/vkui'
 import { Icon28ShoppingCartOutline, Icon24Filter } from '@vkontakte/icons'
 import {
@@ -16,6 +16,7 @@ import {
 import { PaymentPanel, StorePanelModal, ViewingPanel } from 'src/routes'
 import { useAppDispatch, useAppSelector } from 'src/store'
 import { setProductFilters } from 'src/store/app.reducer'
+import baseTheme from '@vkontakte/vkui-tokens/themes/vkBase/cssVars/theme'
 
 import './Navbar.css'
 
@@ -33,12 +34,19 @@ let Navbar: React.FC<NavbarProps> = ({
   searchValue,
   children,
 }) => {
+  // Объект для навигации в приложении
   const routeNavigator = useRouteNavigator()
+  // Текущая панель
+  const { panel } = useActiveVkuiLocation()
+
+  // Платформа, с которой мы заходим VK.COM ANDROID IOS
+  const platform = usePlatform()
+  // Узнаем десктопный ли размер экрана
+  const { isDesktop } = useAdaptivityWithJSMediaQueries()
+
+  // Подписываемся на изменения
   const filters = useAppSelector((state) => state.app.filters)
   const shoppingCart = useAppSelector((state) => state.shoppingCart)
-  const platfotm = usePlatform()
-  const { isDesktop } = useAdaptivityWithJSMediaQueries()
-  const { panel } = useActiveVkuiLocation()
 
   const dispatch = useAppDispatch()
 
@@ -61,57 +69,65 @@ let Navbar: React.FC<NavbarProps> = ({
     routeNavigator.push(`/${ViewingPanel.Store}/${StorePanelModal.Filters}`)
   }, [routeNavigator])
 
+  const onShoppingCartIconClick = useCallback(() => {
+    routeNavigator.push(`/${PaymentPanel.ShoppingCart}`)
+  }, [routeNavigator])
+
   return (
     <div
       className={cx({
-        Navbar__mobile: platfotm !== Platform.VKCOM,
-        Navbar__desktop: platfotm === Platform.VKCOM,
+        Navbar__mobile: platform !== Platform.VKCOM,
+        Navbar__desktop: platform === Platform.VKCOM,
       })}
     >
       {children}
-      <div
-        className={cx('Navbar_content', {
-          Navbar_content__stretched: !children,
-          Navbar_content__disabled: searchDisable,
-        })}
-      >
-        <Search
-          defaultValue={searchValue}
-          className="Navbar_search"
-          onKeyDown={onInputKeyDown}
-        />
-
-        {!isDesktop && (
-          <IconButton
-            aria-label="filter"
-            className={cx('Navbar_iconButton', {
-              Navbar_iconButton__disabled: filtersDisable,
-            })}
-            onClick={onFiltersIconClick}
-          >
-            <Icon24Filter width={28} fill="2688EB" />
-          </IconButton>
-        )}
-
-        <IconButton aria-label="cart" className="Navbar_iconButton">
-          <Icon28ShoppingCartOutline
-            onClick={() => routeNavigator.push(`/${PaymentPanel.ShoppingCart}`)}
-            fill="2688EB"
+      {!searchDisable && (
+        <div
+          className={cx('Navbar_content', {
+            Navbar_content__stretched: !children,
+          })}
+        >
+          <Search
+            defaultValue={searchValue}
+            className="Navbar_search"
+            onKeyDown={onInputKeyDown}
           />
-          {shoppingCart.orderProducts.length > 0 && (
-            <Counter
-              className="Navbar_iconButton_counter"
-              size="s"
-              mode="prominent"
-            >
-              {shoppingCart.orderProducts.length}
-            </Counter>
+
+          {!isDesktop && !filtersDisable && (
+            <div className="Navbar_iconButton">
+              <IconButton aria-label="filter" onClick={onFiltersIconClick}>
+                <Icon24Filter
+                  fill={baseTheme.colorPanelHeaderIcon.active.value}
+                  height={28}
+                  width={28}
+                />
+              </IconButton>
+            </div>
           )}
-        </IconButton>
-      </div>
+
+          <div className="Navbar_iconButton">
+            {shoppingCart.orderProducts.length > 0 && (
+              <div className="Navbar_iconButton_counter">
+                <Counter size="s" mode="prominent">
+                  {shoppingCart.orderProducts.length}
+                </Counter>
+              </div>
+            )}
+
+            <IconButton onClick={onShoppingCartIconClick} aria-label="cart">
+              <Icon28ShoppingCartOutline
+                height={28}
+                fill={baseTheme.colorPanelHeaderIcon.active.value}
+                width={28}
+              />
+            </IconButton>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
 
+/** React.memo - HOC, кэширующий результат выполнения функции, rerender компонента произойдет только при изменении props */
 Navbar = React.memo(Navbar)
 export { Navbar }

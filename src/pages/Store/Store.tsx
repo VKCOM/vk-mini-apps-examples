@@ -22,13 +22,18 @@ import { useIntersectionObserver } from 'src/hooks'
 import { useActiveVkuiLocation } from '@vkontakte/vk-mini-apps-router'
 import { ViewingPanel } from 'src/routes'
 import { ITEMS, SECTIONS } from './techConfig'
-import cx from 'classnames'
 
 import './Store.css'
 
 const LIMIT = 12
 const IMAGE_LOAD_DELAY = 500
+const ENTRY_IMMEDIATLY_LOAD_MIN_RATIO = 0.3
 
+/**
+ * Функция для поиска img тега в ProductCard
+ * @param element - ProductCard
+ * @returns productCardpreview
+ */
 function findImage(element: Element) {
   return element
     .getElementsByClassName('ProductCard_preview')[0]
@@ -51,18 +56,17 @@ export const Store: React.FC<NavIdProps> = (props) => {
 
   const StoreHeader = useMemo(() => <PageHeader header="Каталог" />, [])
 
-  const { observer, entryElements, immediatelyLoading } =
-    useIntersectionObserver(
-      {
-        root: $storeContainer,
-        rootMargin: '0px 0px 50px 0px',
-      },
-      {
-        findImage,
-        delay: IMAGE_LOAD_DELAY,
-        attributeName: 'data-src',
-      }
-    )
+  const { observer, entryElements, immediatelyLoad } = useIntersectionObserver(
+    {
+      root: $storeContainer,
+      rootMargin: '0px 0px 50px 0px',
+    },
+    {
+      findImage,
+      delay: IMAGE_LOAD_DELAY,
+      attributeName: 'data-src',
+    }
+  )
 
   const fetchProducts = useCallback(
     (_start: number, _end: number) => {
@@ -83,11 +87,13 @@ export const Store: React.FC<NavIdProps> = (props) => {
   useLayoutEffect(() => {
     if (scrollPosition.current !== store.scrollPosition) return
     entryElements.forEach((entry) => {
-      if (entry.isIntersecting && entry.intersectionRatio > 0.3) {
-        immediatelyLoading(entry.target)
-      }
+      if (
+        entry.isIntersecting &&
+        entry.intersectionRatio > ENTRY_IMMEDIATLY_LOAD_MIN_RATIO
+      )
+        immediatelyLoad(entry.target)
     })
-  }, [entryElements, store.scrollPosition, immediatelyLoading])
+  }, [entryElements, store.scrollPosition, immediatelyLoad])
 
   /** Сканирование элементов в IntersectionObserver */
   useEffect(() => {
@@ -151,11 +157,7 @@ export const Store: React.FC<NavIdProps> = (props) => {
     <Panel className="Panel__fullScreen" {...props}>
       <Navbar searchValue={''}>{StoreHeader}</Navbar>
 
-      <div
-        ref={$storeContainer}
-        className={cx('Store', { Store__desktop: isDesktop })}
-        onScroll={onHandleScroll}
-      >
+      <div ref={$storeContainer} className="Store" onScroll={onHandleScroll}>
         <Products
           lazyLoading
           header="Товары"

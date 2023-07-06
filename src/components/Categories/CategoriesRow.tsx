@@ -26,5 +26,6 @@ let CategoriesRow: React.FC<CategoriesRowProps> = ({
   )
 }
 
+/** React.memo - HOC, кэширующий результат выполнения функции, rerender компонента произойдет только при изменении props */
 CategoriesRow = React.memo(CategoriesRow)
 export { CategoriesRow }

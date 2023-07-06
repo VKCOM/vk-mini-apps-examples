@@ -25,7 +25,7 @@
 }
 
 .CartItem_preview__unload {
-  background: #e1e1e1;
+  background: var(--skeleton-background-color);
   background-size: 300% 200%;
 }
 
@@ -64,6 +64,12 @@
   max-height: 40px;
 }
 
-.CartItem_info_controller .vkuiIconButton .vkuiIcon--24 {
-  padding: 8px !important;
+.CartItem_info_controller_iconButton {
+  overflow: hidden;
+  width: 32px;
+  height: 32px;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

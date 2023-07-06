@@ -1,5 +1,6 @@
 .PageHeader {
   display: flex;
+  height: 52px;
   flex-direction: row;
   align-items: center;
 }
@@ -14,6 +15,7 @@
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+  color: var(--vkui--color_text_primary);
 }
 
 @media (min-width: 768px) {

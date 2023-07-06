@@ -30,7 +30,7 @@
     width: 100%;
     height: max-content;
     top: 12px;
-    max-width: 375px;
+    max-width: var(--sidebar-width);
     border-radius: 16px;
     background: var(--vkui--color_background_content);
   }

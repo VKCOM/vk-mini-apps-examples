@@ -1,3 +1,5 @@
+/** Задаем глобальные типы сущностям */
+/** Определяем глобальные enum */
 export interface Product {
   id: number
   name: string 

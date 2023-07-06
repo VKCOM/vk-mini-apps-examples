@@ -14,7 +14,7 @@ let CategoryCard: React.FC<
   CategoryCardProps & React.HtmlHTMLAttributes<HTMLDivElement>
 > = ({ name, productCount, ...props }) => {
   return (
-    <Card {...props} className="CategoryCard">
+    <Card className="CategoryCard" {...props}>
       <div className="CategoryCard_info">
         <div className="CategoryCard_name">{name}</div>
         <div className="CategoryCard_counter">
@@ -26,5 +26,6 @@ let CategoryCard: React.FC<
   )
 }
 
+/** React.memo - HOC, кэширующий результат выполнения функции, rerender компонента произойдет только при изменении props */
 CategoryCard = React.memo(CategoryCard)
 export { CategoryCard }

@@ -7,7 +7,7 @@
 }
 
 .Store_sidebar {
-  min-width: 375px;
+  min-width: var(--sidebar-width);
   position: sticky;
   top: 0;
   display: flex;
@@ -20,11 +20,13 @@
   height: 0;
 }
 
-.Store__desktop {
-  gap: 10px;
-  margin: 0 10px;
-  backface-visibility: hidden;
-  will-change: transform;
-  flex-direction: row;
-  justify-content: space-around;
+@media (min-width: 768px) {
+  .Store {
+    gap: 10px;
+    margin: 0 10px;
+    backface-visibility: hidden;
+    will-change: transform;
+    flex-direction: row;
+    justify-content: space-around;
+  }
 }

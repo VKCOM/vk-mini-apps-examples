@@ -20,16 +20,11 @@ interface GetUserResponse {
 export const getInitialData = async ({
   userId,
 }: GetUserRequest): Promise<GetUserResponse> => {
-  const data = await makeRequest<{data: GetUserResponse}>({
+  return await makeRequest<GetUserResponse>({
     path: ApiEndpoint.InitialData,
     params: {
       userId: userId,
       limit: '10'
     },
-    requestOptions: {
-      method: 'get',
-    },
   })
-
-  return data.data
 }

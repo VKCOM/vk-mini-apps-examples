@@ -6,10 +6,10 @@ import { appReducer } from './app.reducer'
 import { shoppingCartReducer } from './shoppingCart.reducer'
 
 const rootReducer = combineReducers({
-  shoppingCart: shoppingCartReducer,
-  store: storeReducer,
+  app: appReducer,
   user: userReducer,
-  app: appReducer
+  store: storeReducer,
+  shoppingCart: shoppingCartReducer,
 })
 
 const store = configureStore({

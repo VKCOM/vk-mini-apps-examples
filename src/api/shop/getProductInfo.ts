@@ -12,15 +12,10 @@ interface GetProductInfoResponse {
 export const getProductInfo = async ({
   productId,
 }: GetProductInfoRequest): Promise<GetProductInfoResponse> => {
-  const data = await makeRequest<{ data: GetProductInfoResponse }>({
+  return await makeRequest<GetProductInfoResponse>({
     path: ApiEndpoint.ProductInfo,
     params: {
       id: productId.toString(),
     },
-    requestOptions: {
-      method: 'get',
-    },
   })
-
-  return data.data
 }

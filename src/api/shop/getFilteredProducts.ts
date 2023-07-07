@@ -26,17 +26,12 @@ export const getFilteredProducts = async ({
   _end,
   filters,
 }: GetProductsRequest): Promise<GetProductsResponse> => {
-  const data = await makeRequest<{ data: GetProductsResponse }>({
+  return await makeRequest<GetProductsResponse>({
     path: ApiEndpoint.FilteredProducts,
     params: {
       start: _start.toString(),
       end: _end.toString(),
       filters: JSON.stringify(filters),
     },
-    requestOptions: {
-      method: 'get',
-    },
   })
-
-  return data.data
 }

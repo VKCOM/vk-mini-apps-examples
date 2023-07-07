@@ -2,15 +2,10 @@ import { Category, ProductFilter, ProductPreview, ShopInfo } from 'src/types'
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import * as api from 'src/api'
 export interface AppState {
-  shopInfo: {
-    logo: string
-    name: string
-    minPrice: number
-    maxPrice: number
-  }
+  shopInfo: ShopInfo
   filters: ProductFilter
   categories: Category[]
-  recomendedProducts: ProductPreview[]
+  recommendedProducts: ProductPreview[]
   shopFetching: boolean
 }
 
@@ -22,11 +17,12 @@ export const appInitialState: AppState = {
     minPrice: 0,
   },
   filters: {},
-  recomendedProducts: [],
+  recommendedProducts: [],
   categories: [],
   shopFetching: true,
 }
 
+/** Запрос на получения контента через асинхронный action: fetchShop */
 export const fetchShop = createAsyncThunk(
   'app/fetchShop',
   async function ({ userId }: { userId: string }, { dispatch }) {
@@ -34,9 +30,7 @@ export const fetchShop = createAsyncThunk(
       await api.user.getInitialData({
         userId,
       })
-    dispatch(setRecomendedProducts(recommendedProducts))
-    dispatch(setCategories(categories))
-    dispatch(setShopInfo(shopInfo))
+    dispatch(setShopContent({ recommendedProducts, categories, shopInfo }))
   }
 )
 
@@ -44,20 +38,24 @@ const appSlice = createSlice({
   name: 'app',
   initialState: appInitialState,
   reducers: {
-    setCategories(state, action: PayloadAction<Category[]>) {
-      state.categories = action.payload
-    },
-    setRecomendedProducts(state, action: PayloadAction<ProductPreview[]>) {
-      state.recomendedProducts = action.payload
-    },
     setProductFilters(state, action: PayloadAction<ProductFilter>) {
       state.filters = action.payload
     },
-    setShopInfo(state, action: PayloadAction<ShopInfo>) {
-      state.shopInfo = action.payload
+    setShopContent(
+      state,
+      action: PayloadAction<{
+        shopInfo: ShopInfo
+        recommendedProducts: ProductPreview[]
+        categories: Category[]
+      }>
+    ) {
+      state.shopInfo = action.payload.shopInfo
+      state.categories = action.payload.categories
+      state.recommendedProducts = action.payload.recommendedProducts
     },
   },
   extraReducers: (builder) => {
+    /** Добавление обработчика на успешное завершение action: fetchShop */
     builder.addCase(fetchShop.fulfilled, (state) => {
       state.shopFetching = false
     })
@@ -66,9 +64,4 @@ const appSlice = createSlice({
 
 const { reducer } = appSlice
 export { reducer as appReducer }
-export const {
-  setShopInfo,
-  setCategories,
-  setProductFilters,
-  setRecomendedProducts,
-} = appSlice.actions
+export const { setShopContent, setProductFilters } = appSlice.actions

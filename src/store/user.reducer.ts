@@ -1,11 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 export interface UserState {
+  id?: number,
   name: string
   onboadrdingComplete: boolean
 }
 
 const initialState: UserState = {
+  id: undefined,
   name: '',
   onboadrdingComplete: true,
 }
@@ -14,8 +16,9 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setUserName(state, action: PayloadAction<string>) {
-      state.name = action.payload
+    setUserData(state, action: PayloadAction<{id: number, name: string}>) {
+      state.name = action.payload.name
+      state.id = action.payload.id
     },
 
     setOnboardingComplete(state, action: PayloadAction<boolean>) {
@@ -26,4 +29,4 @@ const userSlice = createSlice({
 
 const { reducer } = userSlice
 export { reducer as userReducer }
-export const { setUserName, setOnboardingComplete } = userSlice.actions
+export const { setUserData, setOnboardingComplete } = userSlice.actions

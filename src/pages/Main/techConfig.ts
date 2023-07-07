@@ -78,9 +78,21 @@ export const ITEMS = [
     id: 11,
   },
   {
+    name: 'VKWebAppGetConfig',
+    link: 'https://dev.vk.com/bridge/VKWebAppGetConfig',
+    sectionId: 2,
+    id: 12,
+  },
+  {
+    name: 'VKWebAppInit',
+    link: 'https://dev.vk.com/bridge/VKWebAppInit',
+    sectionId: 2,
+    id: 13,
+  },
+  {
     name: 'ServiceWorker',
     link: 'https://developer.mozilla.org/ru/docs/Web/API/Service_Worker_API/Using_Service_Workers',
     sectionId: 3,
-    id: 12,
+    id: 14,
   },
 ]

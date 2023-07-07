@@ -8,7 +8,7 @@ import {
   Platform,
   ScreenSpinner,
 } from '@vkontakte/vkui'
-import bridge from '@vkontakte/vk-bridge'
+import bridge, { SharedUpdateConfigData } from '@vkontakte/vk-bridge'
 import {
   useActiveVkuiLocation,
   usePopout,
@@ -72,13 +72,28 @@ export const App: React.FC = () => {
 
   /** Растягивание экрана на всю ширину окна для десктопа */
   useEffect(() => {
-    if (platform === Platform.VKCOM) {
+    /** Callback на изменение размеров страницы */
+    async function iframeResize() {
+      // Проверяем, что платформа VK.COM
+      if (platform !== Platform.VKCOM) return
+
+      // Получаем данные конфигурации
+      const data = (await bridge.send(
+        'VKWebAppGetConfig'
+      )) as SharedUpdateConfigData
+
+      // Обновляем размер страницы
       bridge.send('VKWebAppResizeWindow', {
         width: 840,
-        height: window.innerHeight,
+        height: data.viewport_height,
       })
     }
-  }, [platform, id, dispatch])
+
+    iframeResize()
+    window.addEventListener('resize', iframeResize)
+
+    return () => window.removeEventListener('resize', iframeResize)
+  }, [platform])
 
   /** Запрос на получение контента магазина */
   useEffect(() => {

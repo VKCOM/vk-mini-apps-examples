@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { FC, memo, useEffect, useState } from 'react'
 import cx from 'classnames'
 
 import './ProductPhoto.css'
@@ -13,7 +13,7 @@ enum Orientation {
   Square = 'square',
 }
 
-let ProductPhoto: React.FC<ProductPhotoProps> = ({ photo }) => {
+let ProductPhoto: FC<ProductPhotoProps> = ({ photo }) => {
   const [orientation, setOrientation] = useState<undefined | Orientation>(
     undefined
   )
@@ -64,5 +64,5 @@ let ProductPhoto: React.FC<ProductPhotoProps> = ({ photo }) => {
 }
 
 /** React.memo - HOC, кэширующий результат выполнения функции, rerender компонента произойдет только при изменении props */
-ProductPhoto = React.memo(ProductPhoto)
+ProductPhoto = memo(ProductPhoto)
 export { ProductPhoto }

@@ -1,4 +1,4 @@
-import React from 'react'
+import { FC, memo } from 'react'
 
 import './PriceDisplay.css'
 
@@ -25,7 +25,7 @@ export type PriceDisplayProps = {
   currency?: string
 }
 
-let PriceDisplay: React.FC<
+let PriceDisplay: FC<
   PriceDisplayProps & React.HtmlHTMLAttributes<HTMLDivElement>
 > = ({ price, currency = '₽', ...props }) => {
   const pricebyNumber = price.toString()
@@ -44,5 +44,5 @@ let PriceDisplay: React.FC<
 }
 
 /** React.memo - HOC, кэширующий результат выполнения функции, rerender компонента произойдет только при изменении props */
-PriceDisplay = React.memo(PriceDisplay)
+PriceDisplay = memo(PriceDisplay)
 export { PriceDisplay }

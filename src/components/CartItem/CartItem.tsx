@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import { FC, memo, useCallback, useEffect, useState } from 'react'
 import cx from 'classnames'
 import { IconButton } from '@vkontakte/vkui'
 import { Icon24Cancel } from '@vkontakte/icons'
@@ -11,7 +11,7 @@ import { deleteCartItem, updateCartItem } from 'src/store/shoppingCart.reducer'
 
 import './CartItem.css'
 
-let CartItem: React.FC<OrderProduct> = ({
+let CartItem: FC<OrderProduct> = ({
   id,
   name,
   price,
@@ -92,5 +92,5 @@ let CartItem: React.FC<OrderProduct> = ({
 }
 
 /** React.memo - HOC, кэширующий результат выполнения функции, rerender компонента произойдет только при изменении props */
-CartItem = React.memo(CartItem)
+CartItem = memo(CartItem)
 export { CartItem }

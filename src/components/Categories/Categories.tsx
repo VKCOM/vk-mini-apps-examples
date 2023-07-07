@@ -1,9 +1,5 @@
-import React, { useCallback } from 'react'
-import {
-  Header,
-  IconButton,
-  Link,
-} from '@vkontakte/vkui'
+import { FC, memo, useCallback } from 'react'
+import { Header, IconButton, Link } from '@vkontakte/vkui'
 import { Icon20ChevronRightOutline } from '@vkontakte/icons'
 import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
 import { CategoryCardProps } from 'src/components'
@@ -20,7 +16,7 @@ export type CategoriesProps = {
   categories: Array<CategoryCardProps & { id: number }>
 }
 
-let Categories: React.FC<CategoriesProps> = ({ categories }) => {
+let Categories: FC<CategoriesProps> = ({ categories }) => {
   // Получаем функцию для отправки данных в store
   const dispatch = useAppDispatch()
   // Получаем объект для навигации по приложению
@@ -87,5 +83,5 @@ let Categories: React.FC<CategoriesProps> = ({ categories }) => {
 }
 
 /** React.memo - HOC, кэширующий результат выполнения функции, rerender компонента произойдет только при изменении props */
-Categories = React.memo(Categories)
+Categories = memo(Categories)
 export { Categories }

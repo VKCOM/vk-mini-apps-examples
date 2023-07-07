@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import { FC, memo, useCallback } from 'react'
 import cx from 'classnames'
 import { Icon16Add, Icon16Minus } from '@vkontakte/icons'
 import { IconButton } from '@vkontakte/vkui'
@@ -12,12 +12,7 @@ export type CounterProps = {
   onSubtract: (e: React.MouseEvent) => void
 }
 
-let Counter: React.FC<CounterProps> = ({
-  value,
-  maxValue,
-  onAdd,
-  onSubtract,
-}) => {
+let Counter: FC<CounterProps> = ({ value, maxValue, onAdd, onSubtract }) => {
   const onCounterClick = useCallback((e: React.MouseEvent) => {
     e.stopPropagation()
   }, [])
@@ -50,5 +45,5 @@ let Counter: React.FC<CounterProps> = ({
 }
 
 /** React.memo - HOC, кэширующий результат выполнения функции, rerender компонента произойдет только при изменении props */
-Counter = React.memo(Counter)
+Counter = memo(Counter)
 export { Counter }

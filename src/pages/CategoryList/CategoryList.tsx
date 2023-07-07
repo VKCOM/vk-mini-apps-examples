@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react'
+import { FC, useCallback, useEffect } from 'react'
 import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
 import { CategoryCard, Navbar, PageHeader } from 'src/components'
 import { NavIdProps, Panel } from '@vkontakte/vkui'
@@ -9,7 +9,7 @@ import { storeInitialState, setStore } from 'src/store/store.reducer'
 
 import './CategoryList.css'
 
-export const CategoryList: React.FC<NavIdProps> = (props) => {
+export const CategoryList: FC<NavIdProps> = (props) => {
   const dispatch = useAppDispatch()
   const routeNavigator = useRouteNavigator()
   const { categories, filters } = useAppSelector((state) => state.app)

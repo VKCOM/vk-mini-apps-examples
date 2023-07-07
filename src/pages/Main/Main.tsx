@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { FC, memo, useCallback, useEffect, useMemo, useState } from 'react'
 import cx from 'classnames'
 import {
   NavIdProps,
@@ -15,7 +15,7 @@ import { ITEMS, SECTIONS } from './techConfig'
 
 import './Main.css'
 
-let Main: React.FC<NavIdProps> = (props) => {
+let Main: FC<NavIdProps> = (props) => {
   const platform = usePlatform()
   const { isDesktop } = useAdaptivityWithJSMediaQueries()
   const dispatch = useAppDispatch()
@@ -83,5 +83,5 @@ let Main: React.FC<NavIdProps> = (props) => {
   )
 }
 
-Main = React.memo(Main)
+Main = memo(Main)
 export { Main }

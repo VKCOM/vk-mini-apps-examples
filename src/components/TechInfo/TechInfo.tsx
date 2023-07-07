@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import { FC, memo, useMemo, useState } from 'react'
 import { HorizontalScroll, Link, Tabs, TabsItem } from '@vkontakte/vkui'
 
 import './TechInfo.css'
@@ -8,7 +8,7 @@ export type TechInfoProps = {
   items: Array<{ name: string; link: string; sectionId: number; id: number }>
 }
 
-let TechInfo: React.FC<TechInfoProps> = ({ sections, items }) => {
+let TechInfo: FC<TechInfoProps> = ({ sections, items }) => {
   const [activeSectionId, setActiveSectionId] = useState(sections[0]?.id ?? 0)
 
   const description = useMemo(() => {
@@ -52,5 +52,5 @@ let TechInfo: React.FC<TechInfoProps> = ({ sections, items }) => {
 }
 
 /** React.memo - HOC, кэширующий результат выполнения функции, rerender компонента произойдет только при изменении props */
-TechInfo = React.memo(TechInfo)
+TechInfo = memo(TechInfo)
 export { TechInfo }

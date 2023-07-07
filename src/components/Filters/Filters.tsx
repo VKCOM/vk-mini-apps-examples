@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import { FC, memo, useCallback, useEffect, useState } from 'react'
 import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
 import {
   Button,
@@ -21,7 +21,7 @@ export type FiltersProps = {
   defaultFilter: ProductFilter
 }
 
-let Filters: React.FC<FiltersProps> = ({
+let Filters: FC<FiltersProps> = ({
   categories,
   maxPrice,
   minPrice,
@@ -135,5 +135,5 @@ let Filters: React.FC<FiltersProps> = ({
 }
 
 /** React.memo - HOC, кэширующий результат выполнения функции, rerender компонента произойдет только при изменении props */
-Filters = React.memo(Filters)
+Filters = memo(Filters)
 export { Filters }

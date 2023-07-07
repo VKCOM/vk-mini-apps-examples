@@ -1,19 +1,20 @@
-import React, {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
+import {
+  FC,
   useRef,
   useState,
+  useEffect,
+  useCallback,
+  useLayoutEffect,
 } from 'react'
 import cx from 'classnames'
 import {
-  useRouteNavigator,
   useSearchParams,
+  useRouteNavigator,
 } from '@vkontakte/vk-mini-apps-router'
 import { Button, Gallery, NavIdProps, Panel, Separator } from '@vkontakte/vkui'
 import {
-  Counter,
   Navbar,
+  Counter,
   PageHeader,
   PriceDisplay,
   ProductPhoto,
@@ -26,7 +27,7 @@ import * as api from 'src/api'
 
 import './ProductInfo.css'
 
-export const ProductInfo: React.FC<NavIdProps> = (props) => {
+export const ProductInfo: FC<NavIdProps> = (props) => {
   // Получаем функцию для отправки данных в store
   const dispatch = useAppDispatch()
   // Получаем объект для навигации по приложению
@@ -63,7 +64,9 @@ export const ProductInfo: React.FC<NavIdProps> = (props) => {
   useLayoutEffect(() => {
     const productContent = $productInfoContent.current
     if (productContent)
-      setIsScrollPresent(productContent.clientHeight < productContent.scrollHeight)
+      setIsScrollPresent(
+        productContent.clientHeight < productContent.scrollHeight
+      )
   }, [productInfo])
 
   // Находится ли карта в корзине

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import { FC, memo, useCallback, useState } from 'react'
 import cx from 'classnames'
 import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
 import { Card } from '@vkontakte/vkui'
@@ -10,7 +10,7 @@ import './ProductCard.css'
 
 export type ProductCardProps = Omit<ProductPreview, 'maxAvailable'>
 
-let ProductCard: React.FC<ProductCardProps> = ({
+let ProductCard: FC<ProductCardProps> = ({
   id,
   name,
   price,
@@ -52,5 +52,5 @@ let ProductCard: React.FC<ProductCardProps> = ({
 }
 
 /** React.memo - HOC, кэширующий результат выполнения функции, rerender компонента произойдет только при изменении props */
-ProductCard = React.memo(ProductCard)
+ProductCard = memo(ProductCard)
 export { ProductCard }

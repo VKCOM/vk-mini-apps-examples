@@ -1,4 +1,4 @@
-import React from 'react'
+import { FC, memo } from 'react'
 import { Header, Placeholder } from '@vkontakte/vkui'
 import { ProductCard } from 'src/components'
 import { ProductPreview } from 'src/types'
@@ -13,7 +13,7 @@ export type ProductsProps = {
   fetching?: boolean
 }
 
-let Products: React.FC<ProductsProps> = ({
+let Products: FC<ProductsProps> = ({
   products,
   header,
   maxProducts,
@@ -47,5 +47,5 @@ let Products: React.FC<ProductsProps> = ({
 }
 
 /** React.memo - HOC, кэширующий результат выполнения функции, rerender компонента произойдет только при изменении props */
-Products = React.memo(Products)
+Products = memo(Products)
 export { Products }

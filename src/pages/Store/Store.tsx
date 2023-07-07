@@ -1,4 +1,5 @@
-import React, {
+import {
+  FC,
   useCallback,
   useEffect,
   useLayoutEffect,
@@ -40,7 +41,7 @@ function findImage(element: Element) {
     .getElementsByTagName('img')[0]
 }
 
-export const Store: React.FC<NavIdProps> = (props) => {
+export const Store: FC<NavIdProps> = (props) => {
   const dispatch = useAppDispatch()
   const { panel } = useActiveVkuiLocation()
   const { filters, categories, shopInfo } = useAppSelector((state) => state.app)

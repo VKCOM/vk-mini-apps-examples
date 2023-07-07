@@ -1,4 +1,4 @@
-import React from 'react'
+import { FC, memo } from 'react'
 import { Card } from '@vkontakte/vkui'
 import { formatWordByNumber } from 'src/utils/formatByNumbers'
 
@@ -10,7 +10,7 @@ export type CategoryCardProps = {
   preview?: string
 }
 
-let CategoryCard: React.FC<
+let CategoryCard: FC<
   CategoryCardProps & React.HtmlHTMLAttributes<HTMLDivElement>
 > = ({ name, productCount, ...props }) => {
   return (
@@ -27,5 +27,5 @@ let CategoryCard: React.FC<
 }
 
 /** React.memo - HOC, кэширующий результат выполнения функции, rerender компонента произойдет только при изменении props */
-CategoryCard = React.memo(CategoryCard)
+CategoryCard = memo(CategoryCard)
 export { CategoryCard }

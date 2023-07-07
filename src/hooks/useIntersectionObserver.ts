@@ -8,7 +8,6 @@ export type IntersectionObserverOption = Omit<
 }
 
 export type ImageLoadingOption = {
-  
   /** Задержка в ms во время которой элемент должен находится в зоне видимости перед тем как начнется загрузка  */
   delay: number
 
@@ -23,7 +22,7 @@ export type ImageLoadingOption = {
 const cancelDelayLoad = (element: Element) => {
   const timeoutId = element.getAttribute('data-time')
   if (!timeoutId) return
-  clearTimeout(timeoutId)
+  clearTimeout(Number(timeoutId))
   element.removeAttribute('data-time')
 }
 

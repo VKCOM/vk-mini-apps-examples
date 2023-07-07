@@ -89,7 +89,7 @@ export const App: React.FC = () => {
   /** Loader на время получения контента магазина */
   useEffect(() => {
     if (shopFetching) routeNavigator.showPopout(<ScreenSpinner size="large" />)
-    if (!shopFetching) routeNavigator.hidePopout()
+    else routeNavigator.hidePopout()
   }, [shopFetching, routeNavigator])
 
   /** Открытие модалки при первом заходе в апп */

@@ -32,3 +32,6 @@ yarn-error.log*
 
 src/react-app-env.d.ts
 build.zip
+
+# service-worker
+/public/service-worker.js

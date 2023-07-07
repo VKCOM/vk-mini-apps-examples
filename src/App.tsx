@@ -15,11 +15,10 @@ import {
   useRouteNavigator,
 } from '@vkontakte/vk-mini-apps-router'
 import { useAppDispatch, useAppSelector } from 'src/store'
-import { setOnboardingComplete, setUserName } from 'src/store/user.reducer'
+import { setOnboardingComplete, setUserData } from 'src/store/user.reducer'
 import { Modals } from './modals'
 import { Main, Store, CategoryList, ShoppingCart, ProductInfo } from './pages'
 import { PaymentPanel, ShopView, ViewingPanel } from './routes'
-import { getUserId } from './utils/getUserId'
 import { fetchShop } from 'src/store/app.reducer'
 
 export const App: React.FC = () => {
@@ -38,6 +37,7 @@ export const App: React.FC = () => {
   } = useActiveVkuiLocation()
 
   const dispatch = useAppDispatch()
+  const id = useAppSelector((state) => state.user.id)
   const onboadrdingComplete = useAppSelector(
     (state) => state.user.onboadrdingComplete
   )
@@ -45,28 +45,28 @@ export const App: React.FC = () => {
   /** Получение данных пользователя */
   useLayoutEffect(() => {
     async function initUser() {
-      const userId = getUserId()
+      // Получаем данные текущего пользователя
+      const userData = await bridge.send('VKWebAppGetUserInfo', {})
 
+      // Проверяем есть ли он в Storage
       const data = await bridge.send('VKWebAppStorageGet', {
-        keys: [userId],
+        keys: [userData.id.toString()],
       })
 
-      if (data.keys[0].value) dispatch(setUserName(data.keys[0].value))
-      else {
-        const userData = await bridge.send('VKWebAppGetUserInfo', {
-          user_id: Number(userId),
+      // Если он уже сохранен, то сохраняем его имя в store
+      if (data.keys[0].value)
+        dispatch(setUserData({ name: data.keys[0].value, id: userData.id }))
+      // Если не сохранен, то сохраняем в store и показываем приветственную модалку
+      else if (userData) {
+        dispatch(setUserData({ name: userData.first_name, id: userData.id }))
+        dispatch(setOnboardingComplete(false))
+        bridge.send('VKWebAppStorageSet', {
+          key: userData.id.toString(),
+          value: userData.first_name,
         })
-
-        if (userData) {
-          dispatch(setUserName(userData.first_name))
-          dispatch(setOnboardingComplete(false))
-          bridge.send('VKWebAppStorageSet', {
-            key: userId,
-            value: userData.first_name,
-          })
-        }
       }
     }
+
     initUser()
   }, [dispatch, routeNavigator])
 
@@ -78,13 +78,19 @@ export const App: React.FC = () => {
         height: window.innerHeight,
       })
     }
+  }, [platform, id, dispatch])
 
-    /** Callback срабатывающий после установки service worker */
-    navigator.serviceWorker.ready.then(() => {
+  /** Запрос на получение контента магазина */
+  useEffect(() => {
+    if (!id) return
+
+    /** Callback проверяющий установлен ли сервисный работник */
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
       /** Запрос на получение контента магазина */
-      dispatch(fetchShop({ userId: getUserId() }))
+      if (registrations.length && id)
+        dispatch(fetchShop({ userId: id.toString() }))
     })
-  }, [dispatch, platform])
+  }, [id, dispatch])
 
   /** Loader на время получения контента магазина */
   useEffect(() => {

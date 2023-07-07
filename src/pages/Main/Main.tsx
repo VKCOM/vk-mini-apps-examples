@@ -24,8 +24,8 @@ let Main: React.FC<NavIdProps> = (props) => {
   const categories = useAppSelector((state) => state.app.categories)
   const [logoLoaded, setLogoLoaded] = useState(false)
 
-  const recomendedProducts = useAppSelector(
-    (state) => state.app.recomendedProducts
+  const recommendedProducts = useAppSelector(
+    (state) => state.app.recommendedProducts
   )
 
   const onLogoLoad = useCallback(() => {
@@ -67,18 +67,16 @@ let Main: React.FC<NavIdProps> = (props) => {
       <Navbar filtersDisable>{MainHeader}</Navbar>
 
       <div className="Main">
-        <div
-          className="Main_sidebar"
-        >
+        <div className="Main_sidebar">
           <Categories categories={categories} />
           {isDesktop && <TechInfo sections={SECTIONS} items={ITEMS} />}
         </div>
 
         <Products
-          maxProducts={recomendedProducts.length}
+          maxProducts={recommendedProducts.length}
           header="Популярное"
-          products={recomendedProducts}
-          fetching={!recomendedProducts.length}
+          products={recommendedProducts}
+          fetching={!recommendedProducts.length}
         />
       </div>
     </Panel>

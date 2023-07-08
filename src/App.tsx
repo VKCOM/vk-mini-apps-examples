@@ -100,10 +100,13 @@ export const App: FC = () => {
     if (!id) return
 
     /** Callback проверяющий установлен ли сервисный работник */
-    navigator.serviceWorker.getRegistrations().then((registrations) => {
+    navigator.serviceWorker.ready.then(() => {
       /** Запрос на получение контента магазина */
-      if (registrations.length && id)
-        dispatch(fetchShop({ userId: id.toString() }))
+      dispatch(fetchShop({ userId: id.toString() }))
+    })
+
+    navigator.serviceWorker.addEventListener('message', function () {
+      dispatch(fetchShop({ userId: id.toString() }))
     })
   }, [id, dispatch])
 

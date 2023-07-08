@@ -2,7 +2,7 @@
   "name": "mini-app",
   "version": "0.0.0",
   "scripts": {
-    "start": "cross-env PORT=10888 react-scripts start ",
+    "start": "cross-env PORT=30708 react-scripts start ",
     "build": "react-scripts build",
     "build:sw": "concurrently \"nodemon --exec \\\"npm run build\\\" --watch src --ext ts,tsx\" \"serve -s build -l 10888\"",
     "predeploy": "react-scripts build",

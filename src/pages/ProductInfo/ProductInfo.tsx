@@ -44,7 +44,8 @@ export const ProductInfo: FC<NavIdProps> = (props) => {
   // Вытаскиваем параметр id из параметров url
   const id = params.get('id')
 
-  const { orderProducts } = useAppSelector((state) => state.shoppingCart)
+  const { orderProducts } = useAppSelector(state => state.shoppingCart)
+  const shopFetching = useAppSelector(state => state.app.shopFetching)
 
   const addToShoppingCart = useCallback(() => {
     if (productInfo && !isProductInCart)
@@ -54,11 +55,11 @@ export const ProductInfo: FC<NavIdProps> = (props) => {
 
   // Получаем данные о товаре
   useEffect(() => {
-    if (!id) return
+    if (!id || shopFetching) return
     api.products
       .getProductInfo({ productId: Number(id) })
       .then((res) => setProductInfo(res.product))
-  }, [id])
+  }, [id, shopFetching])
 
   // Следим появляется ли у нас скролл
   useLayoutEffect(() => {

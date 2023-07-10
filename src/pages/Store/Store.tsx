@@ -44,8 +44,10 @@ function findImage(element: Element) {
 export const Store: FC<NavIdProps> = (props) => {
   const dispatch = useAppDispatch()
   const { panel } = useActiveVkuiLocation()
-  const { filters, categories, shopInfo } = useAppSelector((state) => state.app)
   const store = useAppSelector((state) => state.store)
+  const { filters, categories, shopInfo, shopFetching } = useAppSelector(
+    (state) => state.app
+  )
 
   const { isDesktop } = useAdaptivityWithJSMediaQueries()
   const [isFetching, setIsFetching] = useState(true)
@@ -140,9 +142,9 @@ export const Store: FC<NavIdProps> = (props) => {
       .querySelectorAll('.ProductCard__active')
       .forEach((el) => el.classList.remove('ProductCard__active'))
 
-    if (!isSavedContent.current) fetchProducts(0, LIMIT)
+    if (!isSavedContent.current && !shopFetching) fetchProducts(0, LIMIT)
     isSavedContent.current = false
-  }, [filters, panel, fetchProducts])
+  }, [panel, filters, shopFetching, fetchProducts])
 
   /** Следим за новыми элементами при загрузке новой партии продуктов */
   useLayoutEffect(() => {

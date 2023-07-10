@@ -34,6 +34,7 @@ let Main: FC<NavIdProps> = (props) => {
 
   /** Возвращаем начальное состояние фильтров и сохраненных товаров */
   useEffect(() => {
+    // Оборачиваем в timeout для плавности анимаций
     setTimeout(() => {
       dispatch(setProductFilters(appInitialState.filters))
       dispatch(setStore(storeInitialState))

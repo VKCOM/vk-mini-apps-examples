@@ -2,8 +2,8 @@
   "name": "mini-app",
   "version": "0.0.0",
   "scripts": {
-    "start": "cross-env PORT=10889 HTTPS=true react-scripts start",
-    "tunnel": "vk-tunnel --insecure=1 --http-protocol=https --ws-protocol=wss --host=0.0.0.0 --port=10889",
+    "start": "cross-env PORT=3000 HTTPS=true react-scripts start",
+    "tunnel": "vk-tunnel --insecure=1 --http-protocol=https --ws-protocol=wss --host=0.0.0.0 --port=3000",
     "predeploy": "react-scripts build",
     "deploy": "vk-miniapps-deploy",
     "sw": "tsc -p tsconfig.worker.json && esbuild --bundle --tsconfig=tsconfig.worker.json --outfile=public/service-worker.js src/serviceWorker/service-worker.ts --watch"
@@ -18,10 +18,8 @@
     "@vkontakte/icons": "2.28.0",
     "@vkontakte/vk-bridge": "latest",
     "@vkontakte/vk-mini-apps-router": "^1.0.8",
-    "@vkontakte/vk-tunnel": "^0.1.3",
     "@vkontakte/vkui": "5.3.1",
     "@vkontakte/vkui-tokens": "^4.35.1",
-    "babel-eslint": "^10.1.0",
     "classnames": "^2.3.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -35,8 +33,11 @@
     "@typescript-eslint/eslint-plugin": "^5.41.0",
     "@typescript-eslint/parser": "^5.41.0",
     "@vkontakte/vk-miniapps-deploy": "^0.1.5",
+    "@vkontakte/vk-tunnel": "^0.1.3",
+    "babel-eslint": "^10.1.0",
     "concurrently": "^8.1.0",
     "cross-env": "^7.0.3",
+    "esbuild": "^0.18.11",
     "eslint": "^8.26.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
@@ -46,12 +47,7 @@
     "prettier": "^2.7.1",
     "react-hot-loader": "^4.13.0",
     "react-scripts": "^5.0.1",
-    "serve": "^14.2.0",
-    "typescript": "^5.0.4",
-    "workbox-precaching": "^7.0.0"
-  },
-  "resolutions": {
-    "react-scripts/webpack-dev-server/yargs/yargs-parser": ">=18.1.2"
+    "typescript": "^5.0.4"
   },
   "overrides": {
     "es5-ext@^0.10.50": "0.10.53",

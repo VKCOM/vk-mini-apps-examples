@@ -2,13 +2,13 @@
 /** Определяем глобальные enum */
 export interface Product {
   id: number
-  name: string 
+  name: string
   price: number
-  description: string 
-  preview: string 
-  photos: string[]
+  preview: string
+  description: string
+  maxAvailable: number
   categoryId: number[]
-  maxAvailable: number 
+  photos: Array<{ url: string; appearence: ImageBackgroundAppereance }>
 }
 
 export type ProductPreview = Omit<
@@ -33,8 +33,8 @@ export interface ProductFilter {
 
 export interface ShopInfo {
   minPrice: number
-  maxPrice: number,
-  name: string,
+  maxPrice: number
+  name: string
   logo: string
 }
 
@@ -42,4 +42,12 @@ export enum ApiEndpoint {
   InitialData = 'initialData',
   FilteredProducts = 'filteredProducts',
   ProductInfo = 'product',
+}
+
+export enum ImageBackgroundAppereance {
+  Rose = 'rose',
+  Grey = 'grey',
+  Blue = 'blue',
+  Beige = 'beige',
+  Violet = 'violet',
 }

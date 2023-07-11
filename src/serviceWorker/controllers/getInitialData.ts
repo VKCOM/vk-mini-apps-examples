@@ -23,8 +23,8 @@ export function getInitialData() {
   const shuffled = PRODUCTS.sort(() => 0.5 - Math.random())
 
   const shopInfo = {
-    name: 'VK Store',
-    logo: 'https://sun9-49.userapi.com/impg/VvBrmSqJOaJCKUmct78UWoZP0T49ETtD-kqEAA/mqePuJTVaVo.jpg?size=710x710&quality=95&sign=8f0f4cbf370abe117fc5dfcbee610aa6&type=album',
+    name: 'VK Магазин',
+    logo: '/imgs/logo.png',
     maxPrice,
     minPrice,
   }

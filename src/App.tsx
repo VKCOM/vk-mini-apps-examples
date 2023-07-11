@@ -85,7 +85,7 @@ export const App: FC = () => {
       // Обновляем размер страницы
       bridge.send('VKWebAppResizeWindow', {
         width: 840,
-        height: data.viewport_height,
+        height: data.viewport_height - 100,
       })
     }
 

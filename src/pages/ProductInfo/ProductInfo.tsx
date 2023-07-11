@@ -89,7 +89,7 @@ export const ProductInfo: FC<NavIdProps> = (props) => {
           className="ProductInfo_gallery"
         >
           {productInfo?.photos.map((photo, index) => (
-            <ProductPhoto key={index} photo={photo} />
+            <ProductPhoto key={index} {...photo} />
           ))}
         </Gallery>
 

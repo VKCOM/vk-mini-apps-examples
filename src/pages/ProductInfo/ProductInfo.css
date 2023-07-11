@@ -92,12 +92,7 @@
 
 @media (min-width: 420px) {
   .ProductInfo_gallery {
-    max-width: var(--product-photo-max-size);
     margin: 0 auto;
-  }
-
-  .ProductPhoto {
-    max-width: var(--product-photo-max-size);
     max-height: var(--product-photo-max-size);
   }
 }

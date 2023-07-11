@@ -22,4 +22,8 @@
   .PageHeader_title {
     max-width: 100%;
   }
+
+  .PageHeader {
+    height: auto;
+  }
 }

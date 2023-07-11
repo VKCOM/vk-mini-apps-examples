@@ -68,7 +68,7 @@
   flex-direction: row;
   justify-content: flex-start;
   gap: 8px;
-  margin-left: 12px;
+  margin-left: 22px;
   align-items: center;
   padding: 6px 0 4px 0;
 }
@@ -82,7 +82,7 @@
   font-weight: 600;
   font-size: 20px;
   padding-right: 8px;
-  border-right: 1px solid var(--vkui--color_text_secondary);
+  border-right: 1px solid var(--vkui--color_accent_gray);
 }
 
 .Main_header__desktop .Main_header_shopInfo_name {
@@ -100,5 +100,13 @@
   .Main_sidebar {
     position: sticky;
     top: 0;
+  }
+
+  .Main .Categories .vkuiHeader .vkuiHeader__main {
+    transform: translateY(2px);
+  }
+
+  .Main .Products .vkuiHeader .vkuiHeader__main {
+    transform: translateY(-6px);
   }
 }

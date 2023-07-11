@@ -3,11 +3,44 @@
   --sidebar-width: 375px;
   --product-photo-max-size: 375px;
   --skeleton-background-color: #e1e1e1;
+  --grey-gradient: linear-gradient(
+    to right top,
+    #8d95ab,
+    #a0a7bb,
+    #b4b9cb,
+    #c8ccdb,
+    #dcdfec
+  );
+  --rose-gradient: linear-gradient(
+    to top,
+    #bb7899,
+    #c58aac,
+    #cf9dbe,
+    #d9afcf,
+    #e3c2e0
+  );
   --skeleton-background-gradient: linear-gradient(
     110deg,
     #ececec 8%,
     #f5f5f5 18%,
     #ececec 33%
+  );
+  --beige-gradient: #dbb6ad;
+  --violet-gradient: linear-gradient(
+    to top,
+    #ccc3ef,
+    #c3b2e1,
+    #bba1d2,
+    #b391c2,
+    #ac80b2
+  );
+  --blue-gradient: linear-gradient(
+    to right top,
+    #5f9cd6,
+    #72a5d9,
+    #83aedc,
+    #93b8df,
+    #a3c1e2
   );
 }
 

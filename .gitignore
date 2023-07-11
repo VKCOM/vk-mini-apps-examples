@@ -35,3 +35,7 @@ build.zip
 
 # service-worker
 /public/service-worker.js
+
+#ssl
+localhost.pem
+localhost-key.pem

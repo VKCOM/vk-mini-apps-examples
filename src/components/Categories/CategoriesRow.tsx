@@ -1,4 +1,4 @@
-import React from 'react'
+import { FC, memo } from 'react'
 import { CategoryCard, CategoryCardProps } from '../CategoryCard/CategoryCard'
 
 import './Categories.css'
@@ -8,10 +8,7 @@ type CategoriesRowProps = {
   onItemClick: (id: number) => void
 }
 
-let CategoriesRow: React.FC<CategoriesRowProps> = ({
-  categories,
-  onItemClick,
-}) => {
+let CategoriesRow: FC<CategoriesRowProps> = ({ categories, onItemClick }) => {
   return (
     <div className="Categories_horizontalScroll_row">
       {categories.map((item) => (
@@ -27,5 +24,5 @@ let CategoriesRow: React.FC<CategoriesRowProps> = ({
 }
 
 /** React.memo - HOC, кэширующий результат выполнения функции, rerender компонента произойдет только при изменении props */
-CategoriesRow = React.memo(CategoriesRow)
+CategoriesRow = memo(CategoriesRow)
 export { CategoriesRow }

@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect } from 'react'
+import { FC, useEffect, useLayoutEffect } from 'react'
 import {
   SplitLayout,
   SplitCol,
@@ -14,14 +14,14 @@ import {
   usePopout,
   useRouteNavigator,
 } from '@vkontakte/vk-mini-apps-router'
-import { useAppDispatch, useAppSelector } from 'src/store'
-import { setOnboardingComplete, setUserData } from 'src/store/user.reducer'
+import { useAppDispatch, useAppSelector } from './store'
+import { setOnboardingComplete, setUserData } from './store/user.reducer'
 import { Modals } from './modals'
 import { Main, Store, CategoryList, ShoppingCart, ProductInfo } from './pages'
 import { PaymentPanel, ShopView, ViewingPanel } from './routes'
-import { fetchShop } from 'src/store/app.reducer'
+import { fetchShop } from './store/app.reducer'
 
-export const App: React.FC = () => {
+export const App: FC = () => {
   /** Возвращает активное всплывающее окно | null */
   const routerPopout = usePopout()
   /** возвращает платформу IOS, ANDROID, VKCOM */
@@ -100,10 +100,13 @@ export const App: React.FC = () => {
     if (!id) return
 
     /** Callback проверяющий установлен ли сервисный работник */
-    navigator.serviceWorker.getRegistrations().then((registrations) => {
+    navigator.serviceWorker.ready.then(() => {
       /** Запрос на получение контента магазина */
-      if (registrations.length && id)
-        dispatch(fetchShop({ userId: id.toString() }))
+      dispatch(fetchShop({ userId: id.toString() }))
+    })
+
+    navigator.serviceWorker.addEventListener('message', function () {
+      dispatch(fetchShop({ userId: id.toString() }))
     })
   }, [id, dispatch])
 

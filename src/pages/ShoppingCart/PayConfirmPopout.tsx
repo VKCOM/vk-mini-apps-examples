@@ -1,10 +1,10 @@
-import React from 'react'
+import { FC } from 'react'
 import { Alert } from '@vkontakte/vkui'
 import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
 import { useAppDispatch } from 'src/store'
 import { setShoppingCart, initialState } from 'src/store/shoppingCart.reducer'
 
-export const PayConfirmPopout: React.FC = () => {
+export const PayConfirmPopout: FC = () => {
   const routeNavigator = useRouteNavigator()
   const dispatch = useAppDispatch()
 

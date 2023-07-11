@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import { FC, memo, useCallback } from 'react'
 import {
   Button,
   Card,
@@ -17,7 +17,7 @@ import cx from 'classnames'
 
 import './ShoppingCart.css'
 
-let ShoppingCart: React.FC<NavIdProps> = (props) => {
+let ShoppingCart: FC<NavIdProps> = (props) => {
   // Получаем объект для навигации в приложении
   const routeNavigator = useRouteNavigator()
   // Узнаем десктопный ли размер экрана
@@ -110,6 +110,6 @@ let ShoppingCart: React.FC<NavIdProps> = (props) => {
   )
 }
 
-ShoppingCart = React.memo(ShoppingCart)
+ShoppingCart = memo(ShoppingCart)
 
 export { ShoppingCart }

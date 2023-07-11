@@ -3,13 +3,7 @@ import { ApiEndpoint } from '../types'
 import * as api from './controllers'
 
 declare const self: ServiceWorkerGlobalScope
-
-// const CACHE_NAME = 'my-offline-cache'
-// const urlsToCache = [
-//   '/',
-//   '/static/css/main.50433c98.css',
-//   '/static/js/main.61eb03a2.js',
-// ]
+declare const clients: Clients
 
 /** Ищем кодовое слово для загрузки контента из Action */
 function getAction(url: string) {
@@ -35,7 +29,7 @@ function matchAnswer(request: Request) {
 }
 
 self.addEventListener('install', () => {
-  console.log('ServiceWorker installed')
+  self.skipWaiting()
 })
 
 /** Удаляем устаревшие данные */
@@ -45,6 +39,15 @@ self.addEventListener('activate', () => {
 })
 
 /** Перехват сетевых запросов */
-self.addEventListener('fetch', (event) => {
+self.addEventListener('fetch', async (event) => {
   event.respondWith(matchAnswer(event.request))
+
+  /** Отправляем сообщение что service-worker начал работу */
+  const client = await clients.get(event.clientId)
+  if (!client || client.url !== event.request.url) return
+  client.postMessage({
+    msg: 'Service worker start intercept',
+    url: event.request.url,
+    selfUrl: client.url,
+  })
 })

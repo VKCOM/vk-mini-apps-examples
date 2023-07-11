@@ -1,19 +1,20 @@
-import React, {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
+import {
+  FC,
   useRef,
   useState,
+  useEffect,
+  useCallback,
+  useLayoutEffect,
 } from 'react'
 import cx from 'classnames'
 import {
-  useRouteNavigator,
   useSearchParams,
+  useRouteNavigator,
 } from '@vkontakte/vk-mini-apps-router'
 import { Button, Gallery, NavIdProps, Panel, Separator } from '@vkontakte/vkui'
 import {
-  Counter,
   Navbar,
+  Counter,
   PageHeader,
   PriceDisplay,
   ProductPhoto,
@@ -26,7 +27,7 @@ import * as api from 'src/api'
 
 import './ProductInfo.css'
 
-export const ProductInfo: React.FC<NavIdProps> = (props) => {
+export const ProductInfo: FC<NavIdProps> = (props) => {
   // Получаем функцию для отправки данных в store
   const dispatch = useAppDispatch()
   // Получаем объект для навигации по приложению
@@ -43,7 +44,8 @@ export const ProductInfo: React.FC<NavIdProps> = (props) => {
   // Вытаскиваем параметр id из параметров url
   const id = params.get('id')
 
-  const { orderProducts } = useAppSelector((state) => state.shoppingCart)
+  const { orderProducts } = useAppSelector(state => state.shoppingCart)
+  const shopFetching = useAppSelector(state => state.app.shopFetching)
 
   const addToShoppingCart = useCallback(() => {
     if (productInfo && !isProductInCart)
@@ -53,17 +55,19 @@ export const ProductInfo: React.FC<NavIdProps> = (props) => {
 
   // Получаем данные о товаре
   useEffect(() => {
-    if (!id) return
+    if (!id || shopFetching) return
     api.products
       .getProductInfo({ productId: Number(id) })
       .then((res) => setProductInfo(res.product))
-  }, [id])
+  }, [id, shopFetching])
 
   // Следим появляется ли у нас скролл
   useLayoutEffect(() => {
     const productContent = $productInfoContent.current
     if (productContent)
-      setIsScrollPresent(productContent.clientHeight < productContent.scrollHeight)
+      setIsScrollPresent(
+        productContent.clientHeight < productContent.scrollHeight
+      )
   }, [productInfo])
 
   // Находится ли карта в корзине

@@ -1,4 +1,4 @@
-import React, { ReactNode, useCallback } from 'react'
+import { FC, memo, ReactNode, useCallback } from 'react'
 import cx from 'classnames'
 import {
   Counter,
@@ -28,7 +28,7 @@ export type NavbarProps = {
   onInputResetFilters?: boolean
 }
 
-let Navbar: React.FC<NavbarProps> = ({
+let Navbar: FC<NavbarProps> = ({
   filtersDisable,
   searchDisable,
   searchValue,
@@ -129,5 +129,5 @@ let Navbar: React.FC<NavbarProps> = ({
 }
 
 /** React.memo - HOC, кэширующий результат выполнения функции, rerender компонента произойдет только при изменении props */
-Navbar = React.memo(Navbar)
+Navbar = memo(Navbar)
 export { Navbar }

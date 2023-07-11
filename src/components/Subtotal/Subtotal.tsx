@@ -1,4 +1,4 @@
-import React from 'react'
+import { FC, memo } from 'react'
 import { Input } from '@vkontakte/vkui'
 import { PriceDisplay } from 'src/components'
 
@@ -8,7 +8,7 @@ export type SubtotalProps = {
   totalPrice: number
 }
 
-let Subtotal: React.FC<SubtotalProps> = ({ totalPrice }) => {
+let Subtotal: FC<SubtotalProps> = ({ totalPrice }) => {
   return (
     <div className="Subtotal">
       <div className="Subtotal_price">
@@ -21,5 +21,5 @@ let Subtotal: React.FC<SubtotalProps> = ({ totalPrice }) => {
 }
 
 /** React.memo - HOC, кэширующий результат выполнения функции, rerender компонента произойдет только при изменении props */
-Subtotal = React.memo(Subtotal)
+Subtotal = memo(Subtotal)
 export { Subtotal }

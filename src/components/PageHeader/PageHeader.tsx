@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import { FC, memo, useCallback } from 'react'
 import {
   useFirstPageCheck,
   useRouteNavigator,
@@ -14,7 +14,7 @@ export type PageHeaderProps = {
   header: string
 }
 
-let PageHeader: React.FC<PageHeaderProps> = ({ header }) => {
+let PageHeader: FC<PageHeaderProps> = ({ header }) => {
   // Получаем объект для навигации по приложению
   const routeNavigator = useRouteNavigator()
   // Проверка является ли текущая страница первой в истории навигации
@@ -31,15 +31,11 @@ let PageHeader: React.FC<PageHeaderProps> = ({ header }) => {
           fill={baseTheme.colorPanelHeaderIcon.active.value}
         />
       </IconButton>
-      <div
-        className={'PageHeader_title'}
-      >
-        {header}
-      </div>
+      <div className={'PageHeader_title'}>{header}</div>
     </div>
   )
 }
 
 /** React.memo - HOC, кэширующий результат выполнения функции, rerender компонента произойдет только при изменении props */
-PageHeader = React.memo(PageHeader)
+PageHeader = memo(PageHeader)
 export { PageHeader }

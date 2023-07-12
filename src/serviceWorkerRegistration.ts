@@ -15,14 +15,12 @@ export function register(config?: Config) {
       return
     }
 
-    window.addEventListener('load', () => {
-      const swUrl = '/service-worker.js'
-      registerValidSW(swUrl, config)
-      navigator.serviceWorker.ready.then(() => {
-        console.log(
-          'This web app is being served cache-first by a service worker'
-        )
-      })
+    const swUrl = '/service-worker.js'
+    registerValidSW(swUrl, config)
+    navigator.serviceWorker.ready.then(() => {
+      console.log(
+        'This web app is being served cache-first by a service worker'
+      )
     })
   }
 }
@@ -40,7 +38,6 @@ function registerValidSW(swUrl: string, config?: Config) {
         installingWorker.onstatechange = () => {
           if (installingWorker.state === 'installed') {
             if (navigator.serviceWorker.controller) {
-
               if (config && config.onUpdate) {
                 config.onUpdate(registration)
               }

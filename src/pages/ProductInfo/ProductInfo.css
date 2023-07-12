@@ -9,6 +9,7 @@
 .ProductInfo::-webkit-scrollbar {
   height: 0;
   width: 0;
+  display: none;
 }
 
 .ProductInfo_offer {

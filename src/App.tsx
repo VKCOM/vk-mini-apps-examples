@@ -102,11 +102,11 @@ export const App: FC = () => {
     /** Callback проверяющий установлен ли сервисный работник */
     navigator.serviceWorker.ready.then(() => {
       /** Запрос на получение контента магазина */
-      dispatch(fetchShop({ userId: id.toString() }))
+      setTimeout(() => dispatch(fetchShop({ userId: id.toString() })), 10)
     })
 
     navigator.serviceWorker.addEventListener('message', function () {
-      dispatch(fetchShop({ userId: id.toString() }))
+      setTimeout(() => dispatch(fetchShop({ userId: id.toString() })), 10)
     })
   }, [id, dispatch])
 

@@ -19,7 +19,7 @@ import {
   fetchFilteredProducts,
   setStoreScrollposition,
 } from 'src/store/store.reducer'
-import { useIntersectionObserver } from 'src/hooks'
+import { useImageIntersectionObserver } from 'src/hooks'
 import { useActiveVkuiLocation } from '@vkontakte/vk-mini-apps-router'
 import { ViewingPanel } from 'src/routes'
 import { ITEMS, SECTIONS } from './techConfig'
@@ -59,7 +59,7 @@ export const Store: FC<NavIdProps> = (props) => {
 
   const StoreHeader = useMemo(() => <PageHeader header="Каталог" />, [])
 
-  const { observer, entryElements, immediatelyLoad } = useIntersectionObserver(
+  const { observer, entryElements, immediatelyLoad } = useImageIntersectionObserver(
     {
       root: $storeContainer,
       rootMargin: '0px 0px 50px 0px',

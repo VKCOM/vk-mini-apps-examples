@@ -73,8 +73,7 @@ const delayLoad = (
     }
   )
  */
-
-export function useIntersectionObserver(
+export function useImageIntersectionObserver(
   initialObserverOptions: IntersectionObserverOption,
   imageLoadingOptions: ImageLoadingOption
 ) {

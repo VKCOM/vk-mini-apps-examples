@@ -1,2 +1,2 @@
-export { useIntersectionObserver } from './useIntersectionObserver'
-export type { ImageLoadingOption } from './useIntersectionObserver'
+export { useImageIntersectionObserver } from './useImageIntersectionObserver'
+export type { ImageLoadingOption } from './useImageIntersectionObserver'

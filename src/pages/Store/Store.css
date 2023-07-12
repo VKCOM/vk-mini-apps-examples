@@ -18,6 +18,7 @@
 .Store::-webkit-scrollbar {
   width: 0;
   height: 0;
+  display: none;
 }
 
 @media (min-width: 768px) {

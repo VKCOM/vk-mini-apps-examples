@@ -29,6 +29,7 @@
 
 .ProductCard_preview img {
   width: 150px;
+  max-width: 100%;
   border-radius: 12px;
   user-select: none;
 }

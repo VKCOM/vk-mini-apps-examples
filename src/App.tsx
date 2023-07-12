@@ -26,7 +26,7 @@ export const App: FC = () => {
   const routerPopout = usePopout()
   /** возвращает платформу IOS, ANDROID, VKCOM */
   const platform = usePlatform()
-  /** возвращает объект с помощью которого можно совершать ахличные переходы в навигации */
+  /** возвращает объект с помощью которого можно совершать переходы в навигации */
   const routeNavigator = useRouteNavigator()
   /** Подписываемся на обновлнеие поля shopFetching, отвечающего за состояние загрузки контента магазина */
   const shopFetching = useAppSelector((state) => state.app.shopFetching)

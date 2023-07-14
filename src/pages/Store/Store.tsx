@@ -158,7 +158,7 @@ export const Store: FC<NavIdProps> = (props) => {
 
   return (
     <Panel className="Panel__fullScreen" {...props}>
-      <Navbar searchValue={''}>{StoreHeader}</Navbar>
+      <Navbar searchValue={filters.query}>{StoreHeader}</Navbar>
 
       <div ref={$storeContainer} className="Store" onScroll={onHandleScroll}>
         <Products

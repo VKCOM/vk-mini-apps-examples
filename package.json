@@ -45,7 +45,7 @@
     "eslint-plugin-react": "^7.31.10",
     "eslint-plugin-react-hooks": "^4.6.0",
     "nodemon": "^2.0.22",
-    "prettier": "^2.7.1",
+    "prettier": "^3.0.0",
     "react-hot-loader": "^4.13.0",
     "react-scripts": "^5.0.1",
     "typescript": "^5.0.4"

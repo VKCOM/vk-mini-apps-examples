@@ -1,4 +1,4 @@
-import { CATEGORIES, PRODUCTS } from '../config'
+import { CATEGORIES, PRODUCTS, IMAGE_DOMAIN } from '../config'
 
 /** Получаем контент стартовой страницы */
 export function getInitialData() {
@@ -24,7 +24,7 @@ export function getInitialData() {
 
   const shopInfo = {
     name: 'VK Магазин',
-    logo: '/imgs/logo.png',
+    logo: IMAGE_DOMAIN + 'logo.png',
     maxPrice,
     minPrice,
   }

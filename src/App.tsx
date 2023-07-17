@@ -97,27 +97,8 @@ export const App: FC = () => {
 
   /** Запрос на получение контента магазина */
   useEffect(() => {
-    if (!id) return
-
-    /** Callback проверяющий установлен ли сервисный работник */
-    navigator.serviceWorker.ready.then(() => {
-      // Делаем запрос с задержкой, чтобы service-worker был готов отслеживать запросы на нашей странице
-      setTimeout(() => {
-        // Проверка, что данные магазина еще не были загружены
-        if (shopFetching)
-          /** Запрос на получение контента магазина */
-          dispatch(fetchShop({ userId: id.toString() }))
-      }, 10)
-    })
-
-    /** Callback приходящий на сообщение от sw при его регистрации*/
-    navigator.serviceWorker.addEventListener('message', function () {
-      setTimeout(() => {
-        if (shopFetching)
-          dispatch(fetchShop({ userId: id.toString() }))
-      }, 10)
-    })
-  }, [id, shopFetching, dispatch])
+    if (id) dispatch(fetchShop({ userId: id.toString() }))
+  }, [id, dispatch])
 
   /** Loader на время получения контента магазина */
   useEffect(() => {

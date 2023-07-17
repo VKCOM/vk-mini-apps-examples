@@ -2,12 +2,10 @@
   "name": "mini-app",
   "version": "0.0.0",
   "scripts": {
-    "start": "concurrently -p name -c \"yellow,magenta\" -n \"service-worker,client-start\" \"npm run sw\" \"npm run client:start\"",
-    "client:start": "cross-env PORT=3000 react-scripts start",
+    "start": "cross-env PORT=3000 react-scripts start",
     "tunnel": "vk-tunnel --insecure=1 --http-protocol=http --ws-protocol=wss --host=0.0.0.0 --port=3000",
     "predeploy": "react-scripts build",
-    "deploy": "vk-miniapps-deploy",
-    "sw": "tsc -p tsconfig.worker.json && esbuild --bundle --tsconfig=tsconfig.worker.json --outfile=public/service-worker.js src/serviceWorker/service-worker.ts --watch"
+    "deploy": "vk-miniapps-deploy"
   },
   "engines": {
     "node": ">=12.0.0"

@@ -50,8 +50,8 @@
 
 .Main_header_shopInfo img {
   border-radius: 100px;
-  width: 32px;
-  height: 32px;
+  width: 24px;
+  height: 24px;
   user-select: none;
 }
 
@@ -109,5 +109,12 @@
 
   .Main .Products .vkuiHeader .vkuiHeader__main {
     transform: translateY(-6px);
+  }
+
+  .Main_header_shopInfo img {
+    border-radius: 100px;
+    width: 32px;
+    height: 32px;
+    user-select: none;
   }
 }

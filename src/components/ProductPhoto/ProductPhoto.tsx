@@ -24,7 +24,6 @@ let ProductPhoto: FC<ProductPhotoProps> = ({ url, appearence }) => {
   /** Загружаем фото и определяем его ориентацию в пространстве для правильного растягивания по вертикали/горизонали */
   useEffect(() => {
     const image = new Image()
-    console.log(url, 'lslalla')
     image.src = url
     const onImageLoad = () => {
       if (image.width > image.height) setOrientation(Orientation.Horizontal)

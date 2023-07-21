@@ -1,6 +1,6 @@
 .ProductCard {
   width: 100%;
-  max-width: 150px;
+  max-width: 170px;
   cursor: pointer;
 }
 
@@ -28,7 +28,7 @@
 }
 
 .ProductCard_preview img {
-  width: 150px;
+  width: 170px;
   max-width: 100%;
   border-radius: 12px;
   user-select: none;

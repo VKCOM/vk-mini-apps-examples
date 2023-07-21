@@ -1,6 +1,5 @@
 .PageHeader {
   display: flex;
-  height: 52px;
   flex-direction: row;
   align-items: center;
 }

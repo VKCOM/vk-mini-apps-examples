@@ -7,6 +7,92 @@
   background: var(--vkui--color_background_content);
 }
 
+.Navbar__mobile .vkuiFixedLayout {
+  position: static;
+}
+
+.Navbar__mobile.vkuiPanelHeader {
+  display: flex;
+  flex-direction: column;
+  height: min-content;
+  width: 100%;
+}
+
+.Navbar__mobile
+  .vkuiFixedLayout
+  .vkuiPanelHeader__in
+  .vkuiPanelHeader__content
+  > * {
+  display: block;
+}
+
+.Navbar__mobile > .vkuiSpacing {
+  padding: 0 !important;
+  display: none !important;
+}
+
+.Navbar__desktop > .vkuiSpacing {
+  padding: 0 !important;
+  display: none !important;
+}
+
+.vkuiSearch {
+  padding: 0 4px 0 12px !important;
+}
+
+.Navbar__mobile
+  .vkuiFixedLayout
+  .vkuiPanelHeader__in
+  .vkuiPanelHeader__content {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.Navbar__desktop
+  .vkuiFixedLayout
+  .vkuiPanelHeader__in
+  .vkuiPanelHeader__content {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.Navbar__mobile
+  .vkuiFixedLayout
+  .vkuiPanelHeader__in {
+  height: auto !important;
+  display: block !important;
+  width: 100%;
+}
+
+.Navbar__desktop
+  .vkuiPanelHeader__in {
+  height: auto !important;
+  display: block !important;
+  width: 100%;
+}
+
+.vkuiPanelHeader:before {
+  display: none !important;
+}
+
+.Navbar__desktop
+.vkuiPanelHeader:before,
+.Navbar__desktop
+.vkuiPanelHeader__in {
+  height: auto !important;
+}
+
+.Navbar__mobile
+.vkuiPanelHeader:before,
+.Navbar__mobile
+.vkuiPanelHeader__in {
+  height: auto !important;
+}
+
+.vkuiPanelHeader__fixed {
+  height: auto !important;
+}
+
 .Navbar_content {
   display: flex;
   flex-direction: row;
@@ -15,7 +101,6 @@
   max-width: 100%;
   width: 100%;
   user-select: none;
-  gap: 10px;
   background: var(--vkui--color_background_content);
 }
 
@@ -27,11 +112,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  min-width: 28px;
-  max-width: 28px;
   border-radius: 100%;
   position: relative;
-  right: 13px;
+  left: 2px;
+}
+
+.Navbar_iconButton:last-of-type {
+  left: -4px;
 }
 
 .Navbar_iconButton__disabled {
@@ -41,8 +128,23 @@
 .Navbar_iconButton_counter {
   z-index: 999;
   top: 0px;
-  right: -8px;
+  right: -1px;
   position: absolute;
+}
+
+.Navbar__desktop .vkuiPanelHeader--vis.vkuiPanelHeader--fixed:before {
+  height: 0 !important;
+  display: none !important
+}
+
+.Navbar__mobile .vkuiPanelHeader--vis.vkuiPanelHeader--fixed:before {
+  height: 0 !important;
+  display: none !important
+}
+
+.vkuiPanelHeader--ios:before {
+  height: 0 !important;
+  display: none !important
 }
 
 .Navbar__desktop {
@@ -51,6 +153,11 @@
   justify-content: space-between;
   padding: 0;
   background: var(--vkui--color_background_content);
+}
+
+.Navbar__desktop .vkuiPanelHeader__in .vkuiPanelHeader__content > * {
+  display: flex;
+  justify-content: space-between;
 }
 
 .Navbar__desktop .Navbar_content {

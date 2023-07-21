@@ -35,10 +35,6 @@
   display: none;
 }
 
-.Categories .vkuiHeader {
-  align-items: center;
-}
-
 @media (min-width: 768px) {
   .Categories {
     margin-top: 12px;

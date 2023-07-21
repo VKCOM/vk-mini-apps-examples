@@ -17,7 +17,7 @@ import {
 import { useAppDispatch, useAppSelector } from './store'
 import { setOnboardingComplete, setUserData } from './store/user.reducer'
 import { Modals } from './modals'
-import { Main, Store, CategoryList, ShoppingCart, ProductInfo } from './pages'
+import { Main, Store, ShoppingCart, ProductInfo } from './pages'
 import { PaymentPanel, ShopView, ViewingPanel } from './routes'
 import { fetchShop } from './store/app.reducer'
 
@@ -84,7 +84,7 @@ export const App: FC = () => {
 
       // Обновляем размер страницы
       bridge.send('VKWebAppResizeWindow', {
-        width: 840,
+        width: 911,
         height: data.viewport_height - 100,
       })
     }
@@ -136,7 +136,6 @@ export const App: FC = () => {
           <View nav={ShopView.Viewing} activePanel={activePanel}>
             <Main nav={ViewingPanel.Main} />
             <Store nav={ViewingPanel.Store} />
-            <CategoryList nav={ViewingPanel.CategoryList} />
             <ProductInfo nav={ViewingPanel.ProductInfo} />
           </View>
 

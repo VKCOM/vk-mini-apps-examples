@@ -103,14 +103,6 @@
     top: 0;
   }
 
-  .Main .Categories .vkuiHeader .vkuiHeader__main {
-    transform: translateY(2px);
-  }
-
-  .Main .Products .vkuiHeader .vkuiHeader__main {
-    transform: translateY(-6px);
-  }
-
   .Main_header_shopInfo img {
     border-radius: 100px;
     width: 32px;

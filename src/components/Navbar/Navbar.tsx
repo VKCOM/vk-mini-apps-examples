@@ -7,6 +7,7 @@ import {
   Search,
   usePlatform,
   useAdaptivityWithJSMediaQueries,
+  PanelHeader,
 } from '@vkontakte/vkui'
 import { Icon28ShoppingCartOutline, Icon24Filter } from '@vkontakte/icons'
 import {
@@ -74,7 +75,7 @@ let Navbar: FC<NavbarProps> = ({
   }, [routeNavigator])
 
   return (
-    <div
+    <PanelHeader
       className={cx({
         Navbar__mobile: platform !== Platform.VKCOM,
         Navbar__desktop: platform === Platform.VKCOM,
@@ -124,7 +125,7 @@ let Navbar: FC<NavbarProps> = ({
           </div>
         </div>
       )}
-    </div>
+    </PanelHeader>
   )
 }
 

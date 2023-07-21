@@ -10,11 +10,10 @@
   display: grid;
   backface-visibility: hidden;
   will-change: transform;
-  grid-template-columns: repeat(auto-fit, minmax(100px, max-content));
+  grid-template-columns: repeat(auto-fit, minmax(120px, max-content));
   margin-left: 12px;
   margin-right: 12px;
   gap: 12px;
-  max-width: 520px;
 }
 
 .Products_spinner {

@@ -1,10 +1,14 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 export type IntersectionObserverOption = Omit<
   IntersectionObserverInit,
   'root'
 > & {
   root: React.RefObject<HTMLElement>
+  callback: (
+    observer: IntersectionObserver,
+    entry: IntersectionObserverEntry
+  ) => void
 }
 
 export type ImageLoadingOption = {
@@ -58,10 +62,9 @@ const delayLoad = (
  * Хук для использования IntersectionObserver и поддержки ленивой прогрузки картинок
  * @param initialObserverOptions - настройки для IntersectionObserver
  * @param imageLoadingOptions - дополнительные настройки для ленивой загрузки фотографий
- * @returns список entry(отслеживаемых элементов), ссылку на обработчик и callback для мгновенной звгрузки
+ * @returns callback для мгновенной звгрузки
  * @example 
  *  const { observer, entryElements } = useIntersectionObserver(
-    observerElements,
     {
       root: $storeContainer.current,
       rootMargin: '0px 0px 300px 0px',
@@ -78,29 +81,27 @@ export function useImageIntersectionObserver(
   imageLoadingOptions: ImageLoadingOption
 ) {
   const [observer, setObserver] = useState<IntersectionObserver | null>(null)
-  const [entryElements, setEntryElements] = useState<
-    IntersectionObserverEntry[]
-  >([])
+  const isLoad = useRef(false)
 
-  const { root, rootMargin, threshold } = initialObserverOptions
+  const { root, rootMargin, threshold, callback } = initialObserverOptions
   const { delay, attributeName, findImage } = imageLoadingOptions
-
-  const immediatelyLoad = useCallback(
-    (el: Element) => {
-      cancelDelayLoad(el)
-      loadAndUnobserve(el, attributeName, findImage)
-    },
-    [attributeName, findImage]
-  )
 
   /** Инициализация/Обновление intersectionObserver */
   useEffect(() => {
     setObserver(
       new IntersectionObserver(
-        (entries) => {
-          setEntryElements(entries)
+        (entries, observer) => {
+          if (!isLoad.current) {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting || entry.intersectionRatio > 0) {
+                loadAndUnobserve(entry.target, attributeName, findImage)
+              }
+            })
+            isLoad.current = true
+          }
 
           entries.forEach((entry) => {
+            callback(observer, entry)
             if (entry.isIntersecting || entry.intersectionRatio > 0) {
               // При попадании в зону видимости включаем таймер на ImageLoadingOption.delay
               // По окончании таймера картинка загружается
@@ -112,11 +113,11 @@ export function useImageIntersectionObserver(
         { root: root.current, rootMargin, threshold }
       )
     )
-  }, [root, rootMargin, threshold, delay, attributeName, findImage])
+  }, [root, rootMargin, threshold, delay, attributeName, findImage, callback])
 
   useEffect(() => {
     return () => setObserver(null)
   }, [])
 
-  return { entryElements, observer, immediatelyLoad }
+  return { observer }
 }

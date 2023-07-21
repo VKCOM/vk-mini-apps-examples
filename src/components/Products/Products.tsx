@@ -1,5 +1,5 @@
 import { FC, memo } from 'react'
-import { Header, Placeholder } from '@vkontakte/vkui'
+import { Header, Placeholder, Spinner } from '@vkontakte/vkui'
 import { ProductCard } from 'src/components'
 import { ProductPreview } from 'src/types'
 
@@ -41,6 +41,11 @@ let Products: FC<ProductsProps> = ({
       </div>
       {!maxProducts && !fetching && (
         <Placeholder>По твоему запросу ничего не нашлось</Placeholder>
+      )}
+      {fetching && lazyLoading && (
+        <div style={{ height: '80px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <Spinner size="large"></Spinner>
+        </div>
       )}
     </div>
   )

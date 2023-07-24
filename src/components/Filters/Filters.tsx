@@ -69,7 +69,7 @@ let Filters: FC<FiltersProps> = ({
     setPrevFilters({ ...filters })
     const newFilters = Object.assign({ ...defaultFilter }, { ...filters })
     dispatch(setProductFilters(newFilters))
-    if (!isDesktop) setTimeout(() => routeNavigator.back(), 200)
+    if (!isDesktop) setTimeout(() => routeNavigator.back(), 350)
   }, [filters, isDesktop, routeNavigator, defaultFilter, dispatch])
 
   /** Сравнение новых фильтров с предыдущими */

@@ -15,7 +15,7 @@
 .Main_sidebar {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 16px;
 }
 
 .Main_header__mobile {
@@ -92,7 +92,7 @@
 
 @media (min-width: 768px) {
   .Main {
-    gap: 10px;
+    gap: 16px;
     margin: 0 10px;
     flex-direction: row-reverse;
     justify-content: space-around;

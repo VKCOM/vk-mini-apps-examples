@@ -36,7 +36,7 @@ export const ProductInfo: FC<NavIdProps> = (props) => {
   const [params] = useSearchParams()
   const [isProductInCart, setIsProductInCart] = useState(false)
   const [productInfo, setProductInfo] = useState<Product | null>(null)
-  const [productNumber, setProductNumber] = useState(1)
+  const [numItemsToBuy, setNumItemsToBuy] = useState(1)
   const [isScrollPresent, setIsScrollPresent] = useState(false)
 
   const $productInfoContent = useRef<HTMLDivElement>(null)
@@ -44,14 +44,14 @@ export const ProductInfo: FC<NavIdProps> = (props) => {
   // Вытаскиваем параметр id из параметров url
   const id = params.get('id')
 
-  const { orderProducts } = useAppSelector(state => state.shoppingCart)
-  const shopFetching = useAppSelector(state => state.app.shopFetching)
+  const { orderProducts } = useAppSelector((state) => state.shoppingCart)
+  const shopFetching = useAppSelector((state) => state.app.shopFetching)
 
   const addToShoppingCart = useCallback(() => {
     if (productInfo && !isProductInCart)
-      dispatch(addCartItem({ ...productInfo, productNumber }))
+      dispatch(addCartItem({ ...productInfo, numItemsToBuy }))
     else routeNavigator.push(`/${PaymentPanel.ShoppingCart}`)
-  }, [dispatch, productNumber, productInfo, isProductInCart, routeNavigator])
+  }, [dispatch, numItemsToBuy, productInfo, isProductInCart, routeNavigator])
 
   // Получаем данные о товаре
   useEffect(() => {
@@ -100,10 +100,7 @@ export const ProductInfo: FC<NavIdProps> = (props) => {
         <div className="ProductInfo_offer">
           <div className="ProductInfo_offer_title">{productInfo?.name}</div>
           {!productInfo && (
-            <div
-              style={{ display: 'block' }}
-              className="ProductInfo_offer_price__skeleton"
-            />
+            <div className="ProductInfo_offer_price__skeleton" />
           )}
           {productInfo && (
             <PriceDisplay
@@ -133,10 +130,10 @@ export const ProductInfo: FC<NavIdProps> = (props) => {
 
           {!isProductInCart && (
             <Counter
-              value={productNumber}
+              value={numItemsToBuy}
               maxValue={productInfo?.maxAvailable ?? 1}
-              onAdd={() => setProductNumber((value) => value + 1)}
-              onSubtract={() => setProductNumber((value) => value - 1)}
+              onAdd={() => setNumItemsToBuy((value) => value + 1)}
+              onSubtract={() => setNumItemsToBuy((value) => value - 1)}
             />
           )}
         </div>

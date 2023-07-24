@@ -1,6 +1,9 @@
-import { FC, memo, useCallback, useState } from 'react'
+import { FC, memo, useCallback, useRef, useState } from 'react'
 import cx from 'classnames'
-import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
+import {
+  useActiveVkuiLocation,
+  useRouteNavigator,
+} from '@vkontakte/vk-mini-apps-router'
 import { Card } from '@vkontakte/vkui'
 import { PriceDisplay } from 'src/components'
 import { ViewingPanel } from 'src/routes'
@@ -19,13 +22,18 @@ let ProductCard: FC<ProductCardProps> = ({
 }) => {
   // Объект для навигации по приложению
   const routeNavigator = useRouteNavigator()
+  const { panel } = useActiveVkuiLocation()
+  const initialPanel = useRef(panel)
   const [isPreviewLoad, setIsPreviewLoad] = useState(false)
 
   const onProductCardClick = useCallback(() => {
     routeNavigator.push(`/${ViewingPanel.ProductInfo}?id=${id}`)
   }, [routeNavigator, id])
 
-  const onProductPreviewLoad = useCallback(() => setIsPreviewLoad(true), [])
+  const onProductPreviewLoad = useCallback(() => {
+    if (panel === initialPanel.current)
+      setIsPreviewLoad(true)
+  }, [panel])
 
   return (
     <Card

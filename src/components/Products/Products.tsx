@@ -43,7 +43,7 @@ let Products: FC<ProductsProps> = ({
         <Placeholder>По твоему запросу ничего не нашлось</Placeholder>
       )}
       {fetching && lazyLoading && (
-        <div style={{ height: '80px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <div className="Products_spinner">
           <Spinner size="large"></Spinner>
         </div>
       )}

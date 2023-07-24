@@ -12,7 +12,7 @@
   top: 0;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
 }
 
 .Store::-webkit-scrollbar {
@@ -21,13 +21,9 @@
   display: none;
 }
 
-.Android_animation .Products .Products_grid .ProductCard .vkuiCard__in .ProductCard_preview img {
-  opacity: 0;
-}
-
 @media (min-width: 768px) {
   .Store {
-    gap: 10px;
+    gap: 16px;
     margin: 0 10px;
     flex-direction: row;
     justify-content: space-around;

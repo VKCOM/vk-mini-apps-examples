@@ -17,14 +17,16 @@
 }
 
 .Products_spinner {
-  max-height: 100px;
-  padding-top: 12px;
+  height: 80px; 
+  display: flex; 
+  justify-content: center; 
+  align-items: center;
 }
 
 @media (min-width: 768px) {
   .Products {
-    margin-top: 12px;
-    border-radius: 16px;
+    margin-top: 16px;
+    border-radius: 12px;
     height: max-content;
     padding-bottom: 12px;
   }

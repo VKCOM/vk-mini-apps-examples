@@ -8,7 +8,7 @@ import {
   useAdaptivityWithJSMediaQueries,
 } from '@vkontakte/vkui'
 import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
-import { Icon56UsersOutline } from '@vkontakte/icons'
+import { Icon28ShoppingCartOutline } from '@vkontakte/icons'
 import { CartItem, Navbar, PageHeader, Subtotal } from 'src/components'
 import { PayConfirmPopout } from './PayConfirmPopout'
 import { useAppSelector } from 'src/store'
@@ -62,16 +62,16 @@ let ShoppingCart: FC<NavIdProps> = (props) => {
               price={item.price}
               preview={item.preview}
               maxAvailable={item.maxAvailable}
-              productNumber={item.productNumber}
+              numItemsToBuy={item.numItemsToBuy}
             />
           ))}
 
           {isCartEmpty && (
             <Placeholder
               header="Ваша корзина пока пуста"
-              icon={<Icon56UsersOutline />}
+              icon={<Icon28ShoppingCartOutline width={56} height={56} />}
               action={
-                <Button onClick={onPlaceholderClick} size="m">
+                <Button mode="secondary" onClick={onPlaceholderClick} size="m">
                   За покупками
                 </Button>
               }

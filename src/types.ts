@@ -16,7 +16,7 @@ export type ProductPreview = Omit<
   'categoryId' | 'photos' | 'description'
 >
 
-export type OrderProduct = ProductPreview & { productNumber: number }
+export type OrderProduct = ProductPreview & { numItemsToBuy: number }
 
 export interface Category {
   id: number

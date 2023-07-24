@@ -37,9 +37,9 @@
 
 @media (min-width: 768px) {
   .Categories {
-    margin-top: 12px;
+    margin-top: 16px;
     max-width: var(--sidebar-width);
     padding: 0px 0px 12px 0px;
-    border-radius: 16px;
+    border-radius: 12px;
   }
 }

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Icon56MoneyTransferOutline } from '@vkontakte/icons'
+import { Icon56GestureOutline } from '@vkontakte/icons'
 import { Button, ModalCard, NavIdProps } from '@vkontakte/vkui'
 import { useAppSelector } from 'src/store'
 
@@ -10,7 +10,7 @@ const OnboardingModal: React.FC<NavIdProps & { onClose: () => void }> = (
   return (
     <ModalCard
       {...props}
-      icon={<Icon56MoneyTransferOutline />}
+      icon={<Icon56GestureOutline />}
       header={`Привет ${name}!`}
       subheader="Добро пожаловать в шаблон мини-приложения) Магазин доступен только в деморежиме, товары из него приобрести нельзя."
       actions={

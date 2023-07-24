@@ -1,8 +1,9 @@
-import { FC, memo, useEffect, useState } from 'react'
+import { FC, memo, useEffect, useRef, useState } from 'react'
 import cx from 'classnames'
 
 import './ProductPhoto.css'
 import { ImageBackgroundAppereance } from '@/types'
+import { useActiveVkuiLocation } from '@vkontakte/vk-mini-apps-router'
 
 export type ProductPhotoProps = {
   url: string
@@ -16,10 +17,11 @@ enum Orientation {
 }
 
 let ProductPhoto: FC<ProductPhotoProps> = ({ url, appearence }) => {
-  const uploadClass = `ProductPhoto__${appearence}`
   const [orientation, setOrientation] = useState<undefined | Orientation>(
     undefined
   )
+  const { panel } = useActiveVkuiLocation()
+  const initialPanel = useRef(panel)
 
   /** Загружаем фото и определяем его ориентацию в пространстве для правильного растягивания по вертикали/горизонали */
   useEffect(() => {
@@ -32,13 +34,16 @@ let ProductPhoto: FC<ProductPhotoProps> = ({ url, appearence }) => {
     }
     image.addEventListener('load', onImageLoad)
 
+    if (panel !== initialPanel.current)
+      image.removeEventListener('load', onImageLoad)
+
     return () => {
       image.removeEventListener('load', onImageLoad)
     }
-  }, [url])
+  }, [url, panel])
 
   return (
-    <div className={cx('ProductPhoto', orientation ? uploadClass : '')}>
+    <div className={cx('ProductPhoto', `ProductPhoto__${appearence}`)}>
       {orientation && (
         <img
           src={url}

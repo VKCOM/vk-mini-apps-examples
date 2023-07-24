@@ -20,6 +20,7 @@ let FiltersModal: React.FC<NavIdProps & { onClose: () => void }> = (props) => {
     <ModalPage
       {...props}
       dynamicContentHeight
+      settlingHeight={100}
       header={
         <ModalPageHeader
           after={<Icon24Dismiss fill="#818C99" onClick={props.onClose} />}

@@ -2,9 +2,7 @@ import { FC, memo, useCallback, useLayoutEffect, useMemo, useRef } from 'react'
 import {
   NavIdProps,
   Panel,
-  Platform,
   useAdaptivityWithJSMediaQueries,
-  usePlatform,
 } from '@vkontakte/vkui'
 import { Filters, Navbar, PageHeader, Products, TechInfo } from 'src/components'
 import { useAppDispatch, useAppSelector } from 'src/store'
@@ -16,7 +14,6 @@ import { useImageIntersectionObserver } from 'src/hooks'
 import { useActiveVkuiLocation } from '@vkontakte/vk-mini-apps-router'
 import { ViewingPanel } from 'src/routes'
 import { ITEMS, SECTIONS } from './techConfig'
-import cx from 'classnames'
 
 import './Store.css'
 
@@ -43,11 +40,11 @@ let Store: FC<NavIdProps> = (props) => {
     (state) => state.app
   )
   const { isDesktop } = useAdaptivityWithJSMediaQueries()
-  const platform = usePlatform()
   const limit = isDesktop ? DESKTOP_LIMIT : MOBILE_LIMIT
 
   const scrollPosition = useRef(0)
   const isSavedContent = useRef(store.products.length > 0)
+  const isFirstRender = useRef(true)
   const $storeContainer = useRef<HTMLDivElement>(null)
   const lastLoadItemIndex = useRef(store.products.length || limit)
 
@@ -121,8 +118,9 @@ let Store: FC<NavIdProps> = (props) => {
       .querySelectorAll('.ProductCard__active')
       .forEach((el) => el.classList.remove('ProductCard__active'))
 
-    if (!isSavedContent.current && !shopFetching) fetchProducts(0, limit)
-    isSavedContent.current = false
+    if (!isSavedContent.current && !shopFetching) 
+      setTimeout(() => fetchProducts(0, limit), isFirstRender.current ? 150 : 0)
+    isSavedContent.current = isFirstRender.current = false
   }, [panel, filters, shopFetching, limit, fetchProducts])
 
   /** Следим за новыми элементами при загрузке новой партии продуктов */
@@ -139,11 +137,7 @@ let Store: FC<NavIdProps> = (props) => {
     <Panel className="Panel__fullScreen" {...props}>
       <Navbar searchValue={filters.query}>{StoreHeader}</Navbar>
 
-      <div
-        ref={$storeContainer}
-        className={cx('Store', {Android_animation: platform === Platform.ANDROID && panel === ViewingPanel.Main})}
-        onScroll={onHandleScroll}
-      >
+      <div ref={$storeContainer} className={'Store'} onScroll={onHandleScroll}>
         <Products
           lazyLoading
           header="Товары"

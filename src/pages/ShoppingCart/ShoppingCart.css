@@ -44,13 +44,13 @@
 .ShoppingCart__desktop {
   display: flex;
   flex-direction: row;
-  gap: 10px;
-  margin: 10px 10px 0 10px;
+  gap: 16px;
+  margin: 16px 10px 0 10px;
 }
 
 .ShoppingCart_productList__desktop {
   margin-top: 12px;
-  border-radius: 16px;
+  border-radius: 12px;
   height: max-content;
   padding-bottom: 12px;
   margin: 0;
@@ -62,7 +62,7 @@
 .ShoppingCart_checkout__desktop {
   min-width: 320px;
   margin-top: 12px;
-  border-radius: 16px;
+  border-radius: 12px;
   padding: 16px;
   height: max-content;
   margin: 0;

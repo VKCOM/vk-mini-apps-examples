@@ -1,6 +1,6 @@
 .ProductCard {
   width: 100%;
-  max-width: 170px;
+  max-width: 180px;
   cursor: pointer;
 }
 
@@ -28,7 +28,7 @@
 }
 
 .ProductCard_preview img {
-  width: 170px;
+  width: 180px;
   max-width: 100%;
   border-radius: 12px;
   user-select: none;
@@ -47,7 +47,7 @@
   font-weight: 400;
   font-size: 13px;
   line-height: 16px;
-  color: var(--vkui--color_text_secondary);
+  color: var(--vkui--color_text_primary);
 }
 
 .ProductCard_price {

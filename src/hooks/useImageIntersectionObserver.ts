@@ -1,10 +1,14 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 export type IntersectionObserverOption = Omit<
   IntersectionObserverInit,
   'root'
 > & {
   root: React.RefObject<HTMLElement>
+  callback: (
+    observer: IntersectionObserver,
+    entry: IntersectionObserverEntry
+  ) => void
 }
 
 export type ImageLoadingOption = {
@@ -14,8 +18,14 @@ export type ImageLoadingOption = {
   /** Имя аттрибута в котором хранится url картинки */
   attributeName: string
 
+  /** Имя аттрибута в котором хранится url картинки */
+  attributeSourceName?: string
+
   /** Callback для поиска картинки в отслеживаемом элементе */
-  findImage: (element: Element) => HTMLImageElement
+  findImage: (element: Element) => {
+    image: HTMLImageElement
+    source?: HTMLSourceElement[]
+  }
 }
 
 /** Функция отмены ленивой загрузки изображения */
@@ -30,11 +40,20 @@ const cancelDelayLoad = (element: Element) => {
 const loadAndUnobserve = (
   element: Element,
   attributeName: string,
-  findImage: (element: Element) => HTMLImageElement
+  findImage: (element: Element) => {
+    image: HTMLImageElement
+    source?: HTMLSourceElement[]
+  }
 ) => {
   const src = element.getAttribute(attributeName)
-  const img = findImage(element)
-  if (img && src) img.src = src
+  const { image, source = [] } = findImage(element)
+  if (image && src) {
+    source.forEach((item, index) => {
+      const src = element.getAttribute(attributeName + `-${index + 1}`)
+      if (src) item.srcset = src
+    })
+    image.src = src
+  }
 }
 
 /** Функция, запускающая таймер для загрузки изображения */
@@ -42,7 +61,10 @@ const delayLoad = (
   element: Element,
   delayTime: number,
   attributeName: string,
-  findImage: (element: Element) => HTMLImageElement
+  findImage: (element: Element) => {
+    image: HTMLImageElement
+    source?: HTMLSourceElement[]
+  }
 ) => {
   const timeoutId = element.getAttribute('data-time')
   if (timeoutId) return
@@ -58,10 +80,9 @@ const delayLoad = (
  * Хук для использования IntersectionObserver и поддержки ленивой прогрузки картинок
  * @param initialObserverOptions - настройки для IntersectionObserver
  * @param imageLoadingOptions - дополнительные настройки для ленивой загрузки фотографий
- * @returns список entry(отслеживаемых элементов), ссылку на обработчик и callback для мгновенной звгрузки
+ * @returns callback для мгновенной звгрузки
  * @example 
  *  const { observer, entryElements } = useIntersectionObserver(
-    observerElements,
     {
       root: $storeContainer.current,
       rootMargin: '0px 0px 300px 0px',
@@ -78,29 +99,27 @@ export function useImageIntersectionObserver(
   imageLoadingOptions: ImageLoadingOption
 ) {
   const [observer, setObserver] = useState<IntersectionObserver | null>(null)
-  const [entryElements, setEntryElements] = useState<
-    IntersectionObserverEntry[]
-  >([])
+  const isLoad = useRef(false)
 
-  const { root, rootMargin, threshold } = initialObserverOptions
+  const { root, rootMargin, threshold, callback } = initialObserverOptions
   const { delay, attributeName, findImage } = imageLoadingOptions
-
-  const immediatelyLoad = useCallback(
-    (el: Element) => {
-      cancelDelayLoad(el)
-      loadAndUnobserve(el, attributeName, findImage)
-    },
-    [attributeName, findImage]
-  )
 
   /** Инициализация/Обновление intersectionObserver */
   useEffect(() => {
     setObserver(
       new IntersectionObserver(
-        (entries) => {
-          setEntryElements(entries)
+        (entries, observer) => {
+          if (!isLoad.current) {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting || entry.intersectionRatio > 0) {
+                loadAndUnobserve(entry.target, attributeName, findImage)
+              }
+            })
+            isLoad.current = true
+          }
 
           entries.forEach((entry) => {
+            callback(observer, entry)
             if (entry.isIntersecting || entry.intersectionRatio > 0) {
               // При попадании в зону видимости включаем таймер на ImageLoadingOption.delay
               // По окончании таймера картинка загружается
@@ -112,11 +131,11 @@ export function useImageIntersectionObserver(
         { root: root.current, rootMargin, threshold }
       )
     )
-  }, [root, rootMargin, threshold, delay, attributeName, findImage])
+  }, [root, rootMargin, threshold, delay, attributeName, findImage, callback])
 
   useEffect(() => {
     return () => setObserver(null)
   }, [])
 
-  return { entryElements, observer, immediatelyLoad }
+  return { observer }
 }

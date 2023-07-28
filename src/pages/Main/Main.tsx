@@ -55,12 +55,18 @@ let Main: FC<NavIdProps> = (props) => {
             Main_header_shopInfo__unload: !logoLoaded,
           })}
         >
-          <img src={shopInfo.logo} onLoad={onLogoLoad} />
+          <img
+            alt=""
+            width={isDesktop ? 32 : 24}
+            height={isDesktop ? 32 : 24}
+            src={shopInfo.logo}
+            onLoad={onLogoLoad}
+          />
           <div className="Main_header_shopInfo_name">{shopInfo.name}</div>
         </div>
       </div>
     ),
-    [logoLoaded, platform, shopInfo.logo, shopInfo.name, onLogoLoad]
+    [logoLoaded, isDesktop, platform, shopInfo.logo, shopInfo.name, onLogoLoad]
   )
 
   return (

@@ -24,14 +24,14 @@
 
 @media (min-width: 768px) {
   .Filters {
-    margin-top: 12px;
+    margin-top: 16px;
     padding: 6px 0px;
     position: sticky;
     width: 100%;
     height: max-content;
     top: 12px;
     max-width: var(--sidebar-width);
-    border-radius: 16px;
+    border-radius: 12px;
     background: var(--vkui--color_background_content);
   }
 }

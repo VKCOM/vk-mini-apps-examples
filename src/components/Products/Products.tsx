@@ -1,5 +1,5 @@
 import { FC, memo } from 'react'
-import { Header, Placeholder } from '@vkontakte/vkui'
+import { Header, Placeholder, Spinner } from '@vkontakte/vkui'
 import { ProductCard } from 'src/components'
 import { ProductPreview } from 'src/types'
 
@@ -35,12 +35,18 @@ let Products: FC<ProductsProps> = ({
               price={item.price}
               preview={lazyLoading ? '' : item.preview}
               data-index={`${lazyLoading ? index : null}`}
-              data-src={`${lazyLoading ? item.preview : null}`}
+              data-src={`${lazyLoading ? item.preview + '.png' : null}`}
+              data-src-1={`${lazyLoading ? item.preview + '.webp' : null}`}
             />
           ))}
       </div>
       {!maxProducts && !fetching && (
         <Placeholder>По твоему запросу ничего не нашлось</Placeholder>
+      )}
+      {fetching && lazyLoading && (
+        <div className="Products_spinner">
+          <Spinner size="large"></Spinner>
+        </div>
       )}
     </div>
   )

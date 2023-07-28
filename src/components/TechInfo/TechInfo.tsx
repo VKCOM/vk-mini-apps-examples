@@ -26,6 +26,8 @@ let TechInfo: FC<TechInfoProps> = ({ sections, items }) => {
         <HorizontalScroll>
           {sections?.map((section) => (
             <TabsItem
+              id={section.id.toString()}
+              aria-controls={section.id.toString()}
               selected={activeSectionId === section.id}
               key={section.id}
               onClick={() => setActiveSectionId(section.id)}

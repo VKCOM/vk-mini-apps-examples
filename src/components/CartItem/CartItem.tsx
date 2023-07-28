@@ -17,7 +17,7 @@ let CartItem: FC<OrderProduct> = ({
   price,
   preview,
   maxAvailable,
-  productNumber,
+  numItemsToBuy,
 }) => {
   // Получаем функцию для отправки данных в store
   const dispatch = useAppDispatch()
@@ -25,7 +25,7 @@ let CartItem: FC<OrderProduct> = ({
   const routeNavigator = useRouteNavigator()
 
   const [isPreviewLoad, setIsPreviewLoad] = useState(false)
-  const [itemNumber, setItemNumber] = useState(productNumber)
+  const [itemNumber, setItemNumber] = useState(numItemsToBuy)
 
   const onCancelClick = useCallback(
     (e: React.MouseEvent) => {
@@ -50,9 +50,11 @@ let CartItem: FC<OrderProduct> = ({
     e.stopPropagation()
   }, [])
 
+  const onPreviewLoad = useCallback(() => setIsPreviewLoad(true), [])
+
   /** Обновление товара в store при изменении количества */
   useEffect(() => {
-    dispatch(updateCartItem({ id, productNumber: itemNumber }))
+    dispatch(updateCartItem({ id, numItemsToBuy: itemNumber }))
   }, [id, itemNumber, dispatch])
 
   return (
@@ -62,7 +64,10 @@ let CartItem: FC<OrderProduct> = ({
           CartItem_preview__unload: !isPreviewLoad,
         })}
       >
-        <img onLoad={() => setIsPreviewLoad(true)} src={preview} />
+        <picture>
+          <source srcSet={preview + '.webp'} type="image/webp"></source>
+          <img onLoad={onPreviewLoad} src={preview} />
+        </picture>
       </div>
 
       <div className="CartItem_info">

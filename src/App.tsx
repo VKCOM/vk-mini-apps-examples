@@ -17,7 +17,7 @@ import {
 import { useAppDispatch, useAppSelector } from './store'
 import { setOnboardingComplete, setUserData } from './store/user.reducer'
 import { Modals } from './modals'
-import { Main, Store, CategoryList, ShoppingCart, ProductInfo } from './pages'
+import { Main, Store, ShoppingCart, ProductInfo } from './pages'
 import { PaymentPanel, ShopView, ViewingPanel } from './routes'
 import { fetchShop } from './store/app.reducer'
 
@@ -84,7 +84,7 @@ export const App: FC = () => {
 
       // Обновляем размер страницы
       bridge.send('VKWebAppResizeWindow', {
-        width: 840,
+        width: 911,
         height: data.viewport_height - 100,
       })
     }
@@ -97,27 +97,8 @@ export const App: FC = () => {
 
   /** Запрос на получение контента магазина */
   useEffect(() => {
-    if (!id) return
-
-    /** Callback проверяющий установлен ли сервисный работник */
-    navigator.serviceWorker.ready.then(() => {
-      // Делаем запрос с задержкой, чтобы service-worker был готов отслеживать запросы на нашей странице
-      setTimeout(() => {
-        // Проверка, что данные магазина еще не были загружены
-        if (shopFetching)
-          /** Запрос на получение контента магазина */
-          dispatch(fetchShop({ userId: id.toString() }))
-      }, 10)
-    })
-
-    /** Callback приходящий на сообщение от sw при его регистрации*/
-    navigator.serviceWorker.addEventListener('message', function () {
-      setTimeout(() => {
-        if (shopFetching)
-          dispatch(fetchShop({ userId: id.toString() }))
-      }, 10)
-    })
-  }, [id, shopFetching, dispatch])
+    dispatch(fetchShop({ userId: '10' }))
+  }, [dispatch])
 
   /** Loader на время получения контента магазина */
   useEffect(() => {
@@ -155,7 +136,6 @@ export const App: FC = () => {
           <View nav={ShopView.Viewing} activePanel={activePanel}>
             <Main nav={ViewingPanel.Main} />
             <Store nav={ViewingPanel.Store} />
-            <CategoryList nav={ViewingPanel.CategoryList} />
             <ProductInfo nav={ViewingPanel.ProductInfo} />
           </View>
 

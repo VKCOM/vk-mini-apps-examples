@@ -1,6 +1,9 @@
-import { FC, memo, useCallback, useState } from 'react'
+import { FC, memo, useCallback, useRef, useState } from 'react'
 import cx from 'classnames'
-import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
+import {
+  useActiveVkuiLocation,
+  useRouteNavigator,
+} from '@vkontakte/vk-mini-apps-router'
 import { Card } from '@vkontakte/vkui'
 import { PriceDisplay } from 'src/components'
 import { ViewingPanel } from 'src/routes'
@@ -19,13 +22,17 @@ let ProductCard: FC<ProductCardProps> = ({
 }) => {
   // Объект для навигации по приложению
   const routeNavigator = useRouteNavigator()
+  const { panel } = useActiveVkuiLocation()
+  const initialPanel = useRef(panel)
   const [isPreviewLoad, setIsPreviewLoad] = useState(false)
 
   const onProductCardClick = useCallback(() => {
     routeNavigator.push(`/${ViewingPanel.ProductInfo}?id=${id}`)
   }, [routeNavigator, id])
 
-  const onProductPreviewLoad = useCallback(() => setIsPreviewLoad(true), [])
+  const onProductPreviewLoad = useCallback(() => {
+    if (panel === initialPanel.current) setIsPreviewLoad(true)
+  }, [panel])
 
   return (
     <Card
@@ -40,7 +47,19 @@ let ProductCard: FC<ProductCardProps> = ({
           ProductCard_preview__unload: !isPreviewLoad,
         })}
       >
-        <img src={preview} onLoad={onProductPreviewLoad} />
+        <picture>
+          <source srcSet={preview + '.webp'} type="image/webp"></source>
+          <img
+            src={preview + '.png'}
+            alt=""
+            width={180}
+            height={180}
+            onLoad={onProductPreviewLoad}
+            className={cx('ProductCard_preview_photo', {
+              ProductCard_preview_photo__unload: !isPreviewLoad,
+            })}
+          />
+        </picture>
       </div>
 
       <div className="ProductCard_info">

@@ -16,7 +16,7 @@ export type ProductPreview = Omit<
   'categoryId' | 'photos' | 'description'
 >
 
-export type OrderProduct = ProductPreview & { productNumber: number }
+export type OrderProduct = ProductPreview & { numItemsToBuy: number }
 
 export interface Category {
   id: number
@@ -39,9 +39,9 @@ export interface ShopInfo {
 }
 
 export enum ApiEndpoint {
-  InitialData = 'initialData',
-  FilteredProducts = 'filteredProducts',
-  ProductInfo = 'product',
+  InitialData = 'getInitialData',
+  FilteredProducts = 'getFilteredProducts',
+  ProductInfo = 'getProductInfo',
 }
 
 export enum ImageBackgroundAppereance {

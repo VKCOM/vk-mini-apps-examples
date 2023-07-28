@@ -15,7 +15,7 @@
 .Main_sidebar {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 16px;
 }
 
 .Main_header__mobile {
@@ -50,8 +50,8 @@
 
 .Main_header_shopInfo img {
   border-radius: 100px;
-  width: 32px;
-  height: 32px;
+  width: 24px;
+  height: 24px;
   user-select: none;
 }
 
@@ -92,7 +92,7 @@
 
 @media (min-width: 768px) {
   .Main {
-    gap: 10px;
+    gap: 16px;
     margin: 0 10px;
     flex-direction: row-reverse;
     justify-content: space-around;
@@ -103,11 +103,10 @@
     top: 0;
   }
 
-  .Main .Categories .vkuiHeader .vkuiHeader__main {
-    transform: translateY(2px);
-  }
-
-  .Main .Products .vkuiHeader .vkuiHeader__main {
-    transform: translateY(-6px);
+  .Main_header_shopInfo img {
+    border-radius: 100px;
+    width: 32px;
+    height: 32px;
+    user-select: none;
   }
 }

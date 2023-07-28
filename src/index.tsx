@@ -7,7 +7,6 @@ import { router } from './routes'
 import { Provider } from 'react-redux'
 import { store } from './store'
 import { App } from './App'
-import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 
 /** Подключаем стили vkui из собранной папки dist в node_modules/vkontakte/vkui/ */
 import '@vkontakte/vkui/dist/vkui.css'
@@ -40,6 +39,3 @@ ReactDOM.render(
   /** Рендерим все компоненты в div c id === 'root' в public/index.html */
   document.getElementById('root')
 )
-
-/** Регистрируем сервисного работника, чтобы начать отправлять запросы и получать ответы из кэша */
-serviceWorkerRegistration.register()

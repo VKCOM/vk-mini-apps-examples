@@ -1,4 +1,4 @@
-const API_URL = 'https://vkStore.com'
+const API_URL = 'https://shop-boilerplate-backend.vercel.app'
 
 interface Arguments {
   /** API метод - url */

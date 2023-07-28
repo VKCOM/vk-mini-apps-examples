@@ -1,5 +1,5 @@
 import { FC, memo, useCallback } from 'react'
-import { Header, IconButton, Link } from '@vkontakte/vkui'
+import { Header, IconButton } from '@vkontakte/vkui'
 import { Icon20ChevronRightOutline } from '@vkontakte/icons'
 import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
 import { CategoryCardProps } from 'src/components'
@@ -35,11 +35,6 @@ let Categories: FC<CategoriesProps> = ({ categories }) => {
   )
 
   const onArrowClick = useCallback(() => {
-    // Совершаем переход на страницу категорий с сохранением в историю переходов
-    routeNavigator.push(`/${ViewingPanel.CategoryList}`)
-  }, [routeNavigator])
-
-  const onLinkClick = useCallback(() => {
     // Обнуляем фильтры
     dispatch(setProductFilters(appInitialState.filters))
     // Совершаем переход в каталог с сохранением в историю переходов
@@ -50,7 +45,6 @@ let Categories: FC<CategoriesProps> = ({ categories }) => {
     <div className="Categories">
       <Header
         indicator={categories.length}
-        subtitle={<Link onClick={onLinkClick}>Показать все товары</Link>}
         aside={
           <IconButton aria-label="categories" onClick={onArrowClick}>
             <Icon20ChevronRightOutline

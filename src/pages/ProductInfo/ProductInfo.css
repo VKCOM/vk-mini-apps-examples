@@ -91,6 +91,10 @@
   max-height: 44px;
 }
 
+.ProductInfo_gallery {
+  will-change: transform;
+}
+
 @media (min-width: 420px) {
   .ProductInfo_gallery {
     margin: 0 auto;
@@ -103,7 +107,7 @@
     margin: auto;
     margin-top: 12px;
     margin-bottom: 12px;
-    border-radius: 16px;
+    border-radius: 12px;
     height: 100%;
     width: 605px;
     box-sizing: border-box;

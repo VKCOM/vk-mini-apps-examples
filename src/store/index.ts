@@ -4,11 +4,13 @@ import { userReducer } from './user.reducer'
 import { storeReducer } from './store.reducer'
 import { appReducer } from './app.reducer'
 import { shoppingCartReducer } from './shoppingCart.reducer'
+import { productInfoReducer } from './productInfo.reducer'
 
 const rootReducer = combineReducers({
   app: appReducer,
   user: userReducer,
   store: storeReducer,
+  productInfo: productInfoReducer,
   shoppingCart: shoppingCartReducer,
 })
 

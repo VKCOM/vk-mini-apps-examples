@@ -42,11 +42,6 @@ export const routes = RoutesConfig.create([
         ),
       ]),
       createPanel(ViewingPanel.ProductInfo, `/${ViewingPanel.ProductInfo}`, []),
-      createPanel(
-        ViewingPanel.CategoryList,
-        `/${ViewingPanel.CategoryList}`,
-        []
-      ),
     ]),
 
     createView(ShopView.Payment, [

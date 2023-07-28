@@ -69,6 +69,8 @@ let Filters: FC<FiltersProps> = ({
     setPrevFilters({ ...filters })
     const newFilters = Object.assign({ ...defaultFilter }, { ...filters })
     dispatch(setProductFilters(newFilters))
+    
+    /** Закрываем модальную станицу с задержкой, чтобы товары успели обновиться до ее закрытия */
     if (!isDesktop) setTimeout(() => routeNavigator.back(), 350)
   }, [filters, isDesktop, routeNavigator, defaultFilter, dispatch])
 

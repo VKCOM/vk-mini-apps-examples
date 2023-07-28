@@ -28,8 +28,5 @@
     "setupTest.js",
     "src/api/user/addToCart.ts",
     "src/.react-app-env.d.ts",
-    "cra.config.js",
-    "src/serviceWorkerRegistration.ts"
   ],
-  "exclude": ["src/serviceWorker/service-worker.ts"]
 }

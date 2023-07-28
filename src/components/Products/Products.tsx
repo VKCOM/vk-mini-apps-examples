@@ -35,7 +35,8 @@ let Products: FC<ProductsProps> = ({
               price={item.price}
               preview={lazyLoading ? '' : item.preview}
               data-index={`${lazyLoading ? index : null}`}
-              data-src={`${lazyLoading ? item.preview : null}`}
+              data-src={`${lazyLoading ? item.preview + '.png' : null}`}
+              data-src-1={`${lazyLoading ? item.preview + '.webp' : null}`}
             />
           ))}
       </div>

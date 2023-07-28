@@ -97,8 +97,8 @@ export const App: FC = () => {
 
   /** Запрос на получение контента магазина */
   useEffect(() => {
-    if (id) dispatch(fetchShop({ userId: id.toString() }))
-  }, [id, dispatch])
+    dispatch(fetchShop({ userId: '10' }))
+  }, [dispatch])
 
   /** Loader на время получения контента магазина */
   useEffect(() => {

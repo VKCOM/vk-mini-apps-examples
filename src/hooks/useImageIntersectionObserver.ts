@@ -18,8 +18,14 @@ export type ImageLoadingOption = {
   /** Имя аттрибута в котором хранится url картинки */
   attributeName: string
 
+  /** Имя аттрибута в котором хранится url картинки */
+  attributeSourceName?: string
+
   /** Callback для поиска картинки в отслеживаемом элементе */
-  findImage: (element: Element) => HTMLImageElement
+  findImage: (element: Element) => {
+    image: HTMLImageElement
+    source?: HTMLSourceElement[]
+  }
 }
 
 /** Функция отмены ленивой загрузки изображения */
@@ -34,11 +40,20 @@ const cancelDelayLoad = (element: Element) => {
 const loadAndUnobserve = (
   element: Element,
   attributeName: string,
-  findImage: (element: Element) => HTMLImageElement
+  findImage: (element: Element) => {
+    image: HTMLImageElement
+    source?: HTMLSourceElement[]
+  }
 ) => {
   const src = element.getAttribute(attributeName)
-  const img = findImage(element)
-  if (img && src) img.src = src
+  const { image, source = [] } = findImage(element)
+  if (image && src) {
+    source.forEach((item, index) => {
+      const src = element.getAttribute(attributeName + `-${index + 1}`)
+      if (src) item.srcset = src
+    })
+    image.src = src
+  }
 }
 
 /** Функция, запускающая таймер для загрузки изображения */
@@ -46,7 +61,10 @@ const delayLoad = (
   element: Element,
   delayTime: number,
   attributeName: string,
-  findImage: (element: Element) => HTMLImageElement
+  findImage: (element: Element) => {
+    image: HTMLImageElement
+    source?: HTMLSourceElement[]
+  }
 ) => {
   const timeoutId = element.getAttribute('data-time')
   if (timeoutId) return

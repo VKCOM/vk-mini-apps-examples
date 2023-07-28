@@ -31,8 +31,7 @@ let ProductCard: FC<ProductCardProps> = ({
   }, [routeNavigator, id])
 
   const onProductPreviewLoad = useCallback(() => {
-    if (panel === initialPanel.current)
-      setIsPreviewLoad(true)
+    if (panel === initialPanel.current) setIsPreviewLoad(true)
   }, [panel])
 
   return (
@@ -48,7 +47,19 @@ let ProductCard: FC<ProductCardProps> = ({
           ProductCard_preview__unload: !isPreviewLoad,
         })}
       >
-        <img src={preview} onLoad={onProductPreviewLoad} />
+        <picture>
+          <source srcSet={preview + '.webp'} type="image/webp"></source>
+          <img
+            src={preview + '.png'}
+            alt=""
+            width={180}
+            height={180}
+            onLoad={onProductPreviewLoad}
+            className={cx('ProductCard_preview_photo', {
+              ProductCard_preview_photo__unload: !isPreviewLoad,
+            })}
+          />
+        </picture>
       </div>
 
       <div className="ProductCard_info">

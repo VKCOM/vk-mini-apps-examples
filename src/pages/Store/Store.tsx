@@ -27,9 +27,13 @@ const IMAGE_LOAD_DELAY = 500
  * @returns productCardpreview
  */
 function findImage(element: Element) {
-  return element
+  const picture = element
     .getElementsByClassName('ProductCard_preview')[0]
-    .getElementsByTagName('img')[0]
+    .getElementsByTagName('picture')[0]
+  const image = picture.getElementsByTagName('img')[0]
+  const source = Array.from(picture.getElementsByTagName('source'))
+
+  return { image, source }
 }
 
 let Store: FC<NavIdProps> = (props) => {
@@ -118,7 +122,7 @@ let Store: FC<NavIdProps> = (props) => {
       .querySelectorAll('.ProductCard__active')
       .forEach((el) => el.classList.remove('ProductCard__active'))
 
-    if (!isSavedContent.current && !shopFetching) 
+    if (!isSavedContent.current && !shopFetching)
       setTimeout(() => fetchProducts(0, limit), isFirstRender.current ? 150 : 0)
     isSavedContent.current = isFirstRender.current = false
   }, [panel, filters, shopFetching, limit, fetchProducts])

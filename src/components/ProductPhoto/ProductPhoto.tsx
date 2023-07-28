@@ -17,44 +17,49 @@ enum Orientation {
 }
 
 let ProductPhoto: FC<ProductPhotoProps> = ({ url, appearence }) => {
-  const [orientation, setOrientation] = useState<undefined | Orientation>(
+  const [orientation, setOrientation] = useState<Orientation | undefined>(
     undefined
   )
   const { panel } = useActiveVkuiLocation()
+  const $photo = useRef<HTMLImageElement>(null)
   const initialPanel = useRef(panel)
 
   /** Загружаем фото и определяем его ориентацию в пространстве для правильного растягивания по вертикали/горизонали */
   useEffect(() => {
-    const image = new Image()
-    image.src = url
+    if (!$photo.current) return
+    const photo = $photo.current
     const onImageLoad = () => {
-      if (image.width > image.height) setOrientation(Orientation.Horizontal)
-      else if (image.width < image.height) setOrientation(Orientation.Vertical)
+      if (photo.height > photo.width) setOrientation(Orientation.Vertical)
+      else if (photo.height < photo.width)
+        setOrientation(Orientation.Horizontal)
       else setOrientation(Orientation.Square)
     }
-    image.addEventListener('load', onImageLoad)
+    photo.addEventListener('load', onImageLoad)
 
     if (panel !== initialPanel.current)
-      image.removeEventListener('load', onImageLoad)
+      photo.removeEventListener('load', onImageLoad)
 
     return () => {
-      image.removeEventListener('load', onImageLoad)
+      photo.removeEventListener('load', onImageLoad)
     }
   }, [url, panel])
 
   return (
     <div className={cx('ProductPhoto', `ProductPhoto__${appearence}`)}>
-      {orientation && (
+      <picture className="ProductPhoto_picture">
+        <source srcSet={url + '.webp'} type="image/webp"></source>
         <img
-          src={url}
+          ref={$photo}
+          src={url + '.png'}
           className={cx('ProductPhoto_photo', {
-            ProductPhoto_photo__vertical: orientation === Orientation.Vertical,
+            ProductPhoto_photo__loaded: orientation,
             ProductPhoto_photo__square: orientation === Orientation.Square,
+            ProductPhoto_photo__vertical: orientation === Orientation.Vertical,
             ProductPhoto_photo__horizontal:
               orientation === Orientation.Horizontal,
           })}
         />
-      )}
+      </picture>
     </div>
   )
 }

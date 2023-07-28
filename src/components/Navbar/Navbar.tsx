@@ -89,6 +89,7 @@ let Navbar: FC<NavbarProps> = ({
           })}
         >
           <Search
+            placeholder={filters.query ? filters.query : 'Поиск'}
             defaultValue={searchValue}
             className="Navbar_search"
             onKeyDown={onInputKeyDown}

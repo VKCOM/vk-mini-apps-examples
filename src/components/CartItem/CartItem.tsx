@@ -64,7 +64,10 @@ let CartItem: FC<OrderProduct> = ({
           CartItem_preview__unload: !isPreviewLoad,
         })}
       >
-        <img onLoad={onPreviewLoad} src={preview} />
+        <picture>
+          <source srcSet={preview + '.webp'} type="image/webp"></source>
+          <img onLoad={onPreviewLoad} src={preview} />
+        </picture>
       </div>
 
       <div className="CartItem_info">

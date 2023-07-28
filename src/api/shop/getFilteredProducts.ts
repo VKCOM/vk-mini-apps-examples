@@ -1,7 +1,7 @@
 import { ApiEndpoint, ProductFilter, ProductPreview } from 'src/types'
 import { makeRequest } from 'src/api/makeRequest'
 
-interface GetProductsRequest {
+export interface GetProductsRequest {
   /** Порядковый номер первого возвращаемого товара в списке */
   _start: number
 
@@ -12,7 +12,7 @@ interface GetProductsRequest {
   filters: ProductFilter
 }
 
-interface GetProductsResponse {
+export interface GetProductsResponse {
   /** Отфильтрованные продукты с порядковыми номерами от _start до _end */
   products: ProductPreview[]
 

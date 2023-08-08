@@ -11,7 +11,7 @@ import {
   Separator,
   usePlatform,
 } from '@vkontakte/vkui'
-import { Navbar, PageHeader, PriceDisplay, ProductPhoto } from 'src/components'
+import { PriceDisplay, ProductPhoto } from 'src/components'
 import { fetchProductInfo } from 'src/store/productInfo.reducer'
 import { useAppDispatch, useAppSelector } from 'src/store'
 import { ViewingPanel } from 'src/routes'
@@ -64,9 +64,6 @@ export const ProductInfo: FC<NavIdProps> = (props) => {
 
   return (
     <Panel className="Panel__fullScreen" {...props}>
-      <Navbar searchDisable>
-        <PageHeader header="Товар" />
-      </Navbar>
 
       <div ref={$productInfoContent} className="ProductInfo">
         <Gallery

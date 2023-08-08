@@ -9,7 +9,7 @@ import {
 } from '@vkontakte/vkui'
 import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
 import { Icon28ShoppingCartOutline } from '@vkontakte/icons'
-import { CartItem, Navbar, PageHeader, Subtotal } from 'src/components'
+import { CartItem, Subtotal } from 'src/components'
 import { PayConfirmPopout } from './PayConfirmPopout'
 import { useAppSelector } from 'src/store'
 import { INITIAL_URL } from 'src/routes'
@@ -40,9 +40,6 @@ let ShoppingCart: FC<NavIdProps> = (props) => {
 
   return (
     <Panel className="Panel__fullScreen" {...props}>
-      <Navbar searchDisable>
-        <PageHeader header="Корзина" />
-      </Navbar>
 
       <div
         className={cx('ShoppingCart', {

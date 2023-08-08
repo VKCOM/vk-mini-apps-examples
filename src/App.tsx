@@ -17,7 +17,7 @@ import {
 import { useAppDispatch, useAppSelector } from './store'
 import { setOnboardingComplete, setUserData } from './store/user.reducer'
 import { Modals } from './modals'
-import { Main, Store, ShoppingCart, ProductInfo } from './pages'
+import { Store, ShoppingCart, ProductInfo } from './pages'
 import { PaymentPanel, ShopView, ViewingPanel } from './routes'
 import { fetchShop } from './store/app.reducer'
 
@@ -32,12 +32,11 @@ export const App: FC = () => {
   const shopFetching = useAppSelector((state) => state.app.shopFetching)
 
   const {
-    view: activeView = ViewingPanel.Main,
+    view: activeView = ViewingPanel.Store,
     panel: activePanel = ShopView.Viewing,
   } = useActiveVkuiLocation()
 
   const dispatch = useAppDispatch()
-  const id = useAppSelector((state) => state.user.id)
   const onboadrdingComplete = useAppSelector(
     (state) => state.user.onboadrdingComplete
   )
@@ -134,7 +133,6 @@ export const App: FC = () => {
            * activePanel - активная Panel
            */}
           <View nav={ShopView.Viewing} activePanel={activePanel}>
-            <Main nav={ViewingPanel.Main} />
             <Store nav={ViewingPanel.Store} />
             <ProductInfo nav={ViewingPanel.ProductInfo} />
           </View>

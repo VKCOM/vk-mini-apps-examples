@@ -22,8 +22,7 @@ export enum PaymentPanel {
 export enum ViewingPanel {
   CategoryList = 'categoryList',
   ProductInfo = 'productInfo',
-  Store = 'store',
-  Main = 'main',
+  Store = '/',
 }
 
 export enum StorePanelModal {
@@ -34,8 +33,7 @@ export enum StorePanelModal {
 export const routes = RoutesConfig.create([
   createRoot(SHOP_ROOT, [
     createView(ShopView.Viewing, [
-      createPanel(ViewingPanel.Main, '/', []),
-      createPanel(ViewingPanel.Store, `/${ViewingPanel.Store}`, [
+      createPanel(ViewingPanel.Store, '/', [
         createModal(
           StorePanelModal.Filters,
           `/${ViewingPanel.Store}/${StorePanelModal.Filters}`

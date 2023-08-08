@@ -1,10 +1,10 @@
-import { FC, memo, useCallback, useLayoutEffect, useMemo, useRef } from 'react'
+import { FC, memo, useCallback, useLayoutEffect, useRef } from 'react'
 import {
   NavIdProps,
   Panel,
   useAdaptivityWithJSMediaQueries,
 } from '@vkontakte/vkui'
-import { Filters, Navbar, PageHeader, Products, TechInfo } from 'src/components'
+import { Filters, Products, TechInfo } from 'src/components'
 import { useAppDispatch, useAppSelector } from 'src/store'
 import {
   fetchFilteredProducts,
@@ -51,8 +51,6 @@ let Store: FC<NavIdProps> = (props) => {
   const isFirstRender = useRef(true)
   const $storeContainer = useRef<HTMLDivElement>(null)
   const lastLoadItemIndex = useRef(store.products.length || limit)
-
-  const StoreHeader = useMemo(() => <PageHeader header="Каталог" />, [])
 
   const fetchProducts = useCallback(
     (_start: number, _end: number) => {
@@ -139,7 +137,6 @@ let Store: FC<NavIdProps> = (props) => {
 
   return (
     <Panel className="Panel__fullScreen" {...props}>
-      <Navbar searchValue={filters.query}>{StoreHeader}</Navbar>
 
       <div ref={$storeContainer} className={'Store'} onScroll={onHandleScroll}>
         <Products

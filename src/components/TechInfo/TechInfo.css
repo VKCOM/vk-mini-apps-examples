@@ -1,7 +1,7 @@
 .TechInfo {
   max-width: var(--sidebar-width);
   border-radius: 12px;
-  padding: 6px 12px 12px 12px;
+  padding: 12px 8px;
   display: flex;
   flex-direction: column;
   gap: 3px;
@@ -10,20 +10,23 @@
 
 .ThechInfo_description {
   color: var(--vkui--color_text_secondary);
-  font-size: 13px;
-  font-weight: 500;
-  line-height: 20px;
-  padding-left: 6px;
-  letter-spacing: -0.32px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: -0.14px;
+  padding: 14px 12px 10px 12px;
+  color: var(--vkui-light-text-text-subhead, #626d7a);
 }
 
 .ThechInfo_content {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-direction: column;
 }
 
 .TechInfo_item {
-  padding: 2px 6px;
-  font-size: 13px;
+  display: flex;
+  height: 36px;
+  padding: 0px 12px;
+  align-items: center;
+  align-self: stretch;
 }

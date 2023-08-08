@@ -22,7 +22,7 @@ let TechInfo: FC<TechInfoProps> = ({ sections, items }) => {
 
   return (
     <div className="TechInfo">
-      <Tabs>
+      <Tabs mode="secondary">
         <HorizontalScroll>
           {sections?.map((section) => (
             <TabsItem

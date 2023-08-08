@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import bridge from '@vkontakte/vk-bridge'
 import { ConfigProvider, AdaptivityProvider, AppRoot } from '@vkontakte/vkui'
 import { RouterProvider } from '@vkontakte/vk-mini-apps-router'
@@ -22,9 +22,12 @@ bridge.send('VKWebAppInit')
  * Provider - прокидывает данные нашего state manager
  * AdaptivityProvider  - прокидывает данные адаптивности sizeX, sizeY [https://vkcom.github.io/VKUI/#/AdaptivityProvider]
  * AppRoot - компонент обертка, куда инкапсулирована логика режимов пожлкючения(Full, Partial, Embedded) [https://vkcom.github.io/VKUI/#/AppRoot]
- * RouterProvider - прокидывает состояние навигации в приложение
+ * RouterProvider - прокидывает состояние на    вигации в приложение
  */
-ReactDOM.render(
+const container = document.getElementById('root')
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+const root = createRoot(container!)
+root.render(
   <ConfigProvider>
     <Provider store={store}>
       <AdaptivityProvider>
@@ -35,7 +38,5 @@ ReactDOM.render(
         </AppRoot>
       </AdaptivityProvider>
     </Provider>
-  </ConfigProvider>,
-  /** Рендерим все компоненты в div c id === 'root' в public/index.html */
-  document.getElementById('root')
+  </ConfigProvider>
 )

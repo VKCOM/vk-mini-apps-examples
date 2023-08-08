@@ -1,4 +1,4 @@
-import { OrderProduct } from 'src/types'
+import { OrderProduct, ProductPreview } from 'src/types'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 export interface ShoppingCartState {
@@ -22,17 +22,17 @@ const shoppingCartSlice = createSlice({
         0
       )
     },
-    addCartItem(state, action: PayloadAction<OrderProduct>) {
+    addCartItem(state, action: PayloadAction<ProductPreview>) {
       state.orderProducts.push({
         id: action.payload.id,
         name: action.payload.name,
         price: action.payload.price,
         preview: action.payload.preview,
         maxAvailable: action.payload.maxAvailable,
-        numItemsToBuy: action.payload.numItemsToBuy,
+        numItemsToBuy: 1,
       })
 
-      state.totalPrice += action.payload.numItemsToBuy * action.payload.price
+      state.totalPrice += action.payload.price
     },
     deleteCartItem(state, action: PayloadAction<number>) {
       const index = state.orderProducts.findIndex(

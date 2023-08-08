@@ -1,4 +1,6 @@
 :root {
+  --min-product-card-width: 130px;
+  --max-product-card-width: 195px;
   --width-desktop-s: 768px;
   --sidebar-width: 375px;
   --product-photo-max-size: 375px;

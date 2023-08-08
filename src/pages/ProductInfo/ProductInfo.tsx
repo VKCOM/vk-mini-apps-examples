@@ -46,7 +46,6 @@ export const ProductInfo: FC<NavIdProps> = (props) => {
   useLayoutEffect(() => {
     if (!productId || shopFetching) return
     if (isProductFetched) return
-    console.log('categoryId: [5]')
     // Для платформы ANDROID отправляем запрос с задержкой для поддержки плавности анимаций
     setTimeout(
       () => dispatch(fetchProductInfo({ productId })),

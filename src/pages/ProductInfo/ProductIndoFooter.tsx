@@ -33,10 +33,9 @@ let ProductInfoFooter: FC<PriceDisplayProps> = ({
 
   const addToShoppingCart = useCallback(() => {
     if (isProductFetched && !isProductInCart)
-      dispatch(addCartItem({ ...product, numItemsToBuy }))
+      dispatch(addCartItem({ ...product }))
     else routeNavigator.push(`/${PaymentPanel.ShoppingCart}`)
   }, [
-    numItemsToBuy,
     isProductInCart,
     routeNavigator,
     isProductFetched,

@@ -2,24 +2,27 @@ import { FC, memo } from 'react'
 import { Header, Placeholder, Spinner } from '@vkontakte/vkui'
 import { ProductCard } from 'src/components'
 import { ProductPreview } from 'src/types'
+import { useAppSelector } from 'src/store'
 
 import './Products.css'
 
 export type ProductsProps = {
-  products: ProductPreview[]
   header: string
+  fetching?: boolean
   maxProducts: number
   lazyLoading?: boolean
-  fetching?: boolean
+  products: ProductPreview[]
 }
 
 let Products: FC<ProductsProps> = ({
-  products,
   header,
+  products,
+  fetching,
   maxProducts,
   lazyLoading,
-  fetching,
 }) => {
+  const { orderProducts } = useAppSelector((state) => state.shoppingCart)
+
   return (
     <div className={'Products'}>
       <Header indicator={maxProducts} size="large">
@@ -29,11 +32,10 @@ let Products: FC<ProductsProps> = ({
         {maxProducts > 0 &&
           products.map((item, index) => (
             <ProductCard
-              id={item.id}
+              {...item}
               key={item.id}
-              name={item.name}
-              price={item.price}
               preview={lazyLoading ? '' : item.preview}
+              isInCart={orderProducts.some((product) => product.id === item.id)}
               data-index={`${lazyLoading ? index : null}`}
               data-src={`${lazyLoading ? item.preview + '.png' : null}`}
               data-src-1={`${lazyLoading ? item.preview + '.webp' : null}`}

@@ -28,15 +28,15 @@ const container = document.getElementById('root')
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 const root = createRoot(container!)
 root.render(
-  <ConfigProvider>
-    <Provider store={store}>
-      <AdaptivityProvider>
-        <AppRoot>
-          <RouterProvider router={router}>
+  <RouterProvider router={router}>
+    <ConfigProvider>
+      <Provider store={store}>
+        <AdaptivityProvider>
+          <AppRoot>
             <App />
-          </RouterProvider>
-        </AppRoot>
-      </AdaptivityProvider>
-    </Provider>
-  </ConfigProvider>
+          </AppRoot>
+        </AdaptivityProvider>
+      </Provider>
+    </ConfigProvider>
+  </RouterProvider>
 )

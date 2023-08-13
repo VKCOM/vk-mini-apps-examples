@@ -1,5 +1,5 @@
 import { FC, memo, useMemo, useState } from 'react'
-import { HorizontalScroll, Link, Tabs, TabsItem } from '@vkontakte/vkui'
+import { Group, HorizontalScroll, Link, Tabs, TabsItem } from '@vkontakte/vkui'
 
 import './TechInfo.css'
 
@@ -21,12 +21,11 @@ let TechInfo: FC<TechInfoProps> = ({ sections, items }) => {
   }, [activeSectionId, items])
 
   return (
-    <div className="TechInfo">
+    <Group separator='hide' className="TechInfo">
       <Tabs mode="secondary">
         <HorizontalScroll>
           {sections?.map((section) => (
             <TabsItem
-              id={section.id.toString()}
               aria-controls={section.id.toString()}
               selected={activeSectionId === section.id}
               key={section.id}
@@ -49,7 +48,7 @@ let TechInfo: FC<TechInfoProps> = ({ sections, items }) => {
           </div>
         ))}
       </div>
-    </div>
+    </Group>
   )
 }
 

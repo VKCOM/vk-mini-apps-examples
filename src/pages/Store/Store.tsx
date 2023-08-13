@@ -2,18 +2,20 @@ import { FC, memo, useCallback, useLayoutEffect, useRef } from 'react'
 import {
   NavIdProps,
   Panel,
+  PanelHeader,
   useAdaptivityWithJSMediaQueries,
 } from '@vkontakte/vkui'
-import { Filters, Products, TechInfo } from 'src/components'
+import { CartCountIsland, Filters, Products, TechInfo } from 'src/components'
 import { useAppDispatch, useAppSelector } from 'src/store'
 import {
   fetchFilteredProducts,
+  selectStore,
   setStoreScrollposition,
 } from 'src/store/store.reducer'
+import { selectFilters } from 'src/store/app.reducer'
 import { useImageIntersectionObserver } from 'src/hooks'
-import { useActiveVkuiLocation } from '@vkontakte/vk-mini-apps-router'
-import { ViewingPanel } from 'src/routes'
 import { ITEMS, SECTIONS } from './techConfig'
+import { findImage } from 'src/utils'
 
 import './Store.css'
 
@@ -21,28 +23,11 @@ const MOBILE_LIMIT = 12
 const DESKTOP_LIMIT = 40
 const IMAGE_LOAD_DELAY = 500
 
-/**
- * Функция для поиска img тега в ProductCard
- * @param element - ProductCard
- * @returns productCardpreview
- */
-function findImage(element: Element) {
-  const picture = element
-    .getElementsByClassName('ProductCard_preview')[0]
-    .getElementsByTagName('picture')[0]
-  const image = picture.getElementsByTagName('img')[0]
-  const source = Array.from(picture.getElementsByTagName('source'))
-
-  return { image, source }
-}
-
 let Store: FC<NavIdProps> = (props) => {
   const dispatch = useAppDispatch()
-  const { panel } = useActiveVkuiLocation()
-  const store = useAppSelector((state) => state.store)
-  const { filters, categories, shopInfo, shopFetching } = useAppSelector(
-    (state) => state.app
-  )
+  const store = useAppSelector(selectStore)
+  const filters = useAppSelector(selectFilters)
+
   const { isDesktop } = useAdaptivityWithJSMediaQueries()
   const limit = isDesktop ? DESKTOP_LIMIT : MOBILE_LIMIT
 
@@ -115,15 +100,14 @@ let Store: FC<NavIdProps> = (props) => {
 
   /** Запрос на получение первых Limit элементов */
   useLayoutEffect(() => {
-    if (panel !== ViewingPanel.Store) return
     document
       .querySelectorAll('.ProductCard__active')
       .forEach((el) => el.classList.remove('ProductCard__active'))
 
-    if (!isSavedContent.current && !shopFetching)
+    if (!isSavedContent.current)
       setTimeout(() => fetchProducts(0, limit), isFirstRender.current ? 150 : 0)
     isSavedContent.current = isFirstRender.current = false
-  }, [panel, filters, shopFetching, limit, fetchProducts])
+  }, [filters, limit, fetchProducts])
 
   /** Следим за новыми элементами при загрузке новой партии продуктов */
   useLayoutEffect(() => {
@@ -137,10 +121,15 @@ let Store: FC<NavIdProps> = (props) => {
 
   return (
     <Panel className="Panel__fullScreen" {...props}>
+      {!isDesktop && (
+        <>
+          <PanelHeader separator={false}>Название магазина</PanelHeader>
+          <Filters />
+        </>
+      )}
 
       <div ref={$storeContainer} className={'Store'} onScroll={onHandleScroll}>
         <Products
-          lazyLoading
           header="Товары"
           products={store.products}
           maxProducts={store.filteredProductCount}
@@ -148,12 +137,8 @@ let Store: FC<NavIdProps> = (props) => {
         />
         {isDesktop && (
           <div className="Store_sidebar">
-            <Filters
-              minPrice={shopInfo.minPrice}
-              maxPrice={shopInfo.maxPrice}
-              defaultFilter={filters}
-              categories={categories}
-            />
+            <CartCountIsland />
+            <Filters />
             <TechInfo sections={SECTIONS} items={ITEMS} />
           </div>
         )}

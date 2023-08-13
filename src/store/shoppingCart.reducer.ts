@@ -1,5 +1,6 @@
 import { OrderProduct, ProductPreview } from 'src/types'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { RootState } from '.'
 
 export interface ShoppingCartState {
   orderProducts: OrderProduct[]
@@ -64,5 +65,8 @@ const shoppingCartSlice = createSlice({
 
 const { reducer } = shoppingCartSlice
 export { reducer as shoppingCartReducer }
+
+export const selectOrderProducts = (state: RootState) => state.shoppingCart.orderProducts
+
 export const { addCartItem, deleteCartItem, updateCartItem, setShoppingCart } =
   shoppingCartSlice.actions

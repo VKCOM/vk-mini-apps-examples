@@ -1,141 +1,125 @@
-import { FC, memo, useCallback, useEffect, useState } from 'react'
-import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
+import { FC, memo, useCallback, useRef } from 'react'
 import {
-  Button,
-  FormItem,
-  RangeSlider,
-  Select,
+  ActionSheet,
+  Search,
+  SubnavigationBar,
+  SubnavigationButton,
   useAdaptivityWithJSMediaQueries,
 } from '@vkontakte/vkui'
-import { setProductFilters } from 'src/store/app.reducer'
-import { CategoryCardProps } from 'src/components'
-import { useAppDispatch } from 'src/store'
-import { ProductFilter } from 'src/types'
+import { Icon24Filter } from '@vkontakte/icons'
+import { useAppDispatch, useAppSelector } from 'src/store'
+import {
+  selectCategories,
+  selectFilters,
+  setFiltersCategory,
+  setFiltersPriceRange,
+  setFiltersQuery,
+} from 'src/store/app.reducer'
+import { CustomCell, PriceRangeInput } from 'src/components'
+import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
+import baseTheme from '@vkontakte/vkui-tokens/themes/vkBase/cssVars/theme'
 
 import './Filters.css'
 
-export type FiltersProps = {
-  categories: Array<CategoryCardProps & { id: number }>
-  maxPrice: number
-  minPrice: number
-  defaultFilter: ProductFilter
-}
+const TIMEOUT = 300
 
-let Filters: FC<FiltersProps> = ({
-  categories,
-  maxPrice,
-  minPrice,
-  defaultFilter,
-}) => {
-  // Получаем функцию для отправки данных в store
+export type FiltersProps = Record<string, never>
+
+let Filters: FC<FiltersProps> = () => {
   const dispatch = useAppDispatch()
-  // Узнаем десктопный ли размер экрана
-  const { isDesktop } = useAdaptivityWithJSMediaQueries()
-  // Объект для навигации в приложении
   const routeNavigator = useRouteNavigator()
+  const { isDesktop } = useAdaptivityWithJSMediaQueries()
+  const categories = useAppSelector(selectCategories)
+  const { priceTo, priceFrom, categoryId, query } =
+    useAppSelector(selectFilters)
 
-  /** Удаляем поле query из фильтров, так как оно меняется в src/components/Navbar.tsx */
-  const [filters, setFilters] = useState<Omit<ProductFilter, 'query'>>({
-    priceTo: defaultFilter.priceTo ?? maxPrice,
-    priceFrom: defaultFilter.priceFrom ?? minPrice,
-    categoryId: defaultFilter.categoryId,
-  })
-  const [prevFilters, setPrevFilters] = useState({ ...filters })
-  const [isFilterChange, setIsFilterChange] = useState(false)
+  const $priceFilter = useRef<SVGSVGElement>(null)
+  const timerId = useRef<NodeJS.Timeout | undefined>(undefined)
+  const iconColor =
+    priceFrom || priceTo ? baseTheme.colorPanelHeaderIcon.active.value : ''
 
-  const onHandleSliderChange = useCallback(
-    (e: [number, number]) => {
-      setFilters({
-        ...filters,
-        priceFrom: e[0],
-        priceTo: e[1],
-      })
+  const onCategoryClick = (id: string) => {
+    dispatch(setFiltersCategory(id))
+  }
+
+  const changePriceRange = useCallback(
+    (priceFrom?: number, priceTo?: number) => {
+      if (priceFrom && priceFrom < 0) return
+      if (priceTo && priceTo < 0) return
+      dispatch(setFiltersPriceRange({ priceTo, priceFrom }))
     },
-    [filters]
+    [dispatch]
   )
 
-  const onHandleSelectorChange = useCallback(
-    (e: React.ChangeEvent<HTMLSelectElement>) => {
-      const value = e.target.value === '' ? undefined : e.target.value
-      setFilters({
-        ...filters,
-        categoryId: value,
-      })
+  const onSearchIconClick = useCallback(() => {
+    const onCloseActionSheet = () => routeNavigator.hidePopout()
+    if (isDesktop)
+      routeNavigator.showPopout(
+        <ActionSheet
+          toggleRef={$priceFilter.current}
+          onClose={onCloseActionSheet}
+        >
+          <PriceRangeInput
+            defaultPriceFrom={priceFrom}
+            defaultPriceTo={priceTo}
+            onPriceChange={changePriceRange}
+          />
+        </ActionSheet>
+      )
+    else routeNavigator.showModal('filter')
+  }, [routeNavigator, isDesktop, priceFrom, priceTo, changePriceRange])
+
+  const onQueryChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (timerId.current) clearTimeout(timerId.current)
+      timerId.current = setTimeout(
+        () => dispatch(setFiltersQuery(e.target.value)),
+        TIMEOUT
+      )
     },
-    [filters]
+    [dispatch]
   )
-
-  const onShowProductButtonClick = useCallback(() => {
-    setPrevFilters({ ...filters })
-    const newFilters = Object.assign({ ...defaultFilter }, { ...filters })
-    dispatch(setProductFilters(newFilters))
-    
-    /** Закрываем модальную станицу с задержкой, чтобы товары успели обновиться до ее закрытия */
-    if (!isDesktop) setTimeout(() => routeNavigator.back(), 350)
-  }, [filters, isDesktop, routeNavigator, defaultFilter, dispatch])
-
-  /** Сравнение новых фильтров с предыдущими */
-  useEffect(() => {
-    let isChange = false
-    let key: keyof Omit<ProductFilter, 'query'>
-    for (key in prevFilters) {
-      isChange = prevFilters[key] !== filters[key]
-      if (isChange) break
-    }
-    setIsFilterChange(isChange)
-  }, [filters, prevFilters])
-
-  /** Переопределение цены с initialValue на ненулевые значения, после ответа сервера*/
-  useEffect(() => {
-    if (maxPrice && !filters.priceTo)
-      setFilters({ ...filters, priceFrom: minPrice, priceTo: maxPrice })
-  }, [minPrice, maxPrice, filters])
 
   return (
     <div className="Filters">
-      <FormItem top="Категория">
-        <Select
-          onChange={onHandleSelectorChange}
-          value={filters.categoryId}
-          placeholder="Не выбран"
-          options={categories.map((category) => ({
-            label: category.name,
-            value: category.id,
-          }))}
-        />
-      </FormItem>
-
-      <FormItem top="Цена">
-        {maxPrice && (
-          <RangeSlider
-            onChange={onHandleSliderChange}
-            min={minPrice}
-            max={maxPrice}
-            step={250}
-            value={[filters.priceFrom ?? minPrice, filters.priceTo ?? maxPrice]}
+      <Search
+        icon={
+          <Icon24Filter
+            fill={iconColor}
+            getRootRef={$priceFilter}
+            onClick={onSearchIconClick}
           />
-        )}
-        <div className="Filters_prices">
-          <div className="Filters_prices_boundary">{filters.priceFrom}₽</div>
-          <div className="Filters_prices_boundary">{filters.priceTo}₽</div>
-        </div>
-      </FormItem>
+        }
+        defaultValue={query}
+        onChange={onQueryChange}
+      />
+      {isDesktop && <div className="Filters_title">Каталог</div>}
+      {isDesktop &&
+        categories.map((category) => (
+          <CustomCell
+            key={category.id}
+            content={category.name}
+            active={categoryId === category.id.toString()}
+            onClick={() => onCategoryClick(category.id.toString())}
+          />
+        ))}
 
-      <FormItem>
-        <Button
-          stretched
-          size="l"
-          mode="primary"
-          disabled={!isFilterChange}
-          onClick={onShowProductButtonClick}
-        >
-          Показать товары
-        </Button>
-      </FormItem>
+      {!isDesktop && (
+        <SubnavigationBar>
+          {categories.map((category) => (
+            <SubnavigationButton
+              selected={categoryId === category.id.toString()}
+              onClick={() => onCategoryClick(category.id.toString())}
+              key={category.id}
+            >
+              {category.name}
+            </SubnavigationButton>
+          ))}
+        </SubnavigationBar>
+      )}
     </div>
   )
 }
 
-/** React.memo - HOC, кэширующий результат выполнения функции, rerender компонента произойдет только при изменении props */
 Filters = memo(Filters)
 export { Filters }

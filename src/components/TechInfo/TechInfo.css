@@ -1,11 +1,8 @@
 .TechInfo {
   max-width: var(--sidebar-width);
-  border-radius: 12px;
-  padding: 12px 8px;
   display: flex;
   flex-direction: column;
   gap: 3px;
-  background: var(--vkui--color_background_content);
 }
 
 .ThechInfo_description {

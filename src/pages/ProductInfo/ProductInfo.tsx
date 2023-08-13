@@ -36,7 +36,6 @@ export const ProductInfo: FC<NavIdProps> = (props) => {
   const productId = Number(params.get('id'))
 
   // Подписываемся на обновления из store
-  const shopFetching = useAppSelector((state) => state.app.shopFetching)
   const product = useAppSelector((state) => state.productInfo)
 
   const isProductFetched =
@@ -44,14 +43,14 @@ export const ProductInfo: FC<NavIdProps> = (props) => {
 
   // Отправляем запрос на получение данный о товаре
   useLayoutEffect(() => {
-    if (!productId || shopFetching) return
+    if (!productId) return
     if (isProductFetched) return
     // Для платформы ANDROID отправляем запрос с задержкой для поддержки плавности анимаций
     setTimeout(
       () => dispatch(fetchProductInfo({ productId })),
       platform === Platform.ANDROID ? 200 : 0
     )
-  }, [isProductFetched, productId, shopFetching, platform, dispatch])
+  }, [isProductFetched, productId, platform, dispatch])
 
   // Проверка наличия скролла на страницу
   useEffect(() => {

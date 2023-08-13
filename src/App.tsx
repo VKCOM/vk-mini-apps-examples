@@ -3,10 +3,10 @@ import {
   SplitLayout,
   SplitCol,
   View,
-  Root,
   usePlatform,
   Platform,
-  ScreenSpinner,
+  Epic,
+  useAdaptivityWithJSMediaQueries,
 } from '@vkontakte/vkui'
 import bridge, { SharedUpdateConfigData } from '@vkontakte/vk-bridge'
 import {
@@ -15,11 +15,15 @@ import {
   useRouteNavigator,
 } from '@vkontakte/vk-mini-apps-router'
 import { useAppDispatch, useAppSelector } from './store'
-import { setOnboardingComplete, setUserData } from './store/user.reducer'
+import { selectOnboardingComplete, setOnboardingComplete, setUserData } from './store/user.reducer'
 import { Modals } from './modals'
 import { Store, ShoppingCart, ProductInfo } from './pages'
 import { PaymentPanel, ShopView, ViewingPanel } from './routes'
 import { fetchShop } from './store/app.reducer'
+import { CustomTabbar } from './components'
+
+const APP_WIDTH = 911
+const APP_PADDING = 100
 
 export const App: FC = () => {
   /** Возвращает активное всплывающее окно | null */
@@ -29,17 +33,15 @@ export const App: FC = () => {
   /** возвращает объект с помощью которого можно совершать переходы в навигации */
   const routeNavigator = useRouteNavigator()
   /** Подписываемся на обновлнеие поля shopFetching, отвечающего за состояние загрузки контента магазина */
-  const shopFetching = useAppSelector((state) => state.app.shopFetching)
-
+  const onboadrdingComplete = useAppSelector(selectOnboardingComplete)
+  
+  const dispatch = useAppDispatch()
   const {
     view: activeView = ViewingPanel.Store,
     panel: activePanel = ShopView.Viewing,
   } = useActiveVkuiLocation()
 
-  const dispatch = useAppDispatch()
-  const onboadrdingComplete = useAppSelector(
-    (state) => state.user.onboadrdingComplete
-  )
+  const { isDesktop } = useAdaptivityWithJSMediaQueries()
 
   /** Получение данных пользователя */
   useLayoutEffect(() => {
@@ -67,7 +69,7 @@ export const App: FC = () => {
     }
 
     initUser()
-  }, [dispatch, routeNavigator])
+  }, [dispatch])
 
   /** Растягивание экрана на всю ширину окна для десктопа */
   useEffect(() => {
@@ -77,14 +79,14 @@ export const App: FC = () => {
       if (platform !== Platform.VKCOM) return
 
       // Получаем данные конфигурации
-      const data = (await bridge.send(
+      const { viewport_height } = (await bridge.send(
         'VKWebAppGetConfig'
       )) as SharedUpdateConfigData
 
       // Обновляем размер страницы
       bridge.send('VKWebAppResizeWindow', {
-        width: 911,
-        height: data.viewport_height - 100,
+        width: APP_WIDTH,
+        height: viewport_height - APP_PADDING,
       })
     }
 
@@ -96,21 +98,14 @@ export const App: FC = () => {
 
   /** Запрос на получение контента магазина */
   useEffect(() => {
-    dispatch(fetchShop({ userId: '10' }))
+    dispatch(fetchShop())
   }, [dispatch])
-
-  /** Loader на время получения контента магазина */
-  useEffect(() => {
-    if (shopFetching) routeNavigator.showPopout(<ScreenSpinner size="large" />)
-    else routeNavigator.hidePopout()
-  }, [shopFetching, routeNavigator])
 
   /** Открытие модалки при первом заходе в апп */
   useEffect(() => {
-    if (!onboadrdingComplete) {
-      routeNavigator.showModal('onboarding')
-    }
+    if (!onboadrdingComplete) routeNavigator.showModal('onboarding')
   }, [onboadrdingComplete, routeNavigator])
+
 
   /**
    * SplitLayout - Компонент-контейнер для реализации интерфейса с многоколоночной структурой [https://vkcom.github.io/VKUI/#/SplitLayout]
@@ -126,12 +121,10 @@ export const App: FC = () => {
      */
     <SplitLayout popout={routerPopout} modal={<Modals />}>
       <SplitCol>
-        {/** activeView - активная View */}
-        <Root activeView={activeView}>
-          {/**
-           * nav - путь в навигации
-           * activePanel - активная Panel
-           */}
+        <Epic
+          activeStory={activeView}
+          tabbar={!isDesktop && <CustomTabbar activeView={activeView} />}
+        >
           <View nav={ShopView.Viewing} activePanel={activePanel}>
             <Store nav={ViewingPanel.Store} />
             <ProductInfo nav={ViewingPanel.ProductInfo} />
@@ -140,7 +133,7 @@ export const App: FC = () => {
           <View nav={ShopView.Payment} activePanel={activePanel}>
             <ShoppingCart nav={PaymentPanel.ShoppingCart} />
           </View>
-        </Root>
+        </Epic>
       </SplitCol>
     </SplitLayout>
   )

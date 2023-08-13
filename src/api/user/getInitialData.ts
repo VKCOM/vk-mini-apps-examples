@@ -1,10 +1,6 @@
 import { ApiEndpoint, Category, Product } from 'src/types'
 import { makeRequest } from 'src/api/makeRequest'
 
-export interface GetUserRequest {
-  userId: string
-}
-
 interface GetUserResponse {
   recommendedProducts: Product[]
   categories: Category[]

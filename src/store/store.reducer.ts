@@ -1,6 +1,7 @@
 import { ProductFilter, ProductPreview } from 'src/types'
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import * as api from 'src/api'
+import { RootState } from '.'
 
 export interface StoreState {
   products: ProductPreview[]
@@ -68,4 +69,7 @@ const storeSlice = createSlice({
 
 const { reducer } = storeSlice
 export { reducer as storeReducer }
+
+export const selectStore = (state: RootState) => state.store
+
 export const { setStore, setStoreScrollposition } = storeSlice.actions

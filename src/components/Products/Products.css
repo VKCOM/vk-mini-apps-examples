@@ -1,9 +1,6 @@
 .Products {
   width: 100%;
-  max-width: 100vw;
-  margin-bottom: 12px;
-  background: var(--vkui--color_background_content);
-  background-image: var(--vkui--width_from_desktop_s);
+  height: max-content;
 }
 
 .Products_grid {
@@ -24,13 +21,6 @@
 }
 
 @media (min-width: 768px) {
-  .Products {
-    margin-top: 16px;
-    border-radius: 12px;
-    height: max-content;
-    padding-bottom: 12px;
-  }
-
   .Products_grid {
     max-width: min(100%, 520px);
   }

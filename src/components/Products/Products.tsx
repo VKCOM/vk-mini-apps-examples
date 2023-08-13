@@ -1,7 +1,8 @@
 import { FC, memo } from 'react'
-import { Header, Placeholder, Spinner } from '@vkontakte/vkui'
+import { Group, Header, Placeholder, Spinner } from '@vkontakte/vkui'
 import { ProductCard } from 'src/components'
 import { ProductPreview } from 'src/types'
+import { selectOrderProducts } from 'src/store/shoppingCart.reducer'
 import { useAppSelector } from 'src/store'
 
 import './Products.css'
@@ -10,7 +11,6 @@ export type ProductsProps = {
   header: string
   fetching?: boolean
   maxProducts: number
-  lazyLoading?: boolean
   products: ProductPreview[]
 }
 
@@ -19,12 +19,11 @@ let Products: FC<ProductsProps> = ({
   products,
   fetching,
   maxProducts,
-  lazyLoading,
 }) => {
-  const { orderProducts } = useAppSelector((state) => state.shoppingCart)
+  const orderProducts = useAppSelector(selectOrderProducts)
 
   return (
-    <div className={'Products'}>
+    <Group className='Products'>
       <Header indicator={maxProducts} size="large">
         {header}
       </Header>
@@ -34,23 +33,23 @@ let Products: FC<ProductsProps> = ({
             <ProductCard
               {...item}
               key={item.id}
-              preview={lazyLoading ? '' : item.preview}
+              preview=""
               isInCart={orderProducts.some((product) => product.id === item.id)}
-              data-index={`${lazyLoading ? index : null}`}
-              data-src={`${lazyLoading ? item.preview + '.png' : null}`}
-              data-src-1={`${lazyLoading ? item.preview + '.webp' : null}`}
+              data-index={index.toString()}
+              data-src={item.preview + '.png'}
+              data-src-1={item.preview + '.webp'}
             />
           ))}
       </div>
       {!maxProducts && !fetching && (
         <Placeholder>По твоему запросу ничего не нашлось</Placeholder>
       )}
-      {fetching && lazyLoading && (
+      {fetching && (
         <div className="Products_spinner">
           <Spinner size="large"></Spinner>
         </div>
       )}
-    </div>
+    </Group>
   )
 }
 

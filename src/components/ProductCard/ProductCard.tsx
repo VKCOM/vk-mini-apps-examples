@@ -1,9 +1,6 @@
-import { FC, memo, useCallback, useRef, useState } from 'react'
+import { FC, memo, useState } from 'react'
 import cx from 'classnames'
-import {
-  useActiveVkuiLocation,
-  useRouteNavigator,
-} from '@vkontakte/vk-mini-apps-router'
+import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
 import { Button } from '@vkontakte/vkui'
 import { PriceDisplay } from 'src/components'
 import { ProductPreview } from 'src/types'
@@ -29,24 +26,20 @@ let ProductCard: FC<ProductCardProps> = ({
   ...props
 }) => {
   const [isPreviewLoad, setIsPreviewLoad] = useState(false)
-  const { panel } = useActiveVkuiLocation()
-  const initialPanel = useRef(panel)
   const routeNavigator = useRouteNavigator()
   const dispatch = useAppDispatch()
 
-  const onCardClick = useCallback(() => {
+  const onCardClick = () => {
     routeNavigator.push(`/${ViewingPanel.ProductInfo}?id=${id}`)
-  }, [routeNavigator, id])
+  }
 
   const onButtonClick = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     e.stopPropagation()
     if (isInCart) routeNavigator.push(`/${PaymentPanel.ShoppingCart}`)
     else dispatch(addCartItem({ id, name, price, preview, maxAvailable }))
   }
-  
-  const onProductPreviewLoad = useCallback(() => {
-    if (panel === initialPanel.current) setIsPreviewLoad(true)
-  }, [panel])
+
+  const onProductPreviewLoad = () => setIsPreviewLoad(true)
 
   return (
     <div

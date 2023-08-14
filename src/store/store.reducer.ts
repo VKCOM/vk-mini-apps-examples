@@ -6,14 +6,12 @@ import { RootState } from '.'
 export interface StoreState {
   products: ProductPreview[]
   scrollPosition: number
-  filteredProductCount: number
   isStoreFetching: boolean
 }
 
 export const storeInitialState: StoreState = {
   products: [],
   scrollPosition: 0,
-  filteredProductCount: 0,
   isStoreFetching: true,
 }
 
@@ -42,12 +40,6 @@ const storeSlice = createSlice({
   name: 'store',
   initialState: storeInitialState,
   reducers: {
-    setStore(state, action: PayloadAction<StoreState>) {
-      state.products = action.payload.products
-      state.scrollPosition = action.payload.scrollPosition
-      state.isStoreFetching = action.payload.isStoreFetching
-      state.filteredProductCount = action.payload.filteredProductCount
-    },
     setStoreScrollposition(state, action: PayloadAction<number>) {
       state.scrollPosition = action.payload
     },
@@ -58,7 +50,6 @@ const storeSlice = createSlice({
       if (!action.payload._start) {
         state.products = action.payload.products
         state.scrollPosition = 0
-        state.filteredProductCount = action.payload.filteredProductCount
       } else state.products = state.products.concat(action.payload.products)
 
       state.isStoreFetching =
@@ -72,4 +63,4 @@ export { reducer as storeReducer }
 
 export const selectStore = (state: RootState) => state.store
 
-export const { setStore, setStoreScrollposition } = storeSlice.actions
+export const { setStoreScrollposition } = storeSlice.actions

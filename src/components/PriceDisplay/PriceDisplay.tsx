@@ -23,15 +23,17 @@ function splitArrayFromEnd(string: string, every: number) {
 export type PriceDisplayProps = {
   price: number
   currency?: string
+  prevText?: string
 }
 
 let PriceDisplay: FC<
   PriceDisplayProps & React.HtmlHTMLAttributes<HTMLDivElement>
-> = ({ price, currency = '₽', ...props }) => {
+> = ({ price, currency = '₽', prevText = '', ...props }) => {
   const pricebyNumber = price.toString()
 
   return (
     <div {...props}>
+      <span>{prevText}</span>
       {splitArrayFromEnd(pricebyNumber, 3).map((item, index) => (
         <span key={index}>
           {item}

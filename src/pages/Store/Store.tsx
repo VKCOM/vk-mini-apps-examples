@@ -12,7 +12,7 @@ import {
   selectStore,
   setStoreScrollposition,
 } from 'src/store/store.reducer'
-import { selectFilters } from 'src/store/app.reducer'
+import { selectFilters, selectShopName } from 'src/store/app.reducer'
 import { useImageIntersectionObserver } from 'src/hooks'
 import { ITEMS, SECTIONS } from './techConfig'
 import { findImage } from 'src/utils'
@@ -27,6 +27,7 @@ let Store: FC<NavIdProps> = (props) => {
   const dispatch = useAppDispatch()
   const store = useAppSelector(selectStore)
   const filters = useAppSelector(selectFilters)
+  const shopName = useAppSelector(selectShopName)
 
   const { isDesktop } = useAdaptivityWithJSMediaQueries()
   const limit = isDesktop ? DESKTOP_LIMIT : MOBILE_LIMIT
@@ -123,16 +124,14 @@ let Store: FC<NavIdProps> = (props) => {
     <Panel className="Panel__fullScreen" {...props}>
       {!isDesktop && (
         <>
-          <PanelHeader separator={false}>Название магазина</PanelHeader>
+          <PanelHeader separator={false}>{shopName}</PanelHeader>
           <Filters />
         </>
       )}
 
       <div ref={$storeContainer} className={'Store'} onScroll={onHandleScroll}>
         <Products
-          header="Товары"
           products={store.products}
-          maxProducts={store.filteredProductCount}
           fetching={store.isStoreFetching}
         />
         {isDesktop && (

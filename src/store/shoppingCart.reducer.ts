@@ -67,6 +67,7 @@ const { reducer } = shoppingCartSlice
 export { reducer as shoppingCartReducer }
 
 export const selectOrderProducts = (state: RootState) => state.shoppingCart.orderProducts
+export const selectShoppingCart = (state: RootState) => state.shoppingCart
 
 export const { addCartItem, deleteCartItem, updateCartItem, setShoppingCart } =
   shoppingCartSlice.actions

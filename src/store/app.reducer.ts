@@ -12,10 +12,8 @@ export const appInitialState: AppState = {
   shopInfo: {
     logo: '',
     name: '',
-    maxPrice: 0,
-    minPrice: 0,
   },
-  filters: {},
+  filters: {categoryId: '0'},
   categories: [],
 }
 
@@ -32,16 +30,17 @@ const appSlice = createSlice({
       state.filters = action.payload
     },
     setFiltersCategory(state, action: PayloadAction<string>) {
-      state.filters = { ...state.filters, categoryId: action.payload }
+      state.filters.categoryId = action.payload
     },
     setFiltersQuery(state, action: PayloadAction<string>) {
-      state.filters = { ...state.filters, query: action.payload }
+      state.filters.query = action.payload
     },
     setFiltersPriceRange(
       state,
       action: PayloadAction<{ priceFrom?: number; priceTo?: number }>
     ) {
-      state.filters = { ...state.filters, ...action.payload }
+      state.filters.priceFrom = action.payload.priceFrom
+      state.filters.priceTo = action.payload.priceTo
     },
   },
   extraReducers: (builder) => {
@@ -60,6 +59,8 @@ export const selectCategories = (state: RootState) => state.app.categories
 export const selectFilters = (state: RootState) => state.app.filters
 export const selectPriceTo= (state: RootState) => state.app.filters.priceTo
 export const selectPriceFrom= (state: RootState) => state.app.filters.priceFrom
+export const selectShopName = (state: RootState) => state.app.shopInfo.name
+export const selectShopLogo = (state: RootState) => state.app.shopInfo.logo
 
 export const {
   setProductFilters,

@@ -33,5 +33,8 @@ export const getFilteredProducts = async ({
       end: _end.toString(),
       filters: JSON.stringify(filters),
     },
+    headers: {
+      cache: 'force-cache'
+    }
   })
 }

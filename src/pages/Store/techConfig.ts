@@ -11,13 +11,13 @@ export const ITEMS = [
     id: 0,
   },
   {
-    name: 'FormItem',
+    name: 'Input',
     link: 'https://vkcom.github.io/VKUI/#/FormItem',
     sectionId: 1,
     id: 1,
   },
   {
-    name: 'Select',
+    name: 'Group',
     link: 'https://vkcom.github.io/VKUI/#/Select',
     sectionId: 1,
     id: 2,
@@ -29,13 +29,25 @@ export const ITEMS = [
     id: 3,
   },
   {
-    name: 'Slider',
+    name: 'Cell',
     link: 'https://vkcom.github.io/VKUI/#/Slider',
     sectionId: 1,
     id: 4,
   },
   {
     name: 'ModalPage',
+    link: 'https://vkcom.github.io/VKUI/#/ModalPage',
+    sectionId: 1,
+    id: 5,
+  },
+  {
+    name: 'Link',
+    link: 'https://vkcom.github.io/VKUI/#/ModalPage',
+    sectionId: 1,
+    id: 6,
+  },
+  {
+    name: 'Tabs',
     link: 'https://vkcom.github.io/VKUI/#/ModalPage',
     sectionId: 1,
     id: 7,

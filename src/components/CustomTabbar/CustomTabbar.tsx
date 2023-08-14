@@ -1,14 +1,18 @@
 import { FC, memo, useCallback } from 'react'
 import { Counter, TabbarItem, Tabbar } from '@vkontakte/vkui'
-import { Icon28ShoppingCartOutline } from '@vkontakte/icons'
+import { Icon28ShoppingCartOutline, Icon28HomeOutline } from '@vkontakte/icons'
 import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
 import { PaymentPanel, ShopView } from 'src/routes'
+import { selectOrderProducts } from 'src/store/shoppingCart.reducer'
+import { useAppSelector } from 'src/store'
 
 export type CustomTabbarProps = {
   activeView: string
 }
 let CustomTabbar: FC<CustomTabbarProps> = ({ activeView }) => {
+  const orderProducts = useAppSelector(selectOrderProducts)
   const routeNavigator = useRouteNavigator()
+  const productCount = orderProducts.length
 
   const onPaymantTabbarItemClick = useCallback(() => {
     if (activeView === ShopView.Payment) return
@@ -28,16 +32,18 @@ let CustomTabbar: FC<CustomTabbarProps> = ({ activeView }) => {
         data-story="feed"
         text="Каталог"
       >
-        <Icon28ShoppingCartOutline />
+        <Icon28HomeOutline />
       </TabbarItem>
       <TabbarItem
         onClick={onPaymantTabbarItemClick}
         selected={activeView === ShopView.Payment}
         data-story="messages"
         indicator={
-          <Counter size="s" mode="prominent">
-            12
-          </Counter>
+          productCount ? (
+            <Counter size="s" mode="prominent">
+              {productCount}
+            </Counter>
+          ) : undefined
         }
         text="Корзина"
       >

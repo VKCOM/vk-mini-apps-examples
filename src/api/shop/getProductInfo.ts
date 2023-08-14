@@ -14,5 +14,8 @@ export const getProductInfo = async ({
     params: {
       id: productId.toString(),
     },
+    headers: {
+      cache: 'force-cache'
+    }
   })
 }

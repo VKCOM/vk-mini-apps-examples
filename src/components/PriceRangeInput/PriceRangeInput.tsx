@@ -23,12 +23,12 @@ let PriceRangeInput: FC<PriceRangeInputProps> = ({
     const priceToInput = $priceToInput.current
     if (!priceFromInput || !priceToInput) return
 
-    const priceToValue = priceToInput.value
-    const priceFromValue = priceFromInput.value
+    const priceToValue = Number(priceToInput.value)
+    const priceFromValue = Number(priceFromInput.value)
 
-    const priceTo = priceToValue ? Number(priceToValue) : undefined
-    const priceFrom = priceFromValue ? Number(priceFromValue) : undefined
-    if (priceTo || priceFrom) onPriceChange(priceFrom, priceTo)
+    const priceTo = priceToValue ? priceToValue : undefined
+    const priceFrom = priceFromValue ? priceFromValue : undefined
+    onPriceChange(priceFrom, priceTo)
   }, [onPriceChange])
 
   return (

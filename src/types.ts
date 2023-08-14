@@ -32,8 +32,6 @@ export interface ProductFilter {
 }
 
 export interface ShopInfo {
-  minPrice: number
-  maxPrice: number
   name: string
   logo: string
 }

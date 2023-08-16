@@ -1,12 +1,8 @@
-import { FC, memo, useState } from 'react'
-import cx from 'classnames'
+import { FC, memo, useMemo, useRef } from 'react'
 import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
-import { Button } from '@vkontakte/vkui'
-import { PriceDisplay } from 'src/components'
+import { AddToCartButton, PriceDisplay } from 'src/components'
 import { ProductPreview } from 'src/types'
-import { PaymentPanel, ViewingPanel } from 'src/routes'
-import { useAppDispatch } from 'src/store'
-import { addCartItem } from 'src/store/shoppingCart.reducer'
+import { ShopPanel } from 'src/routes'
 
 import './ProductCard.css'
 
@@ -25,28 +21,32 @@ let ProductCard: FC<ProductCardProps> = ({
   maxAvailable,
   ...props
 }) => {
-  const [isPreviewLoad, setIsPreviewLoad] = useState(false)
   const routeNavigator = useRouteNavigator()
-  const dispatch = useAppDispatch()
+  const $card = useRef<HTMLDivElement>(null)
 
   const onCardClick = () => {
-    routeNavigator.push(`/${ViewingPanel.ProductInfo}?id=${id}`)
+    routeNavigator.push(
+      `/${ShopPanel.ProductInfo}?id=${id}&name=${name}&price=${price}`
+    )
   }
 
-  const onButtonClick = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
-    e.stopPropagation()
-    if (isInCart) routeNavigator.push(`/${PaymentPanel.ShoppingCart}`)
-    else dispatch(addCartItem({ id, name, price, preview, maxAvailable }))
+  const onProductPreviewLoad = (
+    e: React.SyntheticEvent<HTMLImageElement, Event>
+  ) => {
+    const el = e.target as HTMLElement
+    el.classList.remove('ProductCard_preview_picture_photo__unload')
+    if ($card.current) $card.current.classList.add('ProductCard__active')
   }
 
-  const onProductPreviewLoad = () => setIsPreviewLoad(true)
+  const product = useMemo(() => {
+    return { id, name, price, preview, isInCart, maxAvailable }
+  }, [id, name, price, preview, isInCart, maxAvailable])
 
   return (
     <div
       onClick={onCardClick}
-      className={cx('ProductCard', {
-        ProductCard__active: isPreviewLoad,
-      })}
+      className="ProductCard"
+      ref={$card}
       {...props}
     >
       <div className="ProductCard_preview">
@@ -57,10 +57,8 @@ let ProductCard: FC<ProductCardProps> = ({
             alt=""
             width={MAX_PRODUCT_CARD_SIZE}
             height={MAX_PRODUCT_CARD_SIZE}
+            className="ProductCard_preview_picture_photo ProductCard_preview_picture_photo__unload"
             onLoad={onProductPreviewLoad}
-            className={cx('ProductCard_preview_picture_photo', {
-              ProductCard_preview_picture_photo__unload: !isPreviewLoad,
-            })}
           />
         </picture>
       </div>
@@ -70,13 +68,7 @@ let ProductCard: FC<ProductCardProps> = ({
           <PriceDisplay className="ProductCard_price" price={price} />
           <div className="ProductCard_title">{name}</div>
         </div>
-        <Button
-          onClick={onButtonClick}
-          size="m"
-          mode={isInCart ? 'outline' : 'secondary'}
-        >
-          {isInCart ? 'В корзине' : 'В корзину'}
-        </Button>
+        <AddToCartButton size="m" product={product} isInCart={isInCart} />
       </div>
     </div>
   )

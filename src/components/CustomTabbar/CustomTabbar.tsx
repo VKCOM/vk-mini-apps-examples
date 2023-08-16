@@ -1,34 +1,35 @@
-import { FC, memo, useCallback } from 'react'
+import { FC, memo } from 'react'
 import { Counter, TabbarItem, Tabbar } from '@vkontakte/vkui'
 import { Icon28ShoppingCartOutline, Icon28HomeOutline } from '@vkontakte/icons'
 import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
-import { PaymentPanel, ShopView } from 'src/routes'
+import { ShopPanel } from 'src/routes'
 import { selectOrderProducts } from 'src/store/shoppingCart.reducer'
 import { useAppSelector } from 'src/store'
 
 export type CustomTabbarProps = {
-  activeView: string
+  activePanel: string
 }
-let CustomTabbar: FC<CustomTabbarProps> = ({ activeView }) => {
+
+let CustomTabbar: FC<CustomTabbarProps> = ({ activePanel }) => {
   const orderProducts = useAppSelector(selectOrderProducts)
   const routeNavigator = useRouteNavigator()
   const productCount = orderProducts.length
 
-  const onPaymantTabbarItemClick = useCallback(() => {
-    if (activeView === ShopView.Payment) return
-    routeNavigator.push(`/${PaymentPanel.ShoppingCart}`)
-  }, [routeNavigator, activeView])
+  const onPaymantTabbarItemClick = () => {
+    if (activePanel === ShopPanel.ShoppingCart) return
+    routeNavigator.push(`/${ShopPanel.ShoppingCart}`)
+  }
 
-  const onViewingTabbarItemClick = useCallback(() => {
-    if (activeView === ShopView.Viewing) return
+  const onViewingTabbarItemClick = () => {
+    if (activePanel !== ShopPanel.ShoppingCart) return
     routeNavigator.push('/')
-  }, [routeNavigator, activeView])
+  }
 
   return (
     <Tabbar>
       <TabbarItem
         onClick={onViewingTabbarItemClick}
-        selected={activeView === ShopView.Viewing}
+        selected={activePanel !== ShopPanel.ShoppingCart}
         data-story="feed"
         text="Каталог"
       >
@@ -36,7 +37,7 @@ let CustomTabbar: FC<CustomTabbarProps> = ({ activeView }) => {
       </TabbarItem>
       <TabbarItem
         onClick={onPaymantTabbarItemClick}
-        selected={activeView === ShopView.Payment}
+        selected={activePanel === ShopPanel.ShoppingCart}
         data-story="messages"
         indicator={
           productCount ? (

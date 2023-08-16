@@ -3,7 +3,7 @@ import cx from 'classnames'
 import { IconButton } from '@vkontakte/vkui'
 import { Icon24Cancel } from '@vkontakte/icons'
 import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
-import { ViewingPanel } from 'src/routes'
+import { ShopPanel } from 'src/routes'
 import { Counter, PriceDisplay } from 'src/components'
 import { OrderProduct } from 'src/types'
 import { useAppDispatch } from 'src/store'
@@ -37,7 +37,7 @@ let CartItem: FC<OrderProduct> = ({
   )
 
   const onItemClick = useCallback(() => {
-    routeNavigator.push(`/${ViewingPanel.ProductInfo}?id=${id}`)
+    routeNavigator.push(`/${ShopPanel.ProductInfo}?id=${id}`)
   }, [id, routeNavigator])
 
   const onSubstract = useCallback((e: React.MouseEvent) => {

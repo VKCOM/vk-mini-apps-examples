@@ -18,7 +18,7 @@ import { useAppDispatch, useAppSelector } from './store'
 import { selectOnboardingComplete, setOnboardingComplete, setUserData } from './store/user.reducer'
 import { Modals } from './modals'
 import { Store, ShoppingCart, ProductInfo } from './pages'
-import { PaymentPanel, ShopView, ViewingPanel } from './routes'
+import { ShopPanel, ShopView } from './routes'
 import { fetchShop } from './store/app.reducer'
 import { CustomTabbar } from './components'
 
@@ -37,8 +37,8 @@ export const App: FC = () => {
   
   const dispatch = useAppDispatch()
   const {
-    view: activeView = ViewingPanel.Store,
-    panel: activePanel = ShopView.Viewing,
+    view: activeView = ShopPanel.Store,
+    panel: activePanel = ShopView.Main,
   } = useActiveVkuiLocation()
 
   const { isDesktop } = useAdaptivityWithJSMediaQueries()
@@ -123,15 +123,12 @@ export const App: FC = () => {
       <SplitCol>
         <Epic
           activeStory={activeView}
-          tabbar={!isDesktop && <CustomTabbar activeView={activeView} />}
+          tabbar={!isDesktop && <CustomTabbar activePanel={activePanel} />}
         >
-          <View nav={ShopView.Viewing} activePanel={activePanel}>
-            <Store nav={ViewingPanel.Store} />
-            <ProductInfo nav={ViewingPanel.ProductInfo} />
-          </View>
-
-          <View nav={ShopView.Payment} activePanel={activePanel}>
-            <ShoppingCart nav={PaymentPanel.ShoppingCart} />
+          <View nav={ShopView.Main} activePanel={activePanel}>
+            <Store nav={ShopPanel.Store} />
+            <ProductInfo nav={ShopPanel.ProductInfo} />
+            <ShoppingCart nav={ShopPanel.ShoppingCart} />
           </View>
         </Epic>
       </SplitCol>

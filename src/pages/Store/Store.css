@@ -4,6 +4,8 @@
   max-height: 100%;
   overflow: scroll;
   flex: 1;
+  backface-visibility: hidden;
+  will-change: transform;
 }
 
 .Store_sidebar {
@@ -35,5 +37,5 @@
     margin: 0 10px;
     flex-direction: row;
     justify-content: space-around;
-  } 
+  }
 }

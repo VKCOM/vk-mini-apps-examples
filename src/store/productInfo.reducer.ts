@@ -1,6 +1,7 @@
 import { Product } from 'src/types'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import * as api from 'src/api'
+import { RootState } from '.'
 
 export const initialState: Product = {
   id: -1,
@@ -41,4 +42,7 @@ const productInfoSlice = createSlice({
 })
 
 const { reducer } = productInfoSlice
+
+export const selectProductInfo = (state: RootState) => state.productInfo
+
 export { reducer as productInfoReducer }

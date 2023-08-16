@@ -4,7 +4,7 @@ import {
   Icon28ShoppingCartOutline,
   Icon24ChevronCompactRight,
 } from '@vkontakte/icons'
-import { PaymentPanel } from 'src/routes'
+import { ShopPanel } from 'src/routes'
 import { selectShoppingCart } from 'src/store/shoppingCart.reducer'
 import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
 import { useAppSelector } from 'src/store'
@@ -31,7 +31,7 @@ let CartCountIsland: FC = () => {
   )
 
   const onCounterClick = useCallback(() => {
-    routeNavigator.push(`/${PaymentPanel.ShoppingCart}`)
+    routeNavigator.push(`/${ShopPanel.ShoppingCart}`)
   }, [routeNavigator])
 
   return (

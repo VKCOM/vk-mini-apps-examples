@@ -1,7 +1,6 @@
 import {
   RoutesConfig,
   createHashRouter,
-  createModal,
   createPanel,
   createRoot,
   createView,
@@ -11,43 +10,22 @@ const SHOP_ROOT = 'shop'
 export const INITIAL_URL = '/'
 
 export enum ShopView {
-  Payment = 'payment',
-  Viewing = 'viewing',
+  Main = 'main',
 }
 
-export enum PaymentPanel {
-  ShoppingCart = 'shoppingCart',
-}
-
-export enum ViewingPanel {
-  CategoryList = 'categoryList',
+export enum ShopPanel {
   ProductInfo = 'productInfo',
+  ShoppingCart = 'shoppingCart',
   Store = '/',
-}
-
-export enum StorePanelModal {
-  Filters = 'filters',
 }
 
 /** Настройка типизированной конфигурации маршрутов */
 export const routes = RoutesConfig.create([
   createRoot(SHOP_ROOT, [
-    createView(ShopView.Viewing, [
-      createPanel(ViewingPanel.Store, '/', [
-        createModal(
-          StorePanelModal.Filters,
-          `/${ViewingPanel.Store}/${StorePanelModal.Filters}`
-        ),
-      ]),
-      createPanel(ViewingPanel.ProductInfo, `/${ViewingPanel.ProductInfo}`, []),
-    ]),
-
-    createView(ShopView.Payment, [
-      createPanel(
-        PaymentPanel.ShoppingCart,
-        `/${PaymentPanel.ShoppingCart}`,
-        []
-      ),
+    createView(ShopView.Main, [
+      createPanel(ShopPanel.Store, '/', []),
+      createPanel(ShopPanel.ProductInfo, `/${ShopPanel.ProductInfo}`, []),
+      createPanel(ShopPanel.ShoppingCart, `/${ShopPanel.ShoppingCart}`, []),
     ]),
   ]),
 ])

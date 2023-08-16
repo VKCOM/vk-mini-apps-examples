@@ -33,6 +33,7 @@ let Products: FC<ProductsProps> = ({ products, fetching }) => {
             <img
               className="Products_header_avatar"
               width={28}
+              height={28}
               src={shopLogo}
               alt=""
             />

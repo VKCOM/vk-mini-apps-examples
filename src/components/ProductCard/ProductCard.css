@@ -63,6 +63,6 @@
 
 .ProductCard_preview_picture_photo__unload {
   opacity: 0;
-  width: 180px;
-  height: 180px;
+  width: var(--max-product-card-width);
+  height: var(--max-product-card-width);
 }

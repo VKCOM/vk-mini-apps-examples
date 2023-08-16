@@ -1,117 +1,101 @@
-import { FC, useRef, useState, useEffect, useLayoutEffect } from 'react'
+import { FC, useEffect, useMemo } from 'react'
+import { useSearchParams } from '@vkontakte/vk-mini-apps-router'
 import {
-  useSearchParams,
-  useActiveVkuiLocation,
-} from '@vkontakte/vk-mini-apps-router'
-import {
+  Div,
+  FixedLayout,
   Gallery,
   NavIdProps,
   Panel,
-  Platform,
-  Separator,
-  usePlatform,
+  useAdaptivityWithJSMediaQueries,
 } from '@vkontakte/vkui'
-import { PriceDisplay, ProductPhoto } from 'src/components'
-import { fetchProductInfo } from 'src/store/productInfo.reducer'
+import {
+  CustomPanelHeader,
+  PriceDisplay,
+  ProductPhoto,
+  AddToCartButton,
+  TechInfo,
+} from 'src/components'
+import {
+  fetchProductInfo,
+  selectProductInfo,
+} from 'src/store/productInfo.reducer'
+import { selectOrderProducts } from 'src/store/shoppingCart.reducer'
 import { useAppDispatch, useAppSelector } from 'src/store'
-import { ViewingPanel } from 'src/routes'
-import { ProductInfoFooter } from './ProductIndoFooter'
+import { ITEMS, SECTIONS } from './techConfig'
 
 import './ProductInfo.css'
 
 export const ProductInfo: FC<NavIdProps> = (props) => {
-  // Получаем функцию для отправки данных в store
   const dispatch = useAppDispatch()
-  // Активная панель
-  const { panel } = useActiveVkuiLocation()
-  // Текущая платформа IOS ANDROID VKCOM
-  const platform = usePlatform()
-  // Получаем параметры из url
+  const product = useAppSelector(selectProductInfo)
+  const orderProducts = useAppSelector(selectOrderProducts)
   const [params] = useSearchParams()
+  const { isDesktop } = useAdaptivityWithJSMediaQueries()
 
-  const [isScrollPresent, setIsScrollPresent] = useState(false)
-  const $productInfoContent = useRef<HTMLDivElement>(null)
+  const productId = Number(params.get('id')) || product.id
+  const price = Number(params.get('price')) || product.price
+  const name = params.get('name') || product.name
+  const isProductFetched = productId === product.id
+  
+  const isInCart = useMemo(
+    () => orderProducts.some((item) => item.id === productId),
+    [orderProducts, productId]
+  )
 
-  // Вытаскиваем параметр id из параметров url
-  const productId = Number(params.get('id'))
-
-  // Подписываемся на обновления из store
-  const product = useAppSelector((state) => state.productInfo)
-
-  const isProductFetched =
-    productId === product.id || panel !== ViewingPanel.ProductInfo
-
-  // Отправляем запрос на получение данный о товаре
-  useLayoutEffect(() => {
-    if (!productId) return
-    if (isProductFetched) return
-    // Для платформы ANDROID отправляем запрос с задержкой для поддержки плавности анимаций
-    setTimeout(
-      () => dispatch(fetchProductInfo({ productId })),
-      platform === Platform.ANDROID ? 200 : 0
-    )
-  }, [isProductFetched, productId, platform, dispatch])
-
-  // Проверка наличия скролла на страницу
   useEffect(() => {
-    const productContent = $productInfoContent.current
-    if (productContent)
-      setIsScrollPresent(
-        productContent.clientHeight < productContent.scrollHeight
-      )
-  }, [isProductFetched])
+    if (!productId || isProductFetched) return
+    dispatch(fetchProductInfo({ productId }))
+  }, [isProductFetched, productId, dispatch])
 
   return (
     <Panel className="Panel__fullScreen" {...props}>
+      <div className="ProductInfoPage">
+        {!isDesktop && <CustomPanelHeader title="Товар" />}
+        <div className="ProductInfo">
+          <Gallery
+            showArrows
+            align="center"
+            bullets="light"
+            className="ProductInfo_gallery"
+          >
+            {!isProductFetched && <div className="ProductInfo_skeleton" />}
+            {isProductFetched &&
+              product.photos.map((photo, index) => (
+                <ProductPhoto key={index} {...photo} />
+              ))}
+          </Gallery>
 
-      <div ref={$productInfoContent} className="ProductInfo">
-        <Gallery
-          showArrows
-          align="center"
-          bullets="light"
-          className="ProductInfo_gallery"
-        >
-          {isProductFetched &&
-            product.photos.map((photo, index) => (
-              <ProductPhoto key={index} {...photo} />
-            ))}
-        </Gallery>
-
-        {!isProductFetched && (
-          <div className="ProductInfo_gallery ProductInfo_skeleton" />
-        )}
-
-        <div className="ProductInfo_offer">
-          {isProductFetched && (
-            <>
-              <div className="ProductInfo_offer_title">{product.name}</div>
-              <PriceDisplay
-                price={product.price}
-                className="ProductInfo_offer_price"
+          <div className="ProductInfo_content">
+            <div className="ProductInfo_content_title">{name}</div>
+            <PriceDisplay price={price} className="ProductInfo_content_price" />
+            <div className="ProductInfo_content_description">
+              {isProductFetched ? product.description : ''}
+            </div>
+            {isDesktop && isProductFetched && (
+              <AddToCartButton
+                size="l"
+                defaultMode="primary"
+                product={product}
+                isInCart={isInCart}
               />
-            </>
-          )}
+            )}
+          </div>
 
-          {!isProductFetched && (
-            <>
-              <div className="ProductInfo_offer_price__skeleton" />
-              <div className="ProductInfo_offer_price__skeleton" />
-            </>
+          {!isDesktop && (
+            <FixedLayout filled vertical="bottom">
+              <Div>
+                <AddToCartButton
+                  size="l"
+                  stretched
+                  defaultMode="primary"
+                  product={product}
+                  isInCart={isInCart}
+                />
+              </Div>
+            </FixedLayout>
           )}
         </div>
-
-        <Separator />
-
-        {isProductFetched && (
-          <div className="ProductInfo_description">{product.description}</div>
-        )}
-
-        <ProductInfoFooter
-          isProductFetched={isProductFetched}
-          product={product}
-          productId={productId}
-          isScrollPresent={isScrollPresent}
-        />
+        {isDesktop && <TechInfo sections={SECTIONS} items={ITEMS} />}
       </div>
     </Panel>
   )

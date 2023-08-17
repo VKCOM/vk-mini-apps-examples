@@ -96,14 +96,17 @@ let Store: FC<NavIdProps> = (props) => {
     if (!$storeContainer.current) return
     $storeContainer.current.scrollTop = store.scrollPosition
     scrollPosition.current = store.scrollPosition
+  }, [store.scrollPosition, limit])
 
+  /** Восстановление скролла */
+  useLayoutEffect(() => {
     lastLoadItemIndex.current = store.products.length || limit
     document
       .querySelectorAll('.ProductCard:not(.ProductCard__active)')
       .forEach((el) => {
         observer.current?.observe(el)
       })
-  }, [store.scrollPosition, store.products, limit])
+  }, [store.products, limit])
 
   return (
     <Panel className="Panel__fullScreen" {...props}>

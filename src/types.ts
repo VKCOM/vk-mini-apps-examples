@@ -5,6 +5,7 @@ export interface Product {
   name: string
   price: number
   preview: string
+  back: ImageBackgroundAppereance
   description: string
   maxAvailable: number
   categoryId: number[]
@@ -16,7 +17,7 @@ export type ProductPreview = Omit<
   'categoryId' | 'photos' | 'description'
 >
 
-export type OrderProduct = ProductPreview & { numItemsToBuy: number }
+export type OrderProduct = Omit<ProductPreview, 'back'> & { numItemsToBuy: number }
 
 export interface Category {
   id: number

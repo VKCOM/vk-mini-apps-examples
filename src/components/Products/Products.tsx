@@ -46,7 +46,7 @@ let Products: FC<ProductsProps> = ({ products, fetching }) => {
           <ProductCard
             {...item}
             key={item.id}
-            preview=""
+            preview={item.preview}
             isInCart={orderProducts.some((product) => product.id === item.id)}
             data-index={index.toString()}
             data-src={item.preview + '.png'}

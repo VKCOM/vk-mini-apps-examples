@@ -1,17 +1,21 @@
 import { FC, memo } from 'react'
-import { PanelHeaderProps, PanelHeader, PanelHeaderBack } from '@vkontakte/vkui'
+import {
+  PanelHeaderProps,
+  PanelHeader,
+  PanelHeaderBack,
+} from '@vkontakte/vkui'
 import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
 
 export type CustomPanelHeaderProps = {
   title: string
 } & PanelHeaderProps
 
-let CustomPanelHeader: FC<CustomPanelHeaderProps> = ({ title }) => {
+let CustomPanelHeader: FC<CustomPanelHeaderProps> = ({ title, ...props }) => {
   const routeNavigator = useRouteNavigator()
-
   return (
     <PanelHeader
-      before={<PanelHeaderBack onClick={() => routeNavigator.back() }/>}
+      before={<PanelHeaderBack onClick={() => routeNavigator.back()} />}
+      {...props}
     >
       {title}
     </PanelHeader>

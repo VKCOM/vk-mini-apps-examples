@@ -1,4 +1,4 @@
-import { Category, ProductFilter, ShopInfo } from 'src/types'
+import { Category, ImageBackgroundAppereance, Product, ProductFilter, ShopInfo } from 'src/types'
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import * as api from 'src/api'
 import { RootState } from '.'
@@ -6,21 +6,41 @@ export interface AppState {
   shopInfo: ShopInfo
   filters: ProductFilter
   categories: Category[]
+  productInfo: Product
 }
 
 export const appInitialState: AppState = {
+  filters: { categoryId: '0' },
+  categories: [],
   shopInfo: {
     logo: '',
     name: '',
   },
-  filters: {categoryId: '0'},
-  categories: [],
+  productInfo: {
+    id: -1,
+    price: 0,
+    name: '',
+    preview: '',
+    back: ImageBackgroundAppereance.Grey,
+    photos: [],
+    categoryId: [],
+    description: '',
+    maxAvailable: 0,
+  },
 }
 
 /** Запрос на получения контента через асинхронный action: fetchShop */
 export const fetchShop = createAsyncThunk('app/fetchShop', async function () {
   return await api.user.getInitialData()
 })
+
+/** Запрос на получения контента через асинхронный action: fetchShop */
+export const fetchProductInfo = createAsyncThunk(
+  'app/fetchproductInfo',
+  async function ({ productId }: { productId: number }) {
+    return (await api.products.getProductInfo({ productId }))
+  }
+)
 
 const appSlice = createSlice({
   name: 'app',
@@ -48,6 +68,9 @@ const appSlice = createSlice({
     builder.addCase(fetchShop.fulfilled, (state, action) => {
       state.shopInfo = action.payload.shopInfo
       state.categories = action.payload.categories
+    }),
+    builder.addCase(fetchProductInfo.fulfilled, (state, action) => {
+      state.productInfo = action.payload
     })
   },
 })
@@ -57,10 +80,11 @@ export { reducer as appReducer }
 
 export const selectCategories = (state: RootState) => state.app.categories
 export const selectFilters = (state: RootState) => state.app.filters
-export const selectPriceTo= (state: RootState) => state.app.filters.priceTo
-export const selectPriceFrom= (state: RootState) => state.app.filters.priceFrom
+export const selectPriceTo = (state: RootState) => state.app.filters.priceTo
+export const selectPriceFrom = (state: RootState) => state.app.filters.priceFrom
 export const selectShopName = (state: RootState) => state.app.shopInfo.name
 export const selectShopLogo = (state: RootState) => state.app.shopInfo.logo
+export const selectProductInfo = (state: RootState) => state.app.productInfo
 
 export const {
   setProductFilters,

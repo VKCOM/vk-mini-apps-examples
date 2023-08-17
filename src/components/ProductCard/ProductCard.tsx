@@ -15,6 +15,7 @@ export type ProductCardProps = ProductPreview & {
 let ProductCard: FC<ProductCardProps> = ({
   id,
   name,
+  back,
   price,
   preview,
   isInCart,
@@ -26,7 +27,7 @@ let ProductCard: FC<ProductCardProps> = ({
 
   const onCardClick = () => {
     routeNavigator.push(
-      `/${ShopPanel.ProductInfo}?id=${id}&name=${name}&price=${price}`
+      `/${ShopPanel.ProductInfo}?id=${id}&name=${name}&price=${price}&back=${back}`
     )
   }
 
@@ -39,21 +40,16 @@ let ProductCard: FC<ProductCardProps> = ({
   }
 
   const product = useMemo(() => {
-    return { id, name, price, preview, isInCart, maxAvailable }
-  }, [id, name, price, preview, isInCart, maxAvailable])
+    return { id, name, back, price, preview, maxAvailable }
+  }, [id, name, back, price, preview, maxAvailable])
 
   return (
-    <div
-      onClick={onCardClick}
-      className="ProductCard"
-      ref={$card}
-      {...props}
-    >
+    <div onClick={onCardClick} className="ProductCard" ref={$card} {...props}>
       <div className="ProductCard_preview">
         <picture className="ProductCard_preview_picture">
-          <source srcSet={preview + '.webp'} type="image/webp"></source>
+          <source srcSet="" type="image/webp"></source>
           <img
-            src={preview + '.png'}
+            src=""
             alt=""
             width={MAX_PRODUCT_CARD_SIZE}
             height={MAX_PRODUCT_CARD_SIZE}

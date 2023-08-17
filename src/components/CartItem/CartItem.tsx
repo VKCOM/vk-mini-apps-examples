@@ -1,7 +1,5 @@
-import { FC, memo, useCallback, useEffect, useState } from 'react'
-import cx from 'classnames'
-import { IconButton } from '@vkontakte/vkui'
-import { Icon24Cancel } from '@vkontakte/icons'
+import { FC, memo, useCallback } from 'react'
+import { Icon24DeleteOutline } from '@vkontakte/icons'
 import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
 import { ShopPanel } from 'src/routes'
 import { Counter, PriceDisplay } from 'src/components'
@@ -19,77 +17,69 @@ let CartItem: FC<OrderProduct> = ({
   maxAvailable,
   numItemsToBuy,
 }) => {
-  // Получаем функцию для отправки данных в store
   const dispatch = useAppDispatch()
-  // Объект для навигации по приложению
   const routeNavigator = useRouteNavigator()
-
-  const [isPreviewLoad, setIsPreviewLoad] = useState(false)
-  const [itemNumber, setItemNumber] = useState(numItemsToBuy)
 
   const onCancelClick = useCallback(
     (e: React.MouseEvent) => {
-      // Удаляем карточку по id в корзине
-      dispatch(deleteCartItem(id))
       e.stopPropagation()
+      dispatch(deleteCartItem(id))
     },
     [dispatch, id]
   )
 
-  const onItemClick = useCallback(() => {
+  const onCounterChange = useCallback(
+    (value: number) => dispatch(updateCartItem({ id, numItemsToBuy: value })),
+    [id, dispatch]
+  )
+  const onItemClick = () => {
     routeNavigator.push(`/${ShopPanel.ProductInfo}?id=${id}`)
-  }, [id, routeNavigator])
-
-  const onSubstract = useCallback((e: React.MouseEvent) => {
-    setItemNumber((itemNumber) => itemNumber - 1)
-    e.stopPropagation()
-  }, [])
-
-  const onAdd = useCallback((e: React.MouseEvent) => {
-    setItemNumber((itemNumber) => itemNumber + 1)
-    e.stopPropagation()
-  }, [])
-
-  const onPreviewLoad = useCallback(() => setIsPreviewLoad(true), [])
-
-  /** Обновление товара в store при изменении количества */
-  useEffect(() => {
-    dispatch(updateCartItem({ id, numItemsToBuy: itemNumber }))
-  }, [id, itemNumber, dispatch])
+  }
+  const onPreviewLoad = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    const el = e.target as HTMLElement
+    el.classList.remove('CartItem_preview_image__unload')
+  }
 
   return (
     <div onClick={onItemClick} className="CartItem">
-      <div
-        className={cx('CartItem_preview', {
-          CartItem_preview__unload: !isPreviewLoad,
-        })}
-      >
+      <div className="CartItem_preview">
         <picture>
           <source srcSet={preview + '.webp'} type="image/webp"></source>
-          <img onLoad={onPreviewLoad} src={preview} />
+          <img
+            className="CartItem_preview_image CartItem_preview_image__unload"
+            onLoad={onPreviewLoad}
+            src={preview}
+            alt=""
+            width={120}
+            height={120}
+          />
         </picture>
       </div>
 
       <div className="CartItem_info">
-        <div className="CartItem_info_name">{name}</div>
-
-        <PriceDisplay
-          price={price * itemNumber}
-          className="CartItem_info_price"
-        />
+        <div>
+          <PriceDisplay
+            price={price * numItemsToBuy}
+            className="CartItem_info_price"
+          />
+          <div className="CartItem_info_name">{name}</div>
+        </div>
 
         <div className="CartItem_info_controller">
-          <div className="CartItem_info_controller_iconButton">
-            <IconButton onClick={onCancelClick} aria-label="cancel">
-              <Icon24Cancel fill="#99A2AD" />
-            </IconButton>
-          </div>
           <Counter
             maxValue={maxAvailable}
-            value={itemNumber}
-            onSubtract={onSubstract}
-            onAdd={onAdd}
+            defaultValue={numItemsToBuy}
+            minValue={1}
+            onChange={onCounterChange}
           />
+
+          <div
+            onClick={onCancelClick}
+            className="CartItem_info_controller_deleteButton"
+          >
+            <Icon24DeleteOutline />
+            <div>Удалить</div>
+          </div>
         </div>
       </div>
     </div>

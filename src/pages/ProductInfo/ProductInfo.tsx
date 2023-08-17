@@ -1,9 +1,13 @@
 import { FC, useEffect, useMemo } from 'react'
-import { useSearchParams } from '@vkontakte/vk-mini-apps-router'
+import {
+  useRouteNavigator,
+  useSearchParams,
+} from '@vkontakte/vk-mini-apps-router'
 import {
   Div,
   FixedLayout,
   Gallery,
+  IconButton,
   NavIdProps,
   Panel,
   useAdaptivityWithJSMediaQueries,
@@ -15,18 +19,18 @@ import {
   AddToCartButton,
   TechInfo,
 } from 'src/components'
-import {
-  fetchProductInfo,
-  selectProductInfo,
-} from 'src/store/productInfo.reducer'
+import { Icon24ShoppingCartOutline } from '@vkontakte/icons'
+import { fetchProductInfo, selectProductInfo } from 'src/store/app.reducer'
 import { selectOrderProducts } from 'src/store/shoppingCart.reducer'
 import { useAppDispatch, useAppSelector } from 'src/store'
 import { ITEMS, SECTIONS } from './techConfig'
+import { ShopPanel } from 'src/routes'
 
 import './ProductInfo.css'
 
 export const ProductInfo: FC<NavIdProps> = (props) => {
   const dispatch = useAppDispatch()
+  const routeNavigator = useRouteNavigator()
   const product = useAppSelector(selectProductInfo)
   const orderProducts = useAppSelector(selectOrderProducts)
   const [params] = useSearchParams()
@@ -35,8 +39,9 @@ export const ProductInfo: FC<NavIdProps> = (props) => {
   const productId = Number(params.get('id')) || product.id
   const price = Number(params.get('price')) || product.price
   const name = params.get('name') || product.name
+  const back = params.get('back') || product.back
   const isProductFetched = productId === product.id
-  
+
   const isInCart = useMemo(
     () => orderProducts.some((item) => item.id === productId),
     [orderProducts, productId]
@@ -47,10 +52,20 @@ export const ProductInfo: FC<NavIdProps> = (props) => {
     dispatch(fetchProductInfo({ productId }))
   }, [isProductFetched, productId, dispatch])
 
+  const shoppingCartIcon = useMemo(() => {
+    return (
+      <IconButton
+        onClick={() => routeNavigator.push(`/${ShopPanel.ShoppingCart}`)}
+      >
+        <Icon24ShoppingCartOutline />
+      </IconButton>
+    )
+  }, [routeNavigator])
+
   return (
     <Panel className="Panel__fullScreen" {...props}>
       <div className="ProductInfoPage">
-        {!isDesktop && <CustomPanelHeader title="Товар" />}
+        <CustomPanelHeader after={shoppingCartIcon} title="Товар" />
         <div className="ProductInfo">
           <Gallery
             showArrows
@@ -58,7 +73,11 @@ export const ProductInfo: FC<NavIdProps> = (props) => {
             bullets="light"
             className="ProductInfo_gallery"
           >
-            {!isProductFetched && <div className="ProductInfo_skeleton" />}
+            {!isProductFetched && (
+              <div
+                className={`ProductInfo_skeleton ProductInfo_skeleton__${back}`}
+              />
+            )}
             {isProductFetched &&
               product.photos.map((photo, index) => (
                 <ProductPhoto key={index} {...photo} />

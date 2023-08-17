@@ -90,6 +90,7 @@ let Filters: FC<FiltersProps> = () => {
             onClick={onSearchIconClick}
           />
         }
+        iconAriaLabel="filter"
         defaultValue={query}
         onChange={onQueryChange}
       />

@@ -5,32 +5,25 @@ import {
   NavIdProps,
   Panel,
   Placeholder,
-  useAdaptivityWithJSMediaQueries,
+  Separator,
+  Spacing,
 } from '@vkontakte/vkui'
 import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
 import { Icon28ShoppingCartOutline } from '@vkontakte/icons'
-import { CartItem, Subtotal } from 'src/components'
+import { CartItem, CustomPanelHeader, Subtotal } from 'src/components'
 import { PayConfirmPopout } from './PayConfirmPopout'
 import { useAppSelector } from 'src/store'
 import { INITIAL_URL } from 'src/routes'
-import cx from 'classnames'
+import { selectShoppingCart } from 'src/store/shoppingCart.reducer'
 
 import './ShoppingCart.css'
 
 let ShoppingCart: FC<NavIdProps> = (props) => {
-  // Получаем объект для навигации в приложении
   const routeNavigator = useRouteNavigator()
-  // Узнаем десктопный ли размер экрана
-  const { isDesktop } = useAdaptivityWithJSMediaQueries()
-  // Подписываемся на изменения в store
-  const { orderProducts, totalPrice } = useAppSelector(
-    (state) => state.shoppingCart
-  )
-
+  const { orderProducts, totalPrice } = useAppSelector(selectShoppingCart)
   const isCartEmpty = orderProducts.length === 0
 
   const onPlaceholderClick = useCallback(() => {
-    // Совершаем переход на стартовую страницу без сохранения истории в навигации
     routeNavigator.replace(INITIAL_URL)
   }, [routeNavigator])
 
@@ -40,27 +33,16 @@ let ShoppingCart: FC<NavIdProps> = (props) => {
 
   return (
     <Panel className="Panel__fullScreen" {...props}>
-
-      <div
-        className={cx('ShoppingCart', {
-          ShoppingCart__desktop: isDesktop,
-        })}
-      >
-        <div
-          className={cx('ShoppingCart_productList', {
-            ShoppingCart_productList__desktop: isDesktop,
-          })}
-        >
+      <CustomPanelHeader title="Товар" />
+      <div className="ShoppingCart">
+        <div className="ShoppingCart_productList">
           {orderProducts.map((item) => (
-            <CartItem
-              id={item.id}
-              key={String(item.id)}
-              name={item.name}
-              price={item.price}
-              preview={item.preview}
-              maxAvailable={item.maxAvailable}
-              numItemsToBuy={item.numItemsToBuy}
-            />
+            <div style={{ width: '100%' }} key={String(item.id)}>
+              <CartItem {...item} />
+              <Spacing size={20}>
+                <Separator />
+              </Spacing>
+            </div>
           ))}
 
           {isCartEmpty && (
@@ -76,22 +58,11 @@ let ShoppingCart: FC<NavIdProps> = (props) => {
           )}
         </div>
 
-        <div
-          className={cx('ShoppingCart_checkout', {
-            ShoppingCart_checkout__desktop: isDesktop,
-          })}
-        >
-          {isDesktop && <Subtotal totalPrice={totalPrice} />}
-          {!isDesktop && (
-            <Card>
-              <Subtotal totalPrice={totalPrice} />
-            </Card>
-          )}
-          <div
-            className={cx('ShoppingCart_confirmPay', {
-              ShoppingCart_confirmPay__desktop: isDesktop,
-            })}
-          >
+        <div className="ShoppingCart_checkout">
+          <Card>
+            <Subtotal totalPrice={totalPrice} />
+          </Card>
+          <div className="ShoppingCart_confirmPay">
             <Button
               stretched
               size="l"

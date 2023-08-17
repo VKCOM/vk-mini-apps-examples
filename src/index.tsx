@@ -1,7 +1,7 @@
 import React from 'react'
 import { createRoot } from 'react-dom/client'
 import bridge from '@vkontakte/vk-bridge'
-import { ConfigProvider, AdaptivityProvider, AppRoot } from '@vkontakte/vkui'
+import { ConfigProvider, AdaptivityProvider, AppRoot, WebviewType } from '@vkontakte/vkui'
 import { RouterProvider } from '@vkontakte/vk-mini-apps-router'
 import { router } from './routes'
 import { Provider } from 'react-redux'
@@ -29,7 +29,7 @@ const container = document.getElementById('root')
 const root = createRoot(container!)
 root.render(
   <RouterProvider router={router}>
-    <ConfigProvider>
+    <ConfigProvider webviewType={WebviewType.INTERNAL}>
       <Provider store={store}>
         <AdaptivityProvider>
           <AppRoot>

@@ -23,14 +23,14 @@ export const ITEMS = [
     id: 2,
   },
   {
-    name: 'Header',
-    link: 'https://vkcom.github.io/VKUI/#/Header',
+    name: 'SubnavigationBar',
+    link: 'https://vkcom.github.io/VKUI/#/SubnavigationBar',
     sectionId: 1,
     id: 3,
   },
   {
-    name: 'Cell',
-    link: 'https://vkcom.github.io/VKUI/#/Slider',
+    name: 'SubnavigationButton',
+    link: 'https://vkcom.github.io/VKUI/#/SubnavigationButton',
     sectionId: 1,
     id: 4,
   },
@@ -53,9 +53,27 @@ export const ITEMS = [
     id: 7,
   },
   {
+    name: 'ActionSheet',
+    link: 'https://vkcom.github.io/VKUI/#/ActionSheet',
+    sectionId: 1,
+    id: 8,
+  },
+  {
+    name: 'Tabbar',
+    link: 'https://vkcom.github.io/VKUI/#/Tabbar',
+    sectionId: 1,
+    id: 9,
+  },
+  {
+    name: 'TabbarItem',
+    link: 'https://vkcom.github.io/VKUI/#/TabbarItem',
+    sectionId: 1,
+    id: 10,
+  },
+  {
     name: 'Intersection Observer',
     link: 'https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API',
     sectionId: 2,
-    id: 8,
+    id: 11,
   },
 ]

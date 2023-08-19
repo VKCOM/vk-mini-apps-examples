@@ -1,9 +1,9 @@
 import { FC, memo, useEffect, useRef, useState } from 'react'
+import { useActiveVkuiLocation } from '@vkontakte/vk-mini-apps-router'
+import { ImageBackgroundAppereance } from 'src/types'
 import cx from 'classnames'
 
 import './ProductPhoto.css'
-import { ImageBackgroundAppereance } from '@/types'
-import { useActiveVkuiLocation } from '@vkontakte/vk-mini-apps-router'
 
 export type ProductPhotoProps = {
   url: string
@@ -45,7 +45,7 @@ let ProductPhoto: FC<ProductPhotoProps> = ({ url, appearence }) => {
   }, [url, panel])
 
   return (
-    <div className={cx('ProductPhoto', `ProductPhoto__${appearence}`)}>
+    <div className={`ProductPhoto Back__${appearence}`}>
       <picture className="ProductPhoto_picture">
         <source srcSet={url + '.webp'} type="image/webp"></source>
         <img
@@ -64,6 +64,5 @@ let ProductPhoto: FC<ProductPhotoProps> = ({ url, appearence }) => {
   )
 }
 
-/** React.memo - HOC, кэширующий результат выполнения функции, rerender компонента произойдет только при изменении props */
 ProductPhoto = memo(ProductPhoto)
 export { ProductPhoto }

@@ -3,16 +3,14 @@
   flex-direction: row;
   align-items: center;
   gap: 16px;
-  width: 100%;
+  max-width: 100%;
   cursor: pointer;
 }
 
 .CartItem_preview {
-  position: relative;
   background: var(--skeleton-background-color);
   border-radius: 12px;
-  left: 0;
-  min-width: 120px;
+  width: 120px;
   height: 120px;
 }
 
@@ -53,8 +51,6 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;
-  max-height: 40px;
 }
 
 .CartItem_info_controller_deleteButton {
@@ -63,12 +59,23 @@
   opacity: 0.3;
   font-size: 13px;
   font-weight: 400;
-  justify-content: center;
   align-items: center;
   transition: opacity 0.15s ease-out;
   user-select: none;
 }
 
-.CartItem_info_controller_deleteButton:hover {
+.CartItem_info_controller_deleteButton:active {
   opacity: 1;
+}
+
+@media (hover: hover) {
+  .CartItem_info_controller_deleteButton:hover {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 320px) {
+  .CartItem_info_controller_deleteButton_text {
+    display: none;
+  }
 }

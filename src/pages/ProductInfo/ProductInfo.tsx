@@ -53,19 +53,23 @@ export const ProductInfo: FC<NavIdProps> = (props) => {
   }, [isProductFetched, productId, dispatch])
 
   const shoppingCartIcon = useMemo(() => {
-    return (
+    return isDesktop ? (
       <IconButton
         onClick={() => routeNavigator.push(`/${ShopPanel.ShoppingCart}`)}
       >
         <Icon24ShoppingCartOutline />
       </IconButton>
-    )
-  }, [routeNavigator])
+    ) : undefined
+  }, [routeNavigator, isDesktop])
 
   return (
     <Panel className="Panel__fullScreen" {...props}>
       <div className="ProductInfoPage">
-        <CustomPanelHeader after={shoppingCartIcon} title="Товар" />
+        <CustomPanelHeader
+          separator={false}
+          after={shoppingCartIcon}
+          title="Товар"
+        />
         <div className="ProductInfo">
           <Gallery
             showArrows
@@ -74,9 +78,7 @@ export const ProductInfo: FC<NavIdProps> = (props) => {
             className="ProductInfo_gallery"
           >
             {!isProductFetched && (
-              <div
-                className={`ProductInfo_skeleton ProductInfo_skeleton__${back}`}
-              />
+              <div className={`ProductInfo_skeleton Back__${back}`} />
             )}
             {isProductFetched &&
               product.photos.map((photo, index) => (

@@ -41,6 +41,5 @@ let AddToCartButton: FC<AddToCartButtonProps> = ({
   )
 }
 
-/** React.memo - HOC, кэширующий результат выполнения функции, rerender компонента произойдет только при изменении props */
 AddToCartButton = memo(AddToCartButton)
 export { AddToCartButton }

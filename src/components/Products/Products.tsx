@@ -25,16 +25,22 @@ let Products: FC<ProductsProps> = ({ products, fetching }) => {
   const shopName = useAppSelector(selectShopName)
   const shopLogo = useAppSelector(selectShopLogo)
 
+  const onAvatarLoad = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    const el = e.target as HTMLImageElement
+    el.classList.remove('Products_header_avatar__unload')
+  }
+
   return (
     <Group className="Products">
       {isDesktop && (
         <Header size="large">
           <div className="Products_header">
             <img
-              className="Products_header_avatar"
+              className="Products_header_avatar Products_header_avatar__unload"
               width={28}
               height={28}
               src={shopLogo}
+              onLoad={onAvatarLoad}
               alt=""
             />
             <span>{shopName}</span>
@@ -66,6 +72,5 @@ let Products: FC<ProductsProps> = ({ products, fetching }) => {
   )
 }
 
-/** React.memo - HOC, кэширующий результат выполнения функции, rerender компонента произойдет только при изменении props */
 Products = memo(Products)
 export { Products }

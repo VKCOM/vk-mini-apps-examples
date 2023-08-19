@@ -3,7 +3,6 @@
     "baseUrl": "./",
     "rootDir": "./src",
     "paths": {
-      "@/*": ["src/*"],
       "@lib/*": ["./lib/*"]
     },
     "target": "es5",
@@ -27,6 +26,6 @@
     "src",
     "setupTest.js",
     "src/api/user/addToCart.ts",
-    "src/.react-app-env.d.ts",
-  ],
+    "src/.react-app-env.d.ts"
+  ]
 }

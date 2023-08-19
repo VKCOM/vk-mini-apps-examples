@@ -1,8 +1,4 @@
-export type IntersectionObserverOption = Omit<
-  IntersectionObserverInit,
-  'root'
-> & {
-  root: React.RefObject<HTMLElement>
+export type IntersectionObserverOption = IntersectionObserverInit & {
   callback: (
     observer: IntersectionObserver,
     entry: IntersectionObserverEntry
@@ -100,6 +96,6 @@ export function imageIntersectionObserver(
         })
       }
     },
-    { root: root.current, rootMargin, threshold }
+    { root, rootMargin, threshold }
   )
 }

@@ -16,6 +16,10 @@
   border-radius: 100%;
 }
 
+.Products_header_avatar__unload {
+  opacity: 0;
+}
+
 .Products_grid {
   display: grid;
   backface-visibility: hidden;

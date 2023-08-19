@@ -15,15 +15,14 @@ import {
   NavIdProps,
   Separator,
 } from '@vkontakte/vkui'
-import { useAppSelector } from 'src/store'
-import { useDispatch } from 'react-redux'
+import { useAppDispatch, useAppSelector } from 'src/store'
 import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
 
 let FiltersModal: React.FC<NavIdProps & { onClose: () => void }> = (props) => {
   const defaultPriceTo = useAppSelector(selectPriceTo)
   const defaultPriceFrom = useAppSelector(selectPriceFrom)
   const routeNavigator = useRouteNavigator()
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
   const priceToRef = useRef<number | undefined>(undefined)
   const priceFromRef = useRef<number | undefined>(undefined)

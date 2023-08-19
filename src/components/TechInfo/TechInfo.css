@@ -4,10 +4,19 @@
   flex-direction: column;
   gap: 3px;
   margin-bottom: 16px;
+  background: var(--vkui--color_background_content);
+  border-radius: 12px;
+}
+
+.TechInfo__secondary {
+  background: var(--vkui--color_background_content);
+}
+
+.TechInfo__accent {
+  background: var(--vkui--color_background_secondary);
 }
 
 .ThechInfo_description {
-  color: var(--vkui--color_text_secondary);
   font-size: 14px;
   font-weight: 400;
   line-height: 18px;

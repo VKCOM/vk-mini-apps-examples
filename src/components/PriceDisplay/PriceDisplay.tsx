@@ -45,6 +45,5 @@ let PriceDisplay: FC<
   )
 }
 
-/** React.memo - HOC, кэширующий результат выполнения функции, rerender компонента произойдет только при изменении props */
 PriceDisplay = memo(PriceDisplay)
 export { PriceDisplay }

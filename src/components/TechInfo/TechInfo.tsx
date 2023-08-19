@@ -1,14 +1,15 @@
 import { FC, memo, useMemo, useState } from 'react'
-import { Group, HorizontalScroll, Link, Tabs, TabsItem } from '@vkontakte/vkui'
+import { HorizontalScroll, Link, Tabs, TabsItem } from '@vkontakte/vkui'
 
 import './TechInfo.css'
 
 export type TechInfoProps = {
   sections: Array<{ description: string; name: string; id: number }>
   items: Array<{ name: string; link: string; sectionId: number; id: number }>
+  mode?: 'accent' | 'secondary'
 }
 
-let TechInfo: FC<TechInfoProps> = ({ sections, items }) => {
+let TechInfo: FC<TechInfoProps> = ({ sections, items, mode = 'secondary' }) => {
   const [activeSectionId, setActiveSectionId] = useState(sections[0]?.id ?? 0)
 
   const description = useMemo(() => {
@@ -21,8 +22,8 @@ let TechInfo: FC<TechInfoProps> = ({ sections, items }) => {
   }, [activeSectionId, items])
 
   return (
-    <Group separator='hide' className="TechInfo">
-      <Tabs mode="secondary">
+    <div className={`TechInfo TechInfo__${mode}`}>
+      <Tabs mode={mode}>
         <HorizontalScroll>
           {sections?.map((section) => (
             <TabsItem
@@ -48,7 +49,7 @@ let TechInfo: FC<TechInfoProps> = ({ sections, items }) => {
           </div>
         ))}
       </div>
-    </Group>
+    </div>
   )
 }
 

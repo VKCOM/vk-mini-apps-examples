@@ -1,9 +1,9 @@
 import { FC, memo, useCallback } from 'react'
 import { Icon24DeleteOutline } from '@vkontakte/icons'
 import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
+import { OrderProduct } from 'src/types'
 import { ShopPanel } from 'src/routes'
 import { Counter, PriceDisplay } from 'src/components'
-import { OrderProduct } from 'src/types'
 import { useAppDispatch } from 'src/store'
 import { deleteCartItem, updateCartItem } from 'src/store/shoppingCart.reducer'
 
@@ -78,7 +78,9 @@ let CartItem: FC<OrderProduct> = ({
             className="CartItem_info_controller_deleteButton"
           >
             <Icon24DeleteOutline />
-            <div>Удалить</div>
+            <div className="CartItem_info_controller_deleteButton_text">
+              Удалить
+            </div>
           </div>
         </div>
       </div>
@@ -86,6 +88,5 @@ let CartItem: FC<OrderProduct> = ({
   )
 }
 
-/** React.memo - HOC, кэширующий результат выполнения функции, rerender компонента произойдет только при изменении props */
 CartItem = memo(CartItem)
 export { CartItem }

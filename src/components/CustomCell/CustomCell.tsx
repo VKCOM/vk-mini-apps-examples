@@ -19,6 +19,5 @@ let CustomCell: FC<CustomCellProps> = ({ active, content, ...props }) => {
   )
 }
 
-/** React.memo - HOC, кэширующий результат выполнения функции, rerender компонента произойдет только при изменении props */
 CustomCell = memo(CustomCell)
 export { CustomCell }

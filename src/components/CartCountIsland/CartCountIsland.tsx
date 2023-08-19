@@ -48,6 +48,5 @@ let CartCountIsland: FC = () => {
   )
 }
 
-/** React.memo - HOC, кэширующий результат выполнения функции, rerender компонента произойдет только при изменении props */
 CartCountIsland = memo(CartCountIsland)
 export { CartCountIsland }

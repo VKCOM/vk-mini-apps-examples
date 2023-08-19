@@ -1,76 +1,39 @@
 .ShoppingCart {
-  flex: 1;
   display: flex;
   flex-direction: column;
   max-height: 100%;
   overflow: scroll;
+  flex: 1;
 }
 
 .ShoppingCart::-webkit-scrollbar {
-  width: 0;
-  height: 0;
   display: none;
 }
 
 .ShoppingCart_productList {
-  margin: 12px;
+  margin: 0 12px;
   width: calc(100% - 24px);
   background: var(--vkui--color_background_content);
   gap: 8px;
-  align-items: center;
   display: flex;
   flex-direction: column;
 }
 
-.ShoppingCart_confirmPay {
-  max-width: 410px;
-  display: block;
-  max-height: 48px;
-  margin: 10px auto;
-  padding-left: 10px;
-  padding-right: 10px;
-  align-self: flex-end;
-  position: sticky;
-  top: 100%;
-}
-
-.ShoppingCart_checkout {
-  flex: 1;
+.ShoppingCart_techConfig {
   background: var(--vkui--color_background_content);
-  user-select: none;
 }
 
 @media (min-width: 768px) {
   .ShoppingCart {
-    display: flex;
     flex-direction: row;
     gap: 16px;
     background: var(--vkui--color_background_content);
-    border-radius: 0 0 12px 12px;
-    padding: 10px 20px 0 20px;
+    padding: 0 12px 0 12px;
   }
   .ShoppingCart_productList {
-    margin-top: 12px;
     height: max-content;
-    padding-bottom: 12px;
     margin: 0;
     padding: 8px;
-    width: 100%;
     margin-bottom: 10px;
-  }
-  .ShoppingCart_checkout {
-    min-width: 320px;
-    margin-top: 12px;
-    background: var(--vkui--color_background_secondary);
-    border-radius: 12px;
-    padding: 16px;
-    height: max-content;
-    margin: 0;
-    position: sticky;
-    top: 0;
-  }
-  .ShoppingCart_confirmPay {
-    margin: 10px 0 0 0;
-    padding: 0;
   }
 }

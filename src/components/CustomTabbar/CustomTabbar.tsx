@@ -1,7 +1,7 @@
 import { FC, memo } from 'react'
+import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
 import { Counter, TabbarItem, Tabbar } from '@vkontakte/vkui'
 import { Icon28ShoppingCartOutline, Icon28HomeOutline } from '@vkontakte/icons'
-import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
 import { ShopPanel } from 'src/routes'
 import { selectOrderProducts } from 'src/store/shoppingCart.reducer'
 import { useAppSelector } from 'src/store'
@@ -54,6 +54,5 @@ let CustomTabbar: FC<CustomTabbarProps> = ({ activePanel }) => {
   )
 }
 
-/** React.memo - HOC, кэширующий результат выполнения функции, rerender компонента произойдет только при изменении props */
 CustomTabbar = memo(CustomTabbar)
 export { CustomTabbar }

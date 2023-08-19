@@ -8,10 +8,7 @@
   overflow: scroll;
 }
 
-.ProductInfoPage::-webkit-scrollbar,
 .ProductInfoPage::-webkit-scrollbar {
-  height: 0;
-  width: 0;
   display: none;
 }
 
@@ -41,26 +38,15 @@
   font-size: 15px;
   line-height: 20px;
   margin: 8px 0 14px 0;
+  opacity: 0;
+  animation: fadeIn 0.4s ease-out;
+  animation-fill-mode: forwards;
+  animation-delay: 0.25s;
 }
 
 .ProductInfo_skeleton {
   width: 100%;
   aspect-ratio: 1/1;
-}
-.ProductInfo_skeleton__grey {
-  background: var(--grey-gradient);
-}
-.ProductInfo_skeleton__rose {
-  background: var(--rose-gradient);
-}
-.ProductInfo_skeleton__beige {
-  background: var(--beige-gradient);
-}
-.ProductInfo_skeleton__violet {
-  background: var(--violet-gradient);
-}
-.ProductInfo_skeleton__blue {
-  background: var(--blue-gradient);
 }
 
 .ProductInfo_gallery {

@@ -21,7 +21,11 @@ import './Store.css'
 
 const MOBILE_LIMIT = 12
 const DESKTOP_LIMIT = 40
-const IMAGE_LOAD_DELAY = 500
+const IMAGE_LOADING_OPRIONS = {
+  findImage,
+  delay: 500,
+  attributeName: 'data-src',
+}
 
 let Store: FC<NavIdProps> = (props) => {
   const dispatch = useAppDispatch()
@@ -72,15 +76,11 @@ let Store: FC<NavIdProps> = (props) => {
 
     observer.current = imageIntersectionObserver(
       {
-        root: $storeContainer,
+        root: $storeContainer.current,
         rootMargin: '0px 0px 150px 0px',
         callback: onEntryCallback,
       },
-      {
-        findImage,
-        delay: IMAGE_LOAD_DELAY,
-        attributeName: 'data-src',
-      }
+      IMAGE_LOADING_OPRIONS
     )
 
     if (!isSavedContent.current) fetchProducts(0, limit)
@@ -120,7 +120,7 @@ let Store: FC<NavIdProps> = (props) => {
       <div ref={$storeContainer} className={'Store'} onScroll={onHandleScroll}>
         <Products products={store.products} fetching={store.isStoreFetching} />
         {isDesktop && (
-          <div className="Store_sidebar">
+          <div className="Sidebar">
             <CartCountIsland />
             <Filters />
             <TechInfo sections={SECTIONS} items={ITEMS} />

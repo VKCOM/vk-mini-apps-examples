@@ -29,12 +29,12 @@ export const appInitialState: AppState = {
   },
 }
 
-/** Запрос на получения контента через асинхронный action: fetchShop */
+/** Запрос на получения контента магазина через асинхронный action: fetchShop */
 export const fetchShop = createAsyncThunk('app/fetchShop', async function () {
   return await api.user.getInitialData()
 })
 
-/** Запрос на получения контента через асинхронный action: fetchShop */
+/** Запрос на получения информации о товаре через асинхронный action: fetchShop */
 export const fetchProductInfo = createAsyncThunk(
   'app/fetchproductInfo',
   async function ({ productId }: { productId: number }) {

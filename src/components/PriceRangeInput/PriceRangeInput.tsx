@@ -1,7 +1,7 @@
 import { FC, memo, useCallback, useRef } from 'react'
+import { FormItem, FormLayoutGroup, Input, useAdaptivityWithJSMediaQueries } from '@vkontakte/vkui'
 
 import './PriceRangeInput.css'
-import { FormItem, FormLayoutGroup, Input, useAdaptivityWithJSMediaQueries } from '@vkontakte/vkui'
 
 export type PriceRangeInputProps = {
   defaultPriceTo?: number
@@ -57,6 +57,5 @@ let PriceRangeInput: FC<PriceRangeInputProps> = ({
   )
 }
 
-/** React.memo - HOC, кэширующий результат выполнения функции, rerender компонента произойдет только при изменении props */
 PriceRangeInput = memo(PriceRangeInput)
 export { PriceRangeInput }

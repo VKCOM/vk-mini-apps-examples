@@ -3,9 +3,11 @@
   display: flex;
   flex-direction: column;
   gap: 3px;
+  padding: 0 6px;
   margin-bottom: 16px;
   background: var(--vkui--color_background_content);
   border-radius: 12px;
+  border: 1px solid var(--vkui--color_field_border_alpha);
 }
 
 .TechInfo__secondary {

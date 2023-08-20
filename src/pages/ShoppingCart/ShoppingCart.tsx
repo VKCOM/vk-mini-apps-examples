@@ -53,6 +53,7 @@ let ShoppingCart: FC<NavIdProps> = (props) => {
           <Header size="large">{subtitle}</Header>
         )}
         <div className="ShoppingCart_productList">
+          {isDesktop && <Spacing size={8} />}
           {orderProducts.map((item) => (
             <div style={{ width: '100%' }} key={String(item.id)}>
               <CartItem {...item} />
@@ -75,16 +76,13 @@ let ShoppingCart: FC<NavIdProps> = (props) => {
           )}
         </div>
         <div className="Sidebar">
+          {isDesktop && <Spacing size={8} />}
           <Checkout
             onConfirmPayClick={onConfirmPayClick}
             totalPrice={totalPrice}
           />
           {isDesktop && (
-            <TechInfo
-              mode="accent"
-              sections={SECTIONS}
-              items={ITEMS}
-            />
+            <TechInfo mode="accent" sections={SECTIONS} items={ITEMS} />
           )}
         </div>
       </div>

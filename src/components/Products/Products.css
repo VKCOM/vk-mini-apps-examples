@@ -38,9 +38,3 @@
   justify-content: center;
   align-items: center;
 }
-
-@media (min-width: 768px) {
-  .Products_grid {
-    max-width: min(100%, 520px);
-  }
-}

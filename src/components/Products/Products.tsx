@@ -3,6 +3,7 @@ import {
   Group,
   Header,
   Placeholder,
+  Spacing,
   Spinner,
   useAdaptivityWithJSMediaQueries,
 } from '@vkontakte/vkui'
@@ -45,6 +46,7 @@ let Products: FC<ProductsProps> = ({ products, fetching }) => {
             />
             <span>{shopName}</span>
           </div>
+          <Spacing size={8} />
         </Header>
       )}
       <div className="Products_grid">

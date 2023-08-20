@@ -2,7 +2,7 @@
   width: 100%;
   max-width: var(--max-product-card-width);
   cursor: pointer;
-  border: 1px solid var(--vkui-light-stroke-separator-secondary, #e7e8ec);
+  border: 1px solid var(--vkui--color_field_border_alpha);
   border-radius: 9px;
   display: flex;
   flex-direction: column;

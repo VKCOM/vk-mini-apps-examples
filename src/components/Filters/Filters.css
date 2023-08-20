@@ -18,5 +18,6 @@
     max-width: var(--sidebar-width);
     border-radius: 12px;
     padding: 12px 8px;
+    border: 1px solid var(--vkui--color_field_border_alpha);
   }
 }

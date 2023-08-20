@@ -23,7 +23,7 @@ const MOBILE_LIMIT = 12
 const DESKTOP_LIMIT = 40
 const IMAGE_LOADING_OPRIONS = {
   findImage,
-  delay: 500,
+  delay: 150,
   attributeName: 'data-src',
 }
 

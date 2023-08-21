@@ -15,6 +15,7 @@ export type CheckoutProps = {
   onConfirmPayClick: () => void
 }
 
+/** Блок для оформления заказа */
 let Checkout: FC<CheckoutProps> = ({ totalPrice, onConfirmPayClick }) => {
   const { isDesktop } = useAdaptivityWithJSMediaQueries()
 

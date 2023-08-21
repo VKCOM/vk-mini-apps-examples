@@ -11,8 +11,7 @@ import { useAppSelector } from 'src/store'
 import { formatWordByNumber } from 'src/utils'
 import { PriceDisplay } from 'src/components'
 
-export type CartCountIslandProps = Record<string, never>
-
+/** Остров в Desktop версии для отображении информации о корзине */
 let CartCountIsland: FC = () => {
   const routeNavigator = useRouteNavigator()
   const shoppingCart = useAppSelector(selectShoppingCart)
@@ -30,6 +29,7 @@ let CartCountIsland: FC = () => {
     [shoppingCart.totalPrice]
   )
 
+  /** При клике на остров переходим на страницу корзины */
   const onCounterClick = useCallback(() => {
     routeNavigator.push(`/${ShopPanel.ShoppingCart}`)
   }, [routeNavigator])

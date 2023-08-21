@@ -9,6 +9,7 @@ import { deleteCartItem, updateCartItem } from 'src/store/shoppingCart.reducer'
 
 import './CartItem.css'
 
+/** Блок товара в корзине */
 let CartItem: FC<OrderProduct> = ({
   id,
   name,
@@ -20,6 +21,7 @@ let CartItem: FC<OrderProduct> = ({
   const dispatch = useAppDispatch()
   const routeNavigator = useRouteNavigator()
 
+  /** Удаляем товар из корзины */
   const onCancelClick = useCallback(
     (e: React.MouseEvent) => {
       e.stopPropagation()
@@ -28,13 +30,18 @@ let CartItem: FC<OrderProduct> = ({
     [dispatch, id]
   )
 
+  /** При изменении количества выбранных товаров, обновляем цену и количество товаров */
   const onCounterChange = useCallback(
     (value: number) => dispatch(updateCartItem({ id, numItemsToBuy: value })),
     [id, dispatch]
   )
+
+  /** При клике переходим на страницу товара */
   const onItemClick = () => {
     routeNavigator.push(`/${ShopPanel.ProductInfo}?id=${id}`)
   }
+
+  /** При загрузке изображения убираем класс-заглушку */
   const onPreviewLoad = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
     const el = e.target as HTMLElement
     el.classList.remove('CartItem_preview_image__unload')

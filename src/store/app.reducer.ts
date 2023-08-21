@@ -3,10 +3,10 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import * as api from 'src/api'
 import { RootState } from '.'
 export interface AppState {
+  productInfo: Product
+  categories: Category[]
   shopInfo: ShopInfo
   filters: ProductFilter
-  categories: Category[]
-  productInfo: Product
 }
 
 export const appInitialState: AppState = {
@@ -34,7 +34,7 @@ export const fetchShop = createAsyncThunk('app/fetchShop', async function () {
   return await api.user.getInitialData()
 })
 
-/** Запрос на получения информации о товаре через асинхронный action: fetchShop */
+/** Запрос на получения информации о товаре через асинхронный action: fetchproductInfo */
 export const fetchProductInfo = createAsyncThunk(
   'app/fetchproductInfo',
   async function ({ productId }: { productId: number }) {
@@ -78,17 +78,17 @@ const appSlice = createSlice({
 const { reducer } = appSlice
 export { reducer as appReducer }
 
+export const selectProductInfo = (state: RootState) => state.app.productInfo
 export const selectCategories = (state: RootState) => state.app.categories
+export const selectPriceFrom = (state: RootState) => state.app.filters.priceFrom
+export const selectShopLogo = (state: RootState) => state.app.shopInfo.logo
+export const selectShopName = (state: RootState) => state.app.shopInfo.name
 export const selectFilters = (state: RootState) => state.app.filters
 export const selectPriceTo = (state: RootState) => state.app.filters.priceTo
-export const selectPriceFrom = (state: RootState) => state.app.filters.priceFrom
-export const selectShopName = (state: RootState) => state.app.shopInfo.name
-export const selectShopLogo = (state: RootState) => state.app.shopInfo.logo
-export const selectProductInfo = (state: RootState) => state.app.productInfo
 
 export const {
-  setProductFilters,
-  setFiltersCategory,
-  setFiltersQuery,
   setFiltersPriceRange,
+  setFiltersCategory,
+  setProductFilters,
+  setFiltersQuery,
 } = appSlice.actions

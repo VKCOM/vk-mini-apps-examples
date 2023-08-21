@@ -21,11 +21,9 @@ import baseTheme from '@vkontakte/vkui-tokens/themes/vkBase/cssVars/theme'
 
 import './Filters.css'
 
-const TIMEOUT = 300
+const TIMEOUT = 150
 
-export type FiltersProps = Record<string, never>
-
-let Filters: FC<FiltersProps> = () => {
+let Filters: FC = () => {
   const dispatch = useAppDispatch()
   const routeNavigator = useRouteNavigator()
   const { isDesktop } = useAdaptivityWithJSMediaQueries()
@@ -38,21 +36,20 @@ let Filters: FC<FiltersProps> = () => {
   const iconColor =
     priceFrom || priceTo ? baseTheme.colorPanelHeaderIcon.active.value : ''
 
+  /** При клике на категорию, обновляем категорию в state */
   const onCategoryClick = (id: string) => {
     dispatch(setFiltersCategory(id))
   }
 
-  const changePriceRange = useCallback(
-    (priceFrom?: number, priceTo?: number) => {
+  /** При клике на иконку фильтров открываем ActionSheet на desktop или открываем модальную страницу  */
+  const onSearchIconClick = useCallback(() => {
+    const onCloseActionSheet = () => routeNavigator.hidePopout()
+    const changePriceRange = (priceFrom?: number, priceTo?: number) => {
       if (priceFrom && priceFrom < 0) return
       if (priceTo && priceTo < 0) return
       dispatch(setFiltersPriceRange({ priceTo, priceFrom }))
-    },
-    [dispatch]
-  )
+    }
 
-  const onSearchIconClick = useCallback(() => {
-    const onCloseActionSheet = () => routeNavigator.hidePopout()
     if (isDesktop)
       routeNavigator.showPopout(
         <ActionSheet
@@ -67,8 +64,9 @@ let Filters: FC<FiltersProps> = () => {
         </ActionSheet>
       )
     else routeNavigator.showModal('filter')
-  }, [routeNavigator, isDesktop, priceFrom, priceTo, changePriceRange])
+  }, [routeNavigator, isDesktop, priceFrom, priceTo, dispatch])
 
+  /** При изменении строки ввода, обновляем фильтры в state с ипользованием Таймера */
   const onQueryChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       if (timerId.current) clearTimeout(timerId.current)

@@ -12,6 +12,7 @@ export type AddToCartButtonProps = {
   defaultMode?: ButtonProps['mode']
 } & ButtonProps
 
+/** Компонент кнопки для добавления товара в корзину */
 let AddToCartButton: FC<AddToCartButtonProps> = ({
   isInCart,
   product,
@@ -21,6 +22,7 @@ let AddToCartButton: FC<AddToCartButtonProps> = ({
   const dispatch = useAppDispatch()
   const routeNavigator = useRouteNavigator()
 
+  /** При наличии товара в корзине переходим в корзину, иначе просто добавляем товар в корзину */
   const onButtonClick = useCallback(
     (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
       e.stopPropagation()

@@ -14,6 +14,7 @@ export const getProductInfo = async ({
     params: {
       id: productId.toString(),
     },
+    // Указываем force-cashe, чтобы по умолчанию мы использовали ответы из кеша 
     headers: {
       cache: 'force-cache'
     }

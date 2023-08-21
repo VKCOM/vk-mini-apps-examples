@@ -46,7 +46,7 @@ let Store: FC<NavIdProps> = (props) => {
     scrollPosition.current = e.currentTarget.scrollTop
   }
 
-  /** Запрос на получение первых Limit элементов */
+  /** При изменени фильтров делаем запрос на получение данных и создаем observer для загрузки изображениц */
   useLayoutEffect(() => {
     const fetchProducts = (_start: number, _end: number) => {
       dispatch(fetchFilteredProducts({ _start, _end, filters }))
@@ -98,7 +98,7 @@ let Store: FC<NavIdProps> = (props) => {
     scrollPosition.current = store.scrollPosition
   }, [store.scrollPosition, limit])
 
-  /** Восстановление скролла */
+  /** Начинаем следить за новыми загруженными элементами */
   useLayoutEffect(() => {
     lastLoadItemIndex.current = store.products.length || limit
     document

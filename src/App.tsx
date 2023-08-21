@@ -26,6 +26,7 @@ const APP_WIDTH = 911
 const APP_PADDING = 100
 
 export const App: FC = () => {
+  const dispatch = useAppDispatch()
   /** Возвращает активное всплывающее окно | null */
   const routerPopout = usePopout()
   /** возвращает платформу IOS, ANDROID, VKCOM */
@@ -34,13 +35,14 @@ export const App: FC = () => {
   const routeNavigator = useRouteNavigator()
   /** Подписываемся на обновлнеие поля shopFetching, отвечающего за состояние загрузки контента магазина */
   const onboadrdingComplete = useAppSelector(selectOnboardingComplete)
-  
-  const dispatch = useAppDispatch()
+
+  /** Получаем текущую позицию */
   const {
     view: activeView = ShopPanel.Store,
     panel: activePanel = ShopView.Main,
   } = useActiveVkuiLocation()
 
+  /** Получаем тип устройства */
   const { isDesktop } = useAdaptivityWithJSMediaQueries()
 
   /** Получение данных пользователя */
@@ -110,7 +112,6 @@ export const App: FC = () => {
   /**
    * SplitLayout - Компонент-контейнер для реализации интерфейса с многоколоночной структурой [https://vkcom.github.io/VKUI/#/SplitLayout]
    * SplitCol Компонент-обертка для отрисовки колонки в многоколоночном интерфейсе. [https://vkcom.github.io/VKUI/#/SplitCol]
-   * Root - хранилище View [https://vkcom.github.io/VKUI/#/Root]
    * View - хранилище Panel [https://vkcom.github.io/VKUI/#/View]
    * Panel - контент одной страницы [https://vkcom.github.io/VKUI/#/Panel]
    */

@@ -20,6 +20,7 @@ export type ProductsProps = {
   products: ProductPreview[]
 }
 
+/** Блок для отображения сетки товаров */
 let Products: FC<ProductsProps> = ({ products, fetching }) => {
   const { isDesktop } = useAdaptivityWithJSMediaQueries()
   const orderProducts = useAppSelector(selectOrderProducts)

@@ -33,8 +33,9 @@ export const getFilteredProducts = async ({
       end: _end.toString(),
       filters: JSON.stringify(filters),
     },
+    // Указываем force-cashe, чтобы по умолчанию мы использовали ответы из кеша
     headers: {
-      cache: 'force-cache'
-    }
+      cache: 'force-cache',
+    },
   })
 }

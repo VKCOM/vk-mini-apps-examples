@@ -47,6 +47,7 @@ export const ProductInfo: FC<NavIdProps> = (props) => {
     [orderProducts, productId]
   )
 
+  /** Загружаем данные данные товара */
   useEffect(() => {
     if (!productId || isProductFetched) return
     dispatch(fetchProductInfo({ productId }))

@@ -4,20 +4,22 @@ import { FormItem, FormLayoutGroup, Input, useAdaptivityWithJSMediaQueries } fro
 import './PriceRangeInput.css'
 
 export type PriceRangeInputProps = {
-  defaultPriceTo?: number
   defaultPriceFrom?: number
+  defaultPriceTo?: number
   onPriceChange: (priceFrom?: number, priceTo?: number) => void
 }
 
+/** Компонент для выставления границ цен */
 let PriceRangeInput: FC<PriceRangeInputProps> = ({
-  defaultPriceTo,
   defaultPriceFrom,
+  defaultPriceTo,
   onPriceChange,
 }) => {
   const { isDesktop } = useAdaptivityWithJSMediaQueries()
   const $priceFromInput = useRef<HTMLInputElement>(null)
   const $priceToInput = useRef<HTMLInputElement>(null)
 
+  /** Callback на изменение цены */
   const onInputChange = useCallback(() => {
     const priceFromInput = $priceFromInput.current
     const priceToInput = $priceToInput.current
@@ -34,7 +36,7 @@ let PriceRangeInput: FC<PriceRangeInputProps> = ({
   return (
     <div className="PriceRangeInput">
       <FormLayoutGroup mode="horizontal" segmented={isDesktop}>
-        <FormItem htmlFor="email" top="Цена, ₽">
+        <FormItem htmlFor="priceRangeInput" top="Цена, ₽">
           <Input
             getRef={$priceFromInput}
             defaultValue={defaultPriceFrom}
@@ -43,7 +45,7 @@ let PriceRangeInput: FC<PriceRangeInputProps> = ({
           />
         </FormItem>
         <FormItem>
-          <FormItem htmlFor="email">
+          <FormItem htmlFor="priceRangeInput">
             <Input
               getRef={$priceToInput}
               defaultValue={defaultPriceTo}

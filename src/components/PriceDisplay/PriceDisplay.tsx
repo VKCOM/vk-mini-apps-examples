@@ -26,6 +26,7 @@ export type PriceDisplayProps = {
   prevText?: string
 }
 
+/** Компонент для форматирования цены */
 let PriceDisplay: FC<
   PriceDisplayProps & React.HtmlHTMLAttributes<HTMLDivElement>
 > = ({ price, currency = '₽', prevText = '', ...props }) => {

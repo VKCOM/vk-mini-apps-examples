@@ -12,6 +12,7 @@ export type ProductCardProps = ProductPreview & {
   isInCart: boolean
 }
 
+/** Компонент карточки продукта */
 let ProductCard: FC<ProductCardProps> = ({
   id,
   name,
@@ -25,12 +26,14 @@ let ProductCard: FC<ProductCardProps> = ({
   const routeNavigator = useRouteNavigator()
   const $card = useRef<HTMLDivElement>(null)
 
+  /** При клике на карту переходим на страницу товара */
   const onCardClick = () => {
     routeNavigator.push(
       `/${ShopPanel.ProductInfo}?id=${id}&name=${name}&price=${price}&back=${back}`
     )
   }
 
+  /** При загрузке фотографии убираем класс заглушку */
   const onProductPreviewLoad = (
     e: React.SyntheticEvent<HTMLImageElement, Event>
   ) => {

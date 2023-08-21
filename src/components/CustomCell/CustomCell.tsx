@@ -8,6 +8,7 @@ export type CustomCellProps = {
   content: string
 } & React.HtmlHTMLAttributes<HTMLDivElement>
 
+/** Блок категории в фильтрах */
 let CustomCell: FC<CustomCellProps> = ({ active, content, ...props }) => {
   return (
     <div

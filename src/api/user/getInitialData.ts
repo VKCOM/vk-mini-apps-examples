@@ -13,6 +13,7 @@ interface GetUserResponse {
 export const getInitialData = async (): Promise<GetUserResponse> => {
   return await makeRequest<GetUserResponse>({
     path: ApiEndpoint.InitialData,
+    // Указываем force-cashe, чтобы по умолчанию мы использовали ответы из кеша
     headers: {
       cache: 'force-cache',
     },

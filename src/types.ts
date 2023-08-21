@@ -5,10 +5,10 @@ export interface Product {
   name: string
   price: number
   preview: string
-  back: ImageBackgroundAppereance
   description: string
   maxAvailable: number
   categoryId: number[]
+  back: ImageBackgroundAppereance
   photos: Array<{ url: string; appearence: ImageBackgroundAppereance }>
 }
 

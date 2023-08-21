@@ -70,6 +70,12 @@ const delayLoad = (
   element.setAttribute('data-time', String(newTimeoutId))
 }
 
+/**
+ * Функция для создания IntersectionObserver с поддержкой ленивой загрузки фотографии по таймеру
+ * @param initialObserverOptions - стандартные настройки для IntersectionObserver
+ * @param imageLoadingOptions - настройки для ленивой загрузки фотографии
+ * @returns IntersectionObserver
+ */
 export function imageIntersectionObserver(
   initialObserverOptions: IntersectionObserverOption,
   imageLoadingOptions: ImageLoadingOption

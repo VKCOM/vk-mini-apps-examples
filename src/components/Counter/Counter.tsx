@@ -12,6 +12,7 @@ export type CounterProps = {
   onChange: (value: number) => void
 }
 
+/** Счетчик количества выбранных товаров */
 let Counter: FC<CounterProps> = ({
   defaultValue,
   maxValue,
@@ -23,11 +24,12 @@ let Counter: FC<CounterProps> = ({
   const onSubstract = useCallback(() => {
     setValue((value) => value - 1)
   }, [])
-
+  
   const onAdd = useCallback(() => {
     setValue((value) => value + 1)
   }, [])
 
+  /** При изменении значения счетчика вызываем callback на изменение */
   useEffect(() => {
     onChange(value)
   }, [value, onChange])

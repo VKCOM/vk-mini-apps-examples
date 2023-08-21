@@ -8,9 +8,7 @@ import {
 import { OnboardingModal } from './OnboardingModal'
 
 const Modals: React.FC = () => {
-  // Получаем активную модальную страницу
   const { modal } = useActiveVkuiLocation()
-  // Получаем объект для навигации по приложению
   const routeNavigator = useRouteNavigator()
 
   return (

@@ -15,6 +15,7 @@ export const storeInitialState: StoreState = {
   isStoreFetching: true,
 }
 
+/** Запрос на определенного количества филтрованных товаров при помощи асинхронного action: fetchFilteredProducts */
 export const fetchFilteredProducts = createAsyncThunk(
   'store/fetchFilteredProducts',
   async function ({
@@ -45,7 +46,7 @@ const storeSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    /** Добавление обработчика на успешное завершение action: fetchShop */
+    /** Добавление обработчика на успешное завершение action: fetchFilteredProducts */
     builder.addCase(fetchFilteredProducts.fulfilled, (state, action) => {
       if (!action.payload._start) {
         state.products = action.payload.products

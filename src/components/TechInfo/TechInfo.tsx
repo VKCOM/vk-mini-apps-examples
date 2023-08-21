@@ -9,6 +9,7 @@ export type TechInfoProps = {
   mode?: 'accent' | 'secondary'
 }
 
+/** Блок на Desktop c используемыми технологиями */
 let TechInfo: FC<TechInfoProps> = ({ sections, items, mode = 'secondary' }) => {
   const [activeSectionId, setActiveSectionId] = useState(sections[0]?.id ?? 0)
 
@@ -53,6 +54,5 @@ let TechInfo: FC<TechInfoProps> = ({ sections, items, mode = 'secondary' }) => {
   )
 }
 
-/** React.memo - HOC, кэширующий результат выполнения функции, rerender компонента произойдет только при изменении props */
 TechInfo = memo(TechInfo)
 export { TechInfo }

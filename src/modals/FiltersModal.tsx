@@ -18,6 +18,7 @@ import {
 import { useAppDispatch, useAppSelector } from 'src/store'
 import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
 
+/** Модальная страница для показа PriceRangeInput в мобильной версии*/
 let FiltersModal: React.FC<NavIdProps & { onClose: () => void }> = (props) => {
   const defaultPriceTo = useAppSelector(selectPriceTo)
   const defaultPriceFrom = useAppSelector(selectPriceFrom)

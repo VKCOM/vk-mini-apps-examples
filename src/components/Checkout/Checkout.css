@@ -46,6 +46,7 @@
     margin-top: 12px;
     background: var(--vkui--color_background_secondary);
     border-radius: 12px;
+    border: 1px solid var(--vkui--color_field_border_alpha);
     padding: 16px;
     height: max-content;
     margin: 0;

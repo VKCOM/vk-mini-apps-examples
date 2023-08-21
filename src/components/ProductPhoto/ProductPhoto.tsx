@@ -16,6 +16,7 @@ enum Orientation {
   Square = 'square',
 }
 
+/** Компонент для отображения фотографии в галерее */
 let ProductPhoto: FC<ProductPhotoProps> = ({ url, appearence }) => {
   const [orientation, setOrientation] = useState<Orientation | undefined>(
     undefined

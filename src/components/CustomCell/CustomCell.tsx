@@ -1,5 +1,6 @@
 import { FC, memo } from 'react'
 import cx from 'classnames'
+import { Tappable } from '@vkontakte/vkui'
 
 import './CustomCell.css'
 
@@ -11,12 +12,14 @@ export type CustomCellProps = {
 /** Блок категории в фильтрах */
 let CustomCell: FC<CustomCellProps> = ({ active, content, ...props }) => {
   return (
-    <div
-      {...props}
-      className={cx('CustomCell', { CustomCell__active: active })}
-    >
-      <div className="CustomCell_content">{content}</div>
-    </div>
+    <Tappable>
+      <div
+        {...props}
+        className={cx('CustomCell', { CustomCell__active: active })}
+      >
+        <div className="CustomCell_content">{content}</div>
+      </div>
+    </Tappable>
   )
 }
 

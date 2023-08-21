@@ -29,11 +29,11 @@ export const App: FC = () => {
   const dispatch = useAppDispatch()
   /** Возвращает активное всплывающее окно | null */
   const routerPopout = usePopout()
-  /** возвращает платформу IOS, ANDROID, VKCOM */
+  /** Возвращает платформу IOS, ANDROID, VKCOM */
   const platform = usePlatform()
-  /** возвращает объект с помощью которого можно совершать переходы в навигации */
+  /** Возвращает объект с помощью которого можно совершать переходы в навигации */
   const routeNavigator = useRouteNavigator()
-  /** Подписываемся на обновлнеие поля shopFetching, отвечающего за состояние загрузки контента магазина */
+  /** Подписываемся на обновление поля shopFetching, отвечающего за состояние загрузки контента магазина */
   const onboadrdingComplete = useAppSelector(selectOnboardingComplete)
 
   /** Получаем текущую позицию */

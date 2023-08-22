@@ -21,59 +21,60 @@ export type ProductsProps = {
 }
 
 /** Блок для отображения сетки товаров */
-let Products: FC<ProductsProps> = ({ products, fetching }) => {
-  const { isDesktop } = useAdaptivityWithJSMediaQueries()
-  const orderProducts = useAppSelector(selectOrderProducts)
-  const shopName = useAppSelector(selectShopName)
-  const shopLogo = useAppSelector(selectShopLogo)
+export const Products: FC<ProductsProps> = memo(
+  ({ products, fetching }: ProductsProps) => {
+    const { isDesktop } = useAdaptivityWithJSMediaQueries()
+    const orderProducts = useAppSelector(selectOrderProducts)
+    const shopName = useAppSelector(selectShopName)
+    const shopLogo = useAppSelector(selectShopLogo)
 
-  const onAvatarLoad = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-    const el = e.target as HTMLImageElement
-    el.classList.remove('Products_header_avatar__unload')
-  }
+    const onAvatarLoad = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+      const el = e.target as HTMLImageElement
+      el.classList.remove('Products_header_avatar__unload')
+    }
 
-  return (
-    <Group className="Products">
-      {isDesktop && (
-        <Header size="large">
-          <div className="Products_header">
-            <img
-              className="Products_header_avatar Products_header_avatar__unload"
-              width={28}
-              height={28}
-              src={shopLogo}
-              onLoad={onAvatarLoad}
-              alt=""
+    return (
+      <Group className="Products">
+        {isDesktop && (
+          <Header size="large">
+            <div className="Products_header">
+              <img
+                className="Products_header_avatar Products_header_avatar__unload"
+                width={28}
+                height={28}
+                src={shopLogo}
+                onLoad={onAvatarLoad}
+                alt=""
+              />
+              <span>{shopName}</span>
+            </div>
+            <Spacing size={8} />
+          </Header>
+        )}
+        <div className="Products_grid">
+          {products.map((item, index) => (
+            <ProductCard
+              {...item}
+              key={item.id}
+              preview={item.preview}
+              isInCart={orderProducts.some((product) => product.id === item.id)}
+              data-index={index.toString()}
+              data-src={item.preview + '.png'}
+              data-src-1={item.preview + '.webp'}
             />
-            <span>{shopName}</span>
-          </div>
-          <Spacing size={8} />
-        </Header>
-      )}
-      <div className="Products_grid">
-        {products.map((item, index) => (
-          <ProductCard
-            {...item}
-            key={item.id}
-            preview={item.preview}
-            isInCart={orderProducts.some((product) => product.id === item.id)}
-            data-index={index.toString()}
-            data-src={item.preview + '.png'}
-            data-src-1={item.preview + '.webp'}
-          />
-        ))}
-      </div>
-      {!products.length && !fetching && (
-        <Placeholder>По твоему запросу ничего не нашлось</Placeholder>
-      )}
-      {fetching && (
-        <div className="Products_spinner">
-          <Spinner size="large"></Spinner>
+          ))}
         </div>
-      )}
-    </Group>
-  )
-}
+        {!products.length && !fetching && (
+          <Placeholder>По Вашему запросу ничего не нашлось</Placeholder>
+        )}
+        {fetching && (
+          <div className="Products_spinner">
+            <Spinner size="large"></Spinner>
+          </div>
+        )}
+      </Group>
+    )
+  }
+)
 
-Products = memo(Products)
-export { Products }
+Products.displayName = 'Products'

@@ -10,49 +10,50 @@ export type CustomTabbarProps = {
   activePanel: string
 }
 
-let CustomTabbar: FC<CustomTabbarProps> = ({ activePanel }) => {
-  const orderProducts = useAppSelector(selectOrderProducts)
-  const routeNavigator = useRouteNavigator()
-  const productCount = orderProducts.length
+export const CustomTabbar: FC<CustomTabbarProps> = memo(
+  ({ activePanel }: CustomTabbarProps) => {
+    const orderProducts = useAppSelector(selectOrderProducts)
+    const routeNavigator = useRouteNavigator()
+    const productCount = orderProducts.length
 
-  const onPaymantTabbarItemClick = () => {
-    if (activePanel === ShopPanel.ShoppingCart) return
-    routeNavigator.push(`/${ShopPanel.ShoppingCart}`)
+    const onPaymantTabbarItemClick = () => {
+      if (activePanel === ShopPanel.ShoppingCart) return
+      routeNavigator.push(`/${ShopPanel.ShoppingCart}`)
+    }
+
+    const onViewingTabbarItemClick = () => {
+      if (activePanel !== ShopPanel.ShoppingCart) return
+      routeNavigator.push('/')
+    }
+
+    return (
+      <Tabbar>
+        <TabbarItem
+          onClick={onViewingTabbarItemClick}
+          selected={activePanel !== ShopPanel.ShoppingCart}
+          data-story="feed"
+          text="Каталог"
+        >
+          <Icon28HomeOutline />
+        </TabbarItem>
+        <TabbarItem
+          onClick={onPaymantTabbarItemClick}
+          selected={activePanel === ShopPanel.ShoppingCart}
+          data-story="messages"
+          indicator={
+            productCount ? (
+              <Counter size="s" mode="prominent">
+                {productCount}
+              </Counter>
+            ) : undefined
+          }
+          text="Корзина"
+        >
+          <Icon28ShoppingCartOutline />
+        </TabbarItem>
+      </Tabbar>
+    )
   }
+)
 
-  const onViewingTabbarItemClick = () => {
-    if (activePanel !== ShopPanel.ShoppingCart) return
-    routeNavigator.push('/')
-  }
-
-  return (
-    <Tabbar>
-      <TabbarItem
-        onClick={onViewingTabbarItemClick}
-        selected={activePanel !== ShopPanel.ShoppingCart}
-        data-story="feed"
-        text="Каталог"
-      >
-        <Icon28HomeOutline />
-      </TabbarItem>
-      <TabbarItem
-        onClick={onPaymantTabbarItemClick}
-        selected={activePanel === ShopPanel.ShoppingCart}
-        data-story="messages"
-        indicator={
-          productCount ? (
-            <Counter size="s" mode="prominent">
-              {productCount}
-            </Counter>
-          ) : undefined
-        }
-        text="Корзина"
-      >
-        <Icon28ShoppingCartOutline />
-      </TabbarItem>
-    </Tabbar>
-  )
-}
-
-CustomTabbar = memo(CustomTabbar)
-export { CustomTabbar }
+CustomTabbar.displayName = 'CustomTabbar'

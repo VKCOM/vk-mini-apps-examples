@@ -56,6 +56,7 @@ export const ProductInfo: FC<NavIdProps> = (props) => {
   const shoppingCartIcon = useMemo(() => {
     return isDesktop ? (
       <IconButton
+        aria-label='shoppinfCartIcon'
         onClick={() => routeNavigator.push(`/${ShopPanel.ShoppingCart}`)}
       >
         <Icon24ShoppingCartOutline />

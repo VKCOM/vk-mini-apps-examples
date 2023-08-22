@@ -27,7 +27,7 @@ const IMAGE_LOADING_OPRIONS = {
   attributeName: 'data-src',
 }
 
-let Store: FC<NavIdProps> = (props) => {
+export const Store: FC<NavIdProps> = memo((props: NavIdProps) => {
   const dispatch = useAppDispatch()
   const store = useAppSelector(selectStore)
   const filters = useAppSelector(selectFilters)
@@ -129,7 +129,6 @@ let Store: FC<NavIdProps> = (props) => {
       </div>
     </Panel>
   )
-}
+})
 
-Store = memo(Store)
-export { Store }
+Store.displayName = 'Store'

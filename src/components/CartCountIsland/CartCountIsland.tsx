@@ -12,7 +12,7 @@ import { formatWordByNumber } from 'src/utils'
 import { PriceDisplay } from 'src/components'
 
 /** Остров в Desktop версии для отображении информации о корзине */
-let CartCountIsland: FC = () => {
+export const CartCountIsland: FC = memo(() => {
   const routeNavigator = useRouteNavigator()
   const shoppingCart = useAppSelector(selectShoppingCart)
   const productCount = shoppingCart.orderProducts.length
@@ -46,7 +46,6 @@ let CartCountIsland: FC = () => {
       </Cell>
     </Group>
   )
-}
+})
 
-CartCountIsland = memo(CartCountIsland)
-export { CartCountIsland }
+CartCountIsland.displayName = 'CartCountIsland'

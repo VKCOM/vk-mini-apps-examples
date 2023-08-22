@@ -12,13 +12,13 @@ export const ITEMS = [
   },
   {
     name: 'Input',
-    link: 'https://vkcom.github.io/VKUI/#/FormItem',
+    link: 'https://vkcom.github.io/VKUI/#/Input',
     sectionId: 1,
     id: 1,
   },
   {
     name: 'Group',
-    link: 'https://vkcom.github.io/VKUI/#/Select',
+    link: 'https://vkcom.github.io/VKUI/#/Group',
     sectionId: 1,
     id: 2,
   },
@@ -42,7 +42,7 @@ export const ITEMS = [
   },
   {
     name: 'Link',
-    link: 'https://vkcom.github.io/VKUI/#/ModalPage',
+    link: 'https://vkcom.github.io/VKUI/#/Link',
     sectionId: 1,
     id: 6,
   },

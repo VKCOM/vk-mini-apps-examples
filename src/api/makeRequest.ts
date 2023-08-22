@@ -1,22 +1,30 @@
 const API_URL = 'https://shop-boilerplate-backend.vercel.app'
 
 interface Arguments {
-  /** API метод - url */
-  path: string
-
-  /** Query параметры */
+  endpoint: string
   params?: Record<string, string>
-  headers?: RequestInit
+  requestOptions?: RequestInit,
 }
 
-/** Обертка над http запросом, чтобы обеспечить независимость от используемых библиотек */
+/**
+ * Обертка над http запросом, чтобы обеспечить независимость от используемых библиотек 
+ * @param endpoint - api endpoint
+ * @param params - query параметры запроса в виде объекта
+ * @param requestOptions - настройки запроса: method, headers, cashe
+ * @returns ответ сервера
+ * @example 
+  // get запрос
+  makeRequest(endpoint: 'productInfo', params: {id: '2'})
+  // post запрос
+  makeRequest('postProduct', requestOptions: JSON.stringify({method: 'post', body: {id: '2'}}))
+ */
 export const makeRequest = async <T = never>({
-  path,
+  endpoint,
   params,
-  headers
+  requestOptions
 }: Arguments): Promise<T> => {
   const queryParams = params ? '?' + new URLSearchParams(params) : ''
   return (
-    await fetch(API_URL + '/' + path + queryParams, headers)
+    await fetch(API_URL + '/' + endpoint + queryParams, requestOptions)
   ).json() as T
 }

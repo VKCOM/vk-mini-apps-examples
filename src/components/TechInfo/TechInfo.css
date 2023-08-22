@@ -34,6 +34,7 @@
 
 .TechInfo_item {
   display: flex;
+  font-size: 14px;
   height: 36px;
   padding: 0px 12px;
   align-items: center;

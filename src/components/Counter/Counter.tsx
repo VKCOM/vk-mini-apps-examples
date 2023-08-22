@@ -13,53 +13,49 @@ export type CounterProps = {
 }
 
 /** Счетчик количества выбранных товаров */
-let Counter: FC<CounterProps> = ({
-  defaultValue,
-  maxValue,
-  minValue,
-  onChange,
-}) => {
-  const [value, setValue] = useState(defaultValue)
-  const onCounterClick = (e: React.MouseEvent) => e.stopPropagation()
-  const onSubstract = useCallback(() => {
-    setValue((value) => value - 1)
-  }, [])
-  
-  const onAdd = useCallback(() => {
-    setValue((value) => value + 1)
-  }, [])
+export const Counter: FC<CounterProps> = memo(
+  ({ defaultValue, maxValue, minValue, onChange }: CounterProps) => {
+    const [value, setValue] = useState(defaultValue)
+    const onCounterClick = (e: React.MouseEvent) => e.stopPropagation()
+    const onSubstract = useCallback(() => {
+      setValue((value) => value - 1)
+    }, [])
 
-  /** При изменении значения счетчика вызываем callback на изменение */
-  useEffect(() => {
-    onChange(value)
-  }, [value, onChange])
+    const onAdd = useCallback(() => {
+      setValue((value) => value + 1)
+    }, [])
 
-  return (
-    <div onClick={onCounterClick} className="Counter">
-      <div
-        className={cx('Counter_button', {
-          Counter_button__disable: value === minValue,
-        })}
-      >
-        <IconButton onClick={onSubstract} aria-label="add">
-          <Icon16Minus fill="#447BBA" />
-        </IconButton>
+    /** При изменении значения счетчика вызываем callback на изменение */
+    useEffect(() => {
+      onChange(value)
+    }, [value, onChange])
+
+    return (
+      <div onClick={onCounterClick} className="Counter">
+        <div
+          className={cx('Counter_button', {
+            Counter_button__disable: value === minValue,
+          })}
+        >
+          <IconButton onClick={onSubstract} aria-label="add">
+            <Icon16Minus fill="#447BBA" />
+          </IconButton>
+        </div>
+
+        <div>{value}</div>
+
+        <div
+          className={cx('Counter_button', {
+            Counter_button__disable: value === maxValue,
+          })}
+        >
+          <IconButton onClick={onAdd} aria-label="remove">
+            <Icon16Add fill="#447BBA" />
+          </IconButton>
+        </div>
       </div>
+    )
+  }
+)
 
-      <div>{value}</div>
-
-      <div
-        className={cx('Counter_button', {
-          Counter_button__disable: value === maxValue,
-        })}
-      >
-        <IconButton onClick={onAdd} aria-label="remove">
-          <Icon16Add fill="#447BBA" />
-        </IconButton>
-      </div>
-    </div>
-  )
-}
-
-Counter = memo(Counter)
-export { Counter }
+Counter.displayName = 'Counter'

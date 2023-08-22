@@ -24,27 +24,26 @@ export type PriceDisplayProps = {
   price: number
   currency?: string
   prevText?: string
-}
+} & React.HtmlHTMLAttributes<HTMLDivElement>
 
 /** Компонент для форматирования цены */
-let PriceDisplay: FC<
-  PriceDisplayProps & React.HtmlHTMLAttributes<HTMLDivElement>
-> = ({ price, currency = '₽', prevText = '', ...props }) => {
-  const pricebyNumber = price.toString()
+export const PriceDisplay: FC<PriceDisplayProps> = memo(
+  ({ price, currency = '₽', prevText = '', ...props }: PriceDisplayProps) => {
+    const pricebyNumber = price.toString()
 
-  return (
-    <div {...props}>
-      <span>{prevText}</span>
-      {splitArrayFromEnd(pricebyNumber, 3).map((item, index) => (
-        <span key={index}>
-          {item}
-          <span className="PriceDisplay_space">&thinsp;</span>
-        </span>
-      ))}
-      {currency}
-    </div>
-  )
-}
+    return (
+      <div {...props}>
+        <span>{prevText}</span>
+        {splitArrayFromEnd(pricebyNumber, 3).map((item, index) => (
+          <span key={index}>
+            {item}
+            <span className="PriceDisplay_space">&thinsp;</span>
+          </span>
+        ))}
+        {currency}
+      </div>
+    )
+  }
+)
 
-PriceDisplay = memo(PriceDisplay)
-export { PriceDisplay }
+PriceDisplay.displayName = 'PriceDisplay'

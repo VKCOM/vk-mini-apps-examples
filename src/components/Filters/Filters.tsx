@@ -23,7 +23,7 @@ import './Filters.css'
 
 const TIMEOUT = 150
 
-let Filters: FC = () => {
+export const Filters: FC = memo(() => {
   const dispatch = useAppDispatch()
   const routeNavigator = useRouteNavigator()
   const { isDesktop } = useAdaptivityWithJSMediaQueries()
@@ -118,7 +118,6 @@ let Filters: FC = () => {
       )}
     </div>
   )
-}
+})
 
-Filters = memo(Filters)
-export { Filters }
+Filters.displayName = 'Filters'

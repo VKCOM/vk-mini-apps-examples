@@ -1,10 +1,9 @@
 import { FC, memo } from 'react'
+import { PanelHeaderProps, PanelHeader, PanelHeaderBack } from '@vkontakte/vkui'
 import {
-  PanelHeaderProps,
-  PanelHeader,
-  PanelHeaderBack,
-} from '@vkontakte/vkui'
-import { useRouteNavigator, useFirstPageCheck } from '@vkontakte/vk-mini-apps-router'
+  useRouteNavigator,
+  useFirstPageCheck,
+} from '@vkontakte/vk-mini-apps-router'
 import { INITIAL_URL } from 'src/routes'
 
 export type CustomPanelHeaderProps = {
@@ -12,25 +11,26 @@ export type CustomPanelHeaderProps = {
 } & PanelHeaderProps
 
 /** PanelHeader c PanelHeaderBack */
-let CustomPanelHeader: FC<CustomPanelHeaderProps> = ({ title, ...props }) => {
-  const routeNavigator = useRouteNavigator()
-  const isFirstPage = useFirstPageCheck()
+export const CustomPanelHeader: FC<CustomPanelHeaderProps> = memo(
+  ({ title, ...props }: CustomPanelHeaderProps) => {
+    const routeNavigator = useRouteNavigator()
+    const isFirstPage = useFirstPageCheck()
 
-  /** Делаем шаг назад в навигации или озвращаемся на стартовую старницу */
-  const onHandleClick = () => {
-    if (isFirstPage) routeNavigator.push(INITIAL_URL)
-    else routeNavigator.back()
+    /** Делаем шаг назад в навигации или озвращаемся на стартовую старницу */
+    const onHandleClick = () => {
+      if (isFirstPage) routeNavigator.push(INITIAL_URL)
+      else routeNavigator.back()
+    }
+
+    return (
+      <PanelHeader
+        before={<PanelHeaderBack onClick={onHandleClick} />}
+        {...props}
+      >
+        {title}
+      </PanelHeader>
+    )
   }
+)
 
-  return (
-    <PanelHeader
-      before={<PanelHeaderBack onClick={onHandleClick} />}
-      {...props}
-    >
-      {title}
-    </PanelHeader>
-  )
-}
-
-CustomPanelHeader = memo(CustomPanelHeader)
-export { CustomPanelHeader }
+CustomPanelHeader.displayName = 'CustomPanelHeader'

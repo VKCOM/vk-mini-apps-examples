@@ -19,8 +19,13 @@ export const PayConfirmPopout: FC = () => {
             // Таймаут для плавного перехода между страницами
             setTimeout(() => {
               routeNavigator.hidePopout()
-              dispatch(setShoppingCart(initialState.orderProducts))
+              dispatch(setShoppingCart(initialState))
             }, 200),
+        },
+        {
+          title: 'Отмена',
+          autoClose: true,
+          mode: 'cancel',
         },
       ]}
       onClose={() => routeNavigator.hidePopout()}

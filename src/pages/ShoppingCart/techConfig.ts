@@ -11,7 +11,7 @@ export const ITEMS = [
   },
   {
     name: 'Input',
-    link: 'https://vkcom.github.io/VKUI/#/FormItem',
+    link: 'https://vkcom.github.io/VKUI/#/Input',
     sectionId: 1,
     id: 1,
   },
@@ -53,13 +53,13 @@ export const ITEMS = [
   },
   {
     name: 'PanelHeader',
-    link: 'https://vkcom.github.io/VKUI/#/Header',
+    link: 'https://vkcom.github.io/VKUI/#/PanelHeader',
     sectionId: 1,
     id: 9,
   },
   {
     name: 'Header',
-    link: 'https://vkcom.github.io/VKUI/#/PanelHeader',
+    link: 'https://vkcom.github.io/VKUI/#/Header',
     sectionId: 1,
     id: 10,
   },

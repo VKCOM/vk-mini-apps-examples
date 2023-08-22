@@ -13,20 +13,24 @@ import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
 import { Icon28ShoppingCartOutline } from '@vkontakte/icons'
 import { CartItem, CustomPanelHeader, Checkout, TechInfo } from 'src/components'
 import { PayConfirmPopout } from './PayConfirmPopout'
-import { useAppSelector } from 'src/store'
+import { useAppDispatch, useAppSelector } from 'src/store'
 import { INITIAL_URL } from 'src/routes'
-import { selectShoppingCart } from 'src/store/shoppingCart.reducer'
+import {
+  selectShoppingCart,
+  setPromocode,
+} from 'src/store/shoppingCart.reducer'
 import { formatWordByNumber } from 'src/utils'
-import { selectShopName } from 'src/store/app.reducer'
 import { ITEMS, SECTIONS } from './techConfig'
 
 import './ShoppingCart.css'
 
-let ShoppingCart: FC<NavIdProps> = (props) => {
+export const ShoppingCart: FC<NavIdProps> = memo((props: NavIdProps) => {
+  const dispatch = useAppDispatch()
   const routeNavigator = useRouteNavigator()
   const { isDesktop } = useAdaptivityWithJSMediaQueries()
-  const { orderProducts, totalPrice } = useAppSelector(selectShoppingCart)
-  const shopName = useAppSelector(selectShopName)
+  const { orderProducts, totalPrice, promocode } =
+    useAppSelector(selectShoppingCart)
+
   const isCartEmpty = orderProducts.length === 0
   const productNumber = orderProducts.length
   const subtitle = `${productNumber} ${formatWordByNumber(
@@ -35,7 +39,7 @@ let ShoppingCart: FC<NavIdProps> = (props) => {
     'товара',
     'товаров'
   )}`
-  const title = isDesktop && productNumber ? 'Корзина ' + subtitle : shopName
+  const title = isDesktop && productNumber ? 'Корзина ' + subtitle : 'Корзина'
 
   const onPlaceholderClick = useCallback(() => {
     routeNavigator.replace(INITIAL_URL)
@@ -44,6 +48,13 @@ let ShoppingCart: FC<NavIdProps> = (props) => {
   const onConfirmPayClick = useCallback(() => {
     routeNavigator.showPopout(<PayConfirmPopout />)
   }, [routeNavigator])
+
+  const onPromocodeChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      dispatch(setPromocode(e.target.value))
+    },
+    [dispatch]
+  )
 
   return (
     <Panel className="Panel__fullScreen" {...props}>
@@ -78,8 +89,10 @@ let ShoppingCart: FC<NavIdProps> = (props) => {
         <div className="Sidebar">
           {isDesktop && <Spacing size={8} />}
           <Checkout
+            onPromocodeChange={onPromocodeChange}
             onConfirmPayClick={onConfirmPayClick}
             totalPrice={totalPrice}
+            promocode={promocode}
           />
           {isDesktop && (
             <TechInfo mode="accent" sections={SECTIONS} items={ITEMS} />
@@ -88,8 +101,6 @@ let ShoppingCart: FC<NavIdProps> = (props) => {
       </div>
     </Panel>
   )
-}
+})
 
-ShoppingCart = memo(ShoppingCart)
-
-export { ShoppingCart }
+ShoppingCart.displayName = 'ShoppingCart'

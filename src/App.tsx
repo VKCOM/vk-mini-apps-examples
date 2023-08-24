@@ -50,7 +50,6 @@ export const App: FC = () => {
   /** Получаем тип устройства */
   const { isDesktop } = useAdaptivityWithJSMediaQueries()
   const onSwipeBack = useCallback(() => routeNavigator.back(), [routeNavigator])
-  console.log(panelsHistory)
 
   /** Получение данных пользователя */
   useLayoutEffect(() => {

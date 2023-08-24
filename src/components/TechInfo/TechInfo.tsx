@@ -25,21 +25,27 @@ export const TechInfo: FC<TechInfoProps> = memo(
 
     return (
       <div className={`TechInfo TechInfo__${mode}`}>
-        <Tabs mode={mode}>
-          <HorizontalScroll>
-            {sections?.map((section) => (
-              <TabsItem
-                id={'section_' + section.id.toString()}
-                aria-controls={section.id.toString()}
-                selected={activeSectionId === section.id}
-                key={section.id}
-                onClick={() => setActiveSectionId(section.id)}
-              >
-                {section.name}
-              </TabsItem>
-            ))}
-          </HorizontalScroll>
-        </Tabs>
+        {sections.length > 1 && (
+          <Tabs mode={mode}>
+            <HorizontalScroll>
+              {sections?.map((section) => (
+                <TabsItem
+                  id={'section_' + section.id.toString()}
+                  aria-controls={section.id.toString()}
+                  selected={activeSectionId === section.id}
+                  key={section.id}
+                  onClick={() => setActiveSectionId(section.id)}
+                >
+                  {section.name}
+                </TabsItem>
+              ))}
+            </HorizontalScroll>
+          </Tabs>
+        )}
+
+        {sections.length === 1 && (
+          <div className="TechInfo_title">{sections[0].name}</div>
+        )}
 
         <div className="ThechInfo_description">{description}</div>
 

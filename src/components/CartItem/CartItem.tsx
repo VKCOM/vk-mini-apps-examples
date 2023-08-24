@@ -51,7 +51,7 @@ export const CartItem: FC<OrderProduct> = memo(
             <img
               className="CartItem_preview_image CartItem_preview_image__unload"
               onLoad={onPreviewLoad}
-              src={preview}
+              src={preview + '.png'}
               alt=""
               width={120}
               height={120}

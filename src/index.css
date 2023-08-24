@@ -55,7 +55,6 @@
 
 .Sidebar {
   max-width: 100%;
-  min-width: none;
   position: sticky;
   top: 0;
   display: flex;

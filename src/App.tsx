@@ -1,4 +1,4 @@
-import { FC, useEffect, useLayoutEffect } from 'react'
+import { FC, useCallback, useEffect, useLayoutEffect } from 'react'
 import {
   SplitLayout,
   SplitCol,
@@ -15,7 +15,11 @@ import {
   useRouteNavigator,
 } from '@vkontakte/vk-mini-apps-router'
 import { useAppDispatch, useAppSelector } from './store'
-import { selectOnboardingComplete, setOnboardingComplete, setUserData } from './store/user.reducer'
+import {
+  selectOnboardingComplete,
+  setOnboardingComplete,
+  setUserData,
+} from './store/user.reducer'
 import { Modals } from './modals'
 import { Store, ShoppingCart, ProductInfo } from './pages'
 import { ShopPanel, ShopView } from './routes'
@@ -38,12 +42,15 @@ export const App: FC = () => {
 
   /** Получаем текущую позицию */
   const {
+    panelsHistory,
     view: activeView = ShopPanel.Store,
     panel: activePanel = ShopView.Main,
   } = useActiveVkuiLocation()
 
   /** Получаем тип устройства */
   const { isDesktop } = useAdaptivityWithJSMediaQueries()
+  const onSwipeBack = useCallback(() => routeNavigator.back(), [routeNavigator])
+  console.log(panelsHistory)
 
   /** Получение данных пользователя */
   useLayoutEffect(() => {
@@ -108,7 +115,6 @@ export const App: FC = () => {
     if (!onboadrdingComplete) routeNavigator.showModal('onboarding')
   }, [onboadrdingComplete, routeNavigator])
 
-
   /**
    * SplitLayout - Компонент-контейнер для реализации интерфейса с многоколоночной структурой [https://vkcom.github.io/VKUI/#/SplitLayout]
    * SplitCol Компонент-обертка для отрисовки колонки в многоколоночном интерфейсе. [https://vkcom.github.io/VKUI/#/SplitCol]
@@ -126,7 +132,12 @@ export const App: FC = () => {
           activeStory={activeView}
           tabbar={!isDesktop && <CustomTabbar activePanel={activePanel} />}
         >
-          <View nav={ShopView.Main} activePanel={activePanel}>
+          <View
+            onSwipeBack={onSwipeBack}
+            history={panelsHistory}
+            nav={ShopView.Main}
+            activePanel={activePanel}
+          >
             <Store nav={ShopPanel.Store} />
             <ProductInfo nav={ShopPanel.ProductInfo} />
             <ShoppingCart nav={ShopPanel.ShoppingCart} />

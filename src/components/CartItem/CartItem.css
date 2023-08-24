@@ -55,6 +55,7 @@
 
 .CartItem_info_controller_deleteButton {
   display: flex;
+  gap: 4px;
   flex-direction: row;
   opacity: 0.3;
   font-size: 13px;

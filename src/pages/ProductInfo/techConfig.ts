@@ -1,5 +1,5 @@
 export const SECTIONS = [
-  { id: 1, name: 'VKUI', description: 'Тут отображаются компоненты VKUI, которые используются на этой странице' },
+  { id: 1, name: 'VKUI', description: 'VKUI-компоненты на этой странице:' },
 ]
 
 export const ITEMS = [

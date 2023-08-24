@@ -9,7 +9,7 @@
   width: fit-content;
   user-select: none;
   gap: 4px;
-  border: 1px solid #DCE1E6;
+  border: 1px solid var(--vkui--color_field_border_alpha);
 }
 
 .Counter_button {

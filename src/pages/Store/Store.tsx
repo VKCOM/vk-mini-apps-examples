@@ -3,6 +3,7 @@ import {
   NavIdProps,
   Panel,
   PanelHeader,
+  Spacing,
   useAdaptivityWithJSMediaQueries,
 } from '@vkontakte/vkui'
 import { CartCountIsland, Filters, Products, TechInfo } from 'src/components'
@@ -121,6 +122,7 @@ export const Store: FC<NavIdProps> = memo((props: NavIdProps) => {
         <Products products={store.products} fetching={store.isStoreFetching} />
         {isDesktop && (
           <div className="Sidebar">
+            <Spacing size={1} />
             <CartCountIsland />
             <Filters />
             <TechInfo sections={SECTIONS} items={ITEMS} />

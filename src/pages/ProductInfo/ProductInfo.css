@@ -61,8 +61,9 @@
     display: flex;
     margin-bottom: 12px;
     flex-direction: row;
-    justify-content: space-between;
     gap: 24px;
+    justify-content: space-between;
+    border-left: 0.8px solid var(--vkui--color_field_border_alpha);
   }
   .ProductInfo_gallery {
     width: 70%;

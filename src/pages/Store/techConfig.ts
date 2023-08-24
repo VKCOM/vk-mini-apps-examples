@@ -1,5 +1,5 @@
 export const SECTIONS = [
-  { id: 1, name: 'vkui', description: 'Компоненты VKUI' },
+  { id: 1, name: 'VKUI', description: 'Тут отображаются компоненты VKUI, которые используются на этой странице' },
   { id: 2, name: 'JS', description: 'JS feature' },
 ]
 
@@ -11,26 +11,26 @@ export const ITEMS = [
     id: 0,
   },
   {
-    name: 'FormItem',
-    link: 'https://vkcom.github.io/VKUI/#/FormItem',
+    name: 'Input',
+    link: 'https://vkcom.github.io/VKUI/#/Input',
     sectionId: 1,
     id: 1,
   },
   {
-    name: 'Select',
-    link: 'https://vkcom.github.io/VKUI/#/Select',
+    name: 'Group',
+    link: 'https://vkcom.github.io/VKUI/#/Group',
     sectionId: 1,
     id: 2,
   },
   {
-    name: 'Header',
-    link: 'https://vkcom.github.io/VKUI/#/Header',
+    name: 'SubnavigationBar',
+    link: 'https://vkcom.github.io/VKUI/#/SubnavigationBar',
     sectionId: 1,
     id: 3,
   },
   {
-    name: 'Slider',
-    link: 'https://vkcom.github.io/VKUI/#/Slider',
+    name: 'SubnavigationButton',
+    link: 'https://vkcom.github.io/VKUI/#/SubnavigationButton',
     sectionId: 1,
     id: 4,
   },
@@ -38,12 +38,42 @@ export const ITEMS = [
     name: 'ModalPage',
     link: 'https://vkcom.github.io/VKUI/#/ModalPage',
     sectionId: 1,
+    id: 5,
+  },
+  {
+    name: 'Link',
+    link: 'https://vkcom.github.io/VKUI/#/Link',
+    sectionId: 1,
+    id: 6,
+  },
+  {
+    name: 'Tabs',
+    link: 'https://vkcom.github.io/VKUI/#/ModalPage',
+    sectionId: 1,
     id: 7,
+  },
+  {
+    name: 'ActionSheet',
+    link: 'https://vkcom.github.io/VKUI/#/ActionSheet',
+    sectionId: 1,
+    id: 8,
+  },
+  {
+    name: 'Tabbar',
+    link: 'https://vkcom.github.io/VKUI/#/Tabbar',
+    sectionId: 1,
+    id: 9,
+  },
+  {
+    name: 'TabbarItem',
+    link: 'https://vkcom.github.io/VKUI/#/TabbarItem',
+    sectionId: 1,
+    id: 10,
   },
   {
     name: 'Intersection Observer',
     link: 'https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API',
     sectionId: 2,
-    id: 8,
+    id: 11,
   },
 ]

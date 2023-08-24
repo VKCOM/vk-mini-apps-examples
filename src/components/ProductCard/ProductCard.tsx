@@ -1,75 +1,78 @@
-import { FC, memo, useCallback, useRef, useState } from 'react'
-import cx from 'classnames'
-import {
-  useActiveVkuiLocation,
-  useRouteNavigator,
-} from '@vkontakte/vk-mini-apps-router'
-import { Card } from '@vkontakte/vkui'
-import { PriceDisplay } from 'src/components'
-import { ViewingPanel } from 'src/routes'
+import { FC, memo, useMemo, useRef } from 'react'
+import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
+import { AddToCartButton, PriceDisplay } from 'src/components'
 import { ProductPreview } from 'src/types'
+import { ShopPanel } from 'src/routes'
 
 import './ProductCard.css'
 
-export type ProductCardProps = Omit<ProductPreview, 'maxAvailable'>
+const MAX_PRODUCT_CARD_SIZE = 195
 
-let ProductCard: FC<ProductCardProps> = ({
-  id,
-  name,
-  price,
-  preview,
-  ...props
-}) => {
-  // Объект для навигации по приложению
-  const routeNavigator = useRouteNavigator()
-  const { panel } = useActiveVkuiLocation()
-  const initialPanel = useRef(panel)
-  const [isPreviewLoad, setIsPreviewLoad] = useState(false)
-
-  const onProductCardClick = useCallback(() => {
-    routeNavigator.push(`/${ViewingPanel.ProductInfo}?id=${id}`)
-  }, [routeNavigator, id])
-
-  const onProductPreviewLoad = useCallback(() => {
-    if (panel === initialPanel.current) setIsPreviewLoad(true)
-  }, [panel])
-
-  return (
-    <Card
-      onClick={onProductCardClick}
-      className={cx('ProductCard', {
-        ProductCard__active: isPreviewLoad,
-      })}
-      {...props}
-    >
-      <div
-        className={cx('ProductCard_preview', {
-          ProductCard_preview__unload: !isPreviewLoad,
-        })}
-      >
-        <picture>
-          <source srcSet={preview + '.webp'} type="image/webp"></source>
-          <img
-            src={preview + '.png'}
-            alt=""
-            width={180}
-            height={180}
-            onLoad={onProductPreviewLoad}
-            className={cx('ProductCard_preview_photo', {
-              ProductCard_preview_photo__unload: !isPreviewLoad,
-            })}
-          />
-        </picture>
-      </div>
-
-      <div className="ProductCard_info">
-        <div className="ProductCard_title">{name}</div>
-        <PriceDisplay className="ProductCard_price" price={price} />
-      </div>
-    </Card>
-  )
+export type ProductCardProps = ProductPreview & {
+  isInCart: boolean
 }
 
-/** React.memo - HOC, кэширующий результат выполнения функции, rerender компонента произойдет только при изменении props */
-ProductCard = memo(ProductCard)
-export { ProductCard }
+/** Компонент карточки продукта */
+export const ProductCard: FC<ProductCardProps> = memo(
+  ({
+    id,
+    name,
+    back,
+    price,
+    preview,
+    isInCart,
+    maxAvailable,
+    ...props
+  }: ProductCardProps) => {
+    const routeNavigator = useRouteNavigator()
+    const $card = useRef<HTMLDivElement>(null)
+
+    /** При клике на карту переходим на страницу товара */
+    const onCardClick = () => {
+      routeNavigator.push(
+        `/${ShopPanel.ProductInfo}?id=${id}&name=${name}&price=${price}&back=${back}`
+      )
+    }
+
+    /** При загрузке фотографии убираем класс заглушку */
+    const onProductPreviewLoad = (
+      e: React.SyntheticEvent<HTMLImageElement, Event>
+    ) => {
+      const el = e.target as HTMLElement
+      el.classList.remove('ProductCard_preview_picture_photo__unload')
+      if ($card.current) $card.current.classList.add('ProductCard__active')
+    }
+
+    const product = useMemo(() => {
+      return { id, name, back, price, preview, maxAvailable }
+    }, [id, name, back, price, preview, maxAvailable])
+
+    return (
+      <div onClick={onCardClick} className="ProductCard" ref={$card} {...props}>
+        <div className="ProductCard_preview">
+          <picture className="ProductCard_preview_picture">
+            <source srcSet="" type="image/webp"></source>
+            <img
+              src=""
+              alt=""
+              width={MAX_PRODUCT_CARD_SIZE}
+              height={MAX_PRODUCT_CARD_SIZE}
+              className="ProductCard_preview_picture_photo ProductCard_preview_picture_photo__unload"
+              onLoad={onProductPreviewLoad}
+            />
+          </picture>
+        </div>
+
+        <div className="ProductCard_bottom">
+          <div className="ProductCard_info">
+            <PriceDisplay className="ProductCard_price" price={price} />
+            <div className="ProductCard_title">{name}</div>
+          </div>
+          <AddToCartButton size="m" product={product} isInCart={isInCart} />
+        </div>
+      </div>
+    )
+  }
+)
+
+ProductCard.displayName = 'ProductCard'

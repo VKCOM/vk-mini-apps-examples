@@ -23,26 +23,27 @@ function splitArrayFromEnd(string: string, every: number) {
 export type PriceDisplayProps = {
   price: number
   currency?: string
-}
+  prevText?: string
+} & React.HtmlHTMLAttributes<HTMLDivElement>
 
-let PriceDisplay: FC<
-  PriceDisplayProps & React.HtmlHTMLAttributes<HTMLDivElement>
-> = ({ price, currency = '₽', ...props }) => {
-  const pricebyNumber = price.toString()
+/** Компонент для форматирования цены */
+export const PriceDisplay: FC<PriceDisplayProps> = memo(
+  ({ price, currency = '₽', prevText = '', ...props }: PriceDisplayProps) => {
+    const pricebyNumber = price.toString()
 
-  return (
-    <div {...props}>
-      {splitArrayFromEnd(pricebyNumber, 3).map((item, index) => (
-        <span key={index}>
-          {item}
-          <span className="PriceDisplay_space">&thinsp;</span>
-        </span>
-      ))}
-      {currency}
-    </div>
-  )
-}
+    return (
+      <div {...props}>
+        <span>{prevText}</span>
+        {splitArrayFromEnd(pricebyNumber, 3).map((item, index) => (
+          <span key={index}>
+            {item}
+            <span className="PriceDisplay_space">&thinsp;</span>
+          </span>
+        ))}
+        {currency}
+      </div>
+    )
+  }
+)
 
-/** React.memo - HOC, кэширующий результат выполнения функции, rerender компонента произойдет только при изменении props */
-PriceDisplay = memo(PriceDisplay)
-export { PriceDisplay }
+PriceDisplay.displayName = 'PriceDisplay'

@@ -8,6 +8,7 @@ export interface Product {
   description: string
   maxAvailable: number
   categoryId: number[]
+  back: ImageBackgroundAppereance
   photos: Array<{ url: string; appearence: ImageBackgroundAppereance }>
 }
 
@@ -16,7 +17,7 @@ export type ProductPreview = Omit<
   'categoryId' | 'photos' | 'description'
 >
 
-export type OrderProduct = ProductPreview & { numItemsToBuy: number }
+export type OrderProduct = Omit<ProductPreview, 'back'> & { numItemsToBuy: number }
 
 export interface Category {
   id: number
@@ -32,8 +33,6 @@ export interface ProductFilter {
 }
 
 export interface ShopInfo {
-  minPrice: number
-  maxPrice: number
   name: string
   logo: string
 }

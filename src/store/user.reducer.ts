@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { RootState } from '.'
 
 export interface UserState {
   id?: number,
@@ -29,4 +30,7 @@ const userSlice = createSlice({
 
 const { reducer } = userSlice
 export { reducer as userReducer }
+
+export const selectOnboardingComplete = (state: RootState) => state.user.onboadrdingComplete
+
 export const { setUserData, setOnboardingComplete } = userSlice.actions

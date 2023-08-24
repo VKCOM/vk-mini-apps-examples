@@ -1,4 +1,4 @@
-import { FC, memo, useCallback } from 'react'
+import { FC, memo, useCallback, useEffect, useState } from 'react'
 import cx from 'classnames'
 import { Icon16Add, Icon16Minus } from '@vkontakte/icons'
 import { IconButton } from '@vkontakte/vkui'
@@ -6,44 +6,56 @@ import { IconButton } from '@vkontakte/vkui'
 import './Counter.css'
 
 export type CounterProps = {
-  value: number
-  maxValue: number
-  onAdd: (e: React.MouseEvent) => void
-  onSubtract: (e: React.MouseEvent) => void
+  defaultValue: number
+  minValue?: number
+  maxValue?: number
+  onChange: (value: number) => void
 }
 
-let Counter: FC<CounterProps> = ({ value, maxValue, onAdd, onSubtract }) => {
-  const onCounterClick = useCallback((e: React.MouseEvent) => {
-    e.stopPropagation()
-  }, [])
+/** Счетчик количества выбранных товаров */
+export const Counter: FC<CounterProps> = memo(
+  ({ defaultValue, maxValue, minValue, onChange }: CounterProps) => {
+    const [value, setValue] = useState(defaultValue)
+    const onCounterClick = (e: React.MouseEvent) => e.stopPropagation()
+    const onSubstract = useCallback(() => {
+      setValue((value) => value - 1)
+    }, [])
 
-  return (
-    <div onClick={onCounterClick} className="Counter">
-      <div
-        className={cx('Counter_button', {
-          Counter_button__disable: value === 1,
-        })}
-      >
-        <IconButton onClick={onSubtract} aria-label="add">
-          <Icon16Minus />
-        </IconButton>
+    const onAdd = useCallback(() => {
+      setValue((value) => value + 1)
+    }, [])
+
+    /** При изменении значения счетчика вызываем callback на изменение */
+    useEffect(() => {
+      onChange(value)
+    }, [value, onChange])
+
+    return (
+      <div onClick={onCounterClick} className="Counter">
+        <div
+          className={cx('Counter_button', {
+            Counter_button__disable: value === minValue,
+          })}
+        >
+          <IconButton onClick={onSubstract} aria-label="add">
+            <Icon16Minus fill="#447BBA" />
+          </IconButton>
+        </div>
+
+        <div>{value}</div>
+
+        <div
+          className={cx('Counter_button', {
+            Counter_button__disable: value === maxValue,
+          })}
+        >
+          <IconButton onClick={onAdd} aria-label="remove">
+            <Icon16Add fill="#447BBA" />
+          </IconButton>
+        </div>
       </div>
+    )
+  }
+)
 
-      <div>{value}</div>
-
-      <div
-        className={cx('Counter_button', {
-          Counter_button__disable: value === maxValue,
-        })}
-      >
-        <IconButton onClick={onAdd} aria-label="remove">
-          <Icon16Add />
-        </IconButton>
-      </div>
-    </div>
-  )
-}
-
-/** React.memo - HOC, кэширующий результат выполнения функции, rerender компонента произойдет только при изменении props */
-Counter = memo(Counter)
-export { Counter }
+Counter.displayName = 'Counter'

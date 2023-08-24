@@ -1,122 +1,124 @@
-import { FC, useRef, useState, useEffect, useLayoutEffect } from 'react'
+import { FC, useEffect, useMemo } from 'react'
 import {
+  useRouteNavigator,
   useSearchParams,
-  useActiveVkuiLocation,
 } from '@vkontakte/vk-mini-apps-router'
 import {
+  Div,
+  FixedLayout,
   Gallery,
+  IconButton,
   NavIdProps,
   Panel,
-  Platform,
-  Separator,
-  usePlatform,
+  useAdaptivityWithJSMediaQueries,
 } from '@vkontakte/vkui'
-import { Navbar, PageHeader, PriceDisplay, ProductPhoto } from 'src/components'
-import { fetchProductInfo } from 'src/store/productInfo.reducer'
+import {
+  CustomPanelHeader,
+  PriceDisplay,
+  ProductPhoto,
+  AddToCartButton,
+  TechInfo,
+} from 'src/components'
+import { Icon24ShoppingCartOutline } from '@vkontakte/icons'
+import { fetchProductInfo, selectProductInfo } from 'src/store/app.reducer'
+import { selectOrderProducts } from 'src/store/shoppingCart.reducer'
 import { useAppDispatch, useAppSelector } from 'src/store'
-import { ViewingPanel } from 'src/routes'
-import { ProductInfoFooter } from './ProductIndoFooter'
+import { ITEMS, SECTIONS } from './techConfig'
+import { ShopPanel } from 'src/routes'
 
 import './ProductInfo.css'
 
 export const ProductInfo: FC<NavIdProps> = (props) => {
-  // Получаем функцию для отправки данных в store
   const dispatch = useAppDispatch()
-  // Активная панель
-  const { panel } = useActiveVkuiLocation()
-  // Текущая платформа IOS ANDROID VKCOM
-  const platform = usePlatform()
-  // Получаем параметры из url
+  const routeNavigator = useRouteNavigator()
+  const product = useAppSelector(selectProductInfo)
+  const orderProducts = useAppSelector(selectOrderProducts)
   const [params] = useSearchParams()
+  const { isDesktop } = useAdaptivityWithJSMediaQueries()
 
-  const [isScrollPresent, setIsScrollPresent] = useState(false)
-  const $productInfoContent = useRef<HTMLDivElement>(null)
+  const productId = Number(params.get('id')) || product.id
+  const price = Number(params.get('price')) || product.price
+  const name = params.get('name') || product.name
+  const back = params.get('back') || product.back
+  const isProductFetched = productId === product.id
 
-  // Вытаскиваем параметр id из параметров url
-  const productId = Number(params.get('id'))
+  const isInCart = useMemo(
+    () => orderProducts.some((item) => item.id === productId),
+    [orderProducts, productId]
+  )
 
-  // Подписываемся на обновления из store
-  const shopFetching = useAppSelector((state) => state.app.shopFetching)
-  const product = useAppSelector((state) => state.productInfo)
-
-  const isProductFetched =
-    productId === product.id || panel !== ViewingPanel.ProductInfo
-
-  // Отправляем запрос на получение данный о товаре
-  useLayoutEffect(() => {
-    if (!productId || shopFetching) return
-    if (isProductFetched) return
-    console.log('categoryId: [5]')
-    // Для платформы ANDROID отправляем запрос с задержкой для поддержки плавности анимаций
-    setTimeout(
-      () => dispatch(fetchProductInfo({ productId })),
-      platform === Platform.ANDROID ? 200 : 0
-    )
-  }, [isProductFetched, productId, shopFetching, platform, dispatch])
-
-  // Проверка наличия скролла на страницу
+  /** Загружаем данные данные товара */
   useEffect(() => {
-    const productContent = $productInfoContent.current
-    if (productContent)
-      setIsScrollPresent(
-        productContent.clientHeight < productContent.scrollHeight
-      )
-  }, [isProductFetched])
+    if (!productId || isProductFetched) return
+    dispatch(fetchProductInfo({ productId }))
+  }, [isProductFetched, productId, dispatch])
+
+  const shoppingCartIcon = useMemo(() => {
+    return isDesktop ? (
+      <IconButton
+        aria-label='shoppinfCartIcon'
+        onClick={() => routeNavigator.push(`/${ShopPanel.ShoppingCart}`)}
+      >
+        <Icon24ShoppingCartOutline />
+      </IconButton>
+    ) : undefined
+  }, [routeNavigator, isDesktop])
 
   return (
     <Panel className="Panel__fullScreen" {...props}>
-      <Navbar searchDisable>
-        <PageHeader header="Товар" />
-      </Navbar>
+      <div className="ProductInfoPage">
+        <CustomPanelHeader
+          separator={false}
+          after={shoppingCartIcon}
+          title="Товар"
+        />
+        <div className="ProductInfo">
+          <Gallery
+            showArrows
+            align="center"
+            bullets="light"
+            className="ProductInfo_gallery"
+          >
+            {!isProductFetched && (
+              <div className={`ProductInfo_skeleton Back__${back}`} />
+            )}
+            {isProductFetched &&
+              product.photos.map((photo, index) => (
+                <ProductPhoto key={index} {...photo} />
+              ))}
+          </Gallery>
 
-      <div ref={$productInfoContent} className="ProductInfo">
-        <Gallery
-          showArrows
-          align="center"
-          bullets="light"
-          className="ProductInfo_gallery"
-        >
-          {isProductFetched &&
-            product.photos.map((photo, index) => (
-              <ProductPhoto key={index} {...photo} />
-            ))}
-        </Gallery>
-
-        {!isProductFetched && (
-          <div className="ProductInfo_gallery ProductInfo_skeleton" />
-        )}
-
-        <div className="ProductInfo_offer">
-          {isProductFetched && (
-            <>
-              <div className="ProductInfo_offer_title">{product.name}</div>
-              <PriceDisplay
-                price={product.price}
-                className="ProductInfo_offer_price"
+          <div className="ProductInfo_content">
+            <div className="ProductInfo_content_title">{name}</div>
+            <PriceDisplay price={price} className="ProductInfo_content_price" />
+            <div className="ProductInfo_content_description">
+              {isProductFetched ? product.description : ''}
+            </div>
+            {isDesktop && isProductFetched && (
+              <AddToCartButton
+                size="l"
+                defaultMode="primary"
+                product={product}
+                isInCart={isInCart}
               />
-            </>
-          )}
+            )}
+          </div>
 
-          {!isProductFetched && (
-            <>
-              <div className="ProductInfo_offer_price__skeleton" />
-              <div className="ProductInfo_offer_price__skeleton" />
-            </>
+          {!isDesktop && (
+            <FixedLayout filled vertical="bottom">
+              <Div>
+                <AddToCartButton
+                  size="l"
+                  stretched
+                  defaultMode="primary"
+                  product={product}
+                  isInCart={isInCart}
+                />
+              </Div>
+            </FixedLayout>
           )}
         </div>
-
-        <Separator />
-
-        {isProductFetched && (
-          <div className="ProductInfo_description">{product.description}</div>
-        )}
-
-        <ProductInfoFooter
-          isProductFetched={isProductFetched}
-          product={product}
-          productId={productId}
-          isScrollPresent={isScrollPresent}
-        />
+        {isDesktop && <TechInfo sections={SECTIONS} items={ITEMS} />}
       </div>
     </Panel>
   )

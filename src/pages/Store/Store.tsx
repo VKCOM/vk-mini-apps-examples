@@ -1,68 +1,61 @@
-import { FC, memo, useCallback, useLayoutEffect, useMemo, useRef } from 'react'
+import { FC, memo, useLayoutEffect, useRef } from 'react'
 import {
   NavIdProps,
   Panel,
+  PanelHeader,
   useAdaptivityWithJSMediaQueries,
 } from '@vkontakte/vkui'
-import { Filters, Navbar, PageHeader, Products, TechInfo } from 'src/components'
+import { CartCountIsland, Filters, Products, TechInfo } from 'src/components'
 import { useAppDispatch, useAppSelector } from 'src/store'
 import {
   fetchFilteredProducts,
+  selectStore,
   setStoreScrollposition,
 } from 'src/store/store.reducer'
-import { useImageIntersectionObserver } from 'src/hooks'
-import { useActiveVkuiLocation } from '@vkontakte/vk-mini-apps-router'
-import { ViewingPanel } from 'src/routes'
+import { imageIntersectionObserver } from 'src/utils/imageIntersectionObserver'
+import { selectFilters, selectShopName } from 'src/store/app.reducer'
 import { ITEMS, SECTIONS } from './techConfig'
+import { findImage } from 'src/utils'
 
 import './Store.css'
 
 const MOBILE_LIMIT = 12
 const DESKTOP_LIMIT = 40
-const IMAGE_LOAD_DELAY = 500
-
-/**
- * Функция для поиска img тега в ProductCard
- * @param element - ProductCard
- * @returns productCardpreview
- */
-function findImage(element: Element) {
-  const picture = element
-    .getElementsByClassName('ProductCard_preview')[0]
-    .getElementsByTagName('picture')[0]
-  const image = picture.getElementsByTagName('img')[0]
-  const source = Array.from(picture.getElementsByTagName('source'))
-
-  return { image, source }
+const IMAGE_LOADING_OPRIONS = {
+  findImage,
+  delay: 150,
+  attributeName: 'data-src',
 }
 
-let Store: FC<NavIdProps> = (props) => {
+export const Store: FC<NavIdProps> = memo((props: NavIdProps) => {
   const dispatch = useAppDispatch()
-  const { panel } = useActiveVkuiLocation()
-  const store = useAppSelector((state) => state.store)
-  const { filters, categories, shopInfo, shopFetching } = useAppSelector(
-    (state) => state.app
-  )
+  const store = useAppSelector(selectStore)
+  const filters = useAppSelector(selectFilters)
+  const shopName = useAppSelector(selectShopName)
+
   const { isDesktop } = useAdaptivityWithJSMediaQueries()
   const limit = isDesktop ? DESKTOP_LIMIT : MOBILE_LIMIT
 
   const scrollPosition = useRef(0)
   const isSavedContent = useRef(store.products.length > 0)
-  const isFirstRender = useRef(true)
-  const $storeContainer = useRef<HTMLDivElement>(null)
+  const observer = useRef<IntersectionObserver | null>(null)
   const lastLoadItemIndex = useRef(store.products.length || limit)
+  const $storeContainer = useRef<HTMLDivElement>(null)
 
-  const StoreHeader = useMemo(() => <PageHeader header="Каталог" />, [])
+  const onHandleScroll = (e: React.UIEvent<HTMLDivElement, UIEvent>) => {
+    scrollPosition.current = e.currentTarget.scrollTop
+  }
 
-  const fetchProducts = useCallback(
-    (_start: number, _end: number) => {
+  /** При изменени фильтров делаем запрос на получение данных и создаем observer для загрузки изображениц */
+  useLayoutEffect(() => {
+    const fetchProducts = (_start: number, _end: number) => {
       dispatch(fetchFilteredProducts({ _start, _end, filters }))
-    },
-    [filters, dispatch]
-  )
+    }
 
-  const onEntryCallback = useCallback(
-    (observer: IntersectionObserver, entry: IntersectionObserverEntry) => {
+    const onEntryCallback = (
+      observer: IntersectionObserver,
+      entry: IntersectionObserverEntry
+    ) => {
       if (entry.isIntersecting || entry.intersectionRatio > 0) {
         const itemIndex = Number(entry.target.getAttribute('data-index'))
         if (
@@ -76,94 +69,66 @@ let Store: FC<NavIdProps> = (props) => {
       if (entry.target.classList.contains('ProductCard__active')) {
         observer?.unobserve(entry.target)
       }
-    },
-    [fetchProducts, limit]
-  )
-
-  const { observer } = useImageIntersectionObserver(
-    {
-      root: $storeContainer,
-      rootMargin: '0px 0px 150px 0px',
-      callback: onEntryCallback,
-    },
-    {
-      findImage,
-      delay: IMAGE_LOAD_DELAY,
-      attributeName: 'data-src',
     }
-  )
 
-  const onHandleScroll = useCallback(
-    (e: React.UIEvent<HTMLDivElement, UIEvent>) => {
-      scrollPosition.current = e.currentTarget.scrollTop
-    },
-    []
-  )
-
-  /** Обнуление скролла при начале загрузки и сохранение скролла при unmount */
-  useLayoutEffect(() => {
     scrollPosition.current = 0
+    observer.current?.disconnect()
+
+    observer.current = imageIntersectionObserver(
+      {
+        root: $storeContainer.current,
+        rootMargin: '0px 0px 150px 0px',
+        callback: onEntryCallback,
+      },
+      IMAGE_LOADING_OPRIONS
+    )
+
+    if (!isSavedContent.current) fetchProducts(0, limit)
+    isSavedContent.current = false
+
     return () => {
       dispatch(setStoreScrollposition(scrollPosition.current))
     }
-  }, [filters, dispatch])
+  }, [filters, limit, dispatch])
 
-  /** Scroll restoration */
+  /** Восстановление скролла */
   useLayoutEffect(() => {
     if (!$storeContainer.current) return
     $storeContainer.current.scrollTop = store.scrollPosition
     scrollPosition.current = store.scrollPosition
-  }, [store.scrollPosition])
+  }, [store.scrollPosition, limit])
 
-  /** Запрос на получение первых Limit элементов */
-  useLayoutEffect(() => {
-    if (panel !== ViewingPanel.Store) return
-    document
-      .querySelectorAll('.ProductCard__active')
-      .forEach((el) => el.classList.remove('ProductCard__active'))
-
-    if (!isSavedContent.current && !shopFetching)
-      setTimeout(() => fetchProducts(0, limit), isFirstRender.current ? 150 : 0)
-    isSavedContent.current = isFirstRender.current = false
-  }, [panel, filters, shopFetching, limit, fetchProducts])
-
-  /** Следим за новыми элементами при загрузке новой партии продуктов */
+  /** Начинаем следить за новыми загруженными элементами */
   useLayoutEffect(() => {
     lastLoadItemIndex.current = store.products.length || limit
     document
       .querySelectorAll('.ProductCard:not(.ProductCard__active)')
       .forEach((el) => {
-        observer?.observe(el)
+        observer.current?.observe(el)
       })
-  }, [store, observer, limit])
+  }, [store.products, limit])
 
   return (
     <Panel className="Panel__fullScreen" {...props}>
-      <Navbar searchValue={filters.query}>{StoreHeader}</Navbar>
+      {!isDesktop && (
+        <>
+          <PanelHeader separator={false}>{shopName}</PanelHeader>
+          <Filters />
+        </>
+      )}
 
       <div ref={$storeContainer} className={'Store'} onScroll={onHandleScroll}>
-        <Products
-          lazyLoading
-          header="Товары"
-          products={store.products}
-          maxProducts={store.filteredProductCount}
-          fetching={store.isStoreFetching}
-        />
+        <Products products={store.products} fetching={store.isStoreFetching} />
         {isDesktop && (
-          <div className="Store_sidebar">
-            <Filters
-              minPrice={shopInfo.minPrice}
-              maxPrice={shopInfo.maxPrice}
-              defaultFilter={filters}
-              categories={categories}
-            />
+          <div className="Sidebar">
+            <CartCountIsland />
+            <Filters />
             <TechInfo sections={SECTIONS} items={ITEMS} />
           </div>
         )}
       </div>
     </Panel>
   )
-}
+})
 
-Store = memo(Store)
-export { Store }
+Store.displayName = 'Store'

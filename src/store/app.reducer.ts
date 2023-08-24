@@ -1,32 +1,44 @@
-import { Category, ProductFilter, ProductPreview, ShopInfo } from 'src/types'
+import { Category, ImageBackgroundAppereance, Product, ProductFilter, ShopInfo } from 'src/types'
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import * as api from 'src/api'
+import { RootState } from '.'
 export interface AppState {
+  productInfo: Product
+  categories: Category[]
   shopInfo: ShopInfo
   filters: ProductFilter
-  categories: Category[]
-  recommendedProducts: ProductPreview[]
-  shopFetching: boolean
 }
 
 export const appInitialState: AppState = {
+  filters: { categoryId: '0' },
+  categories: [],
   shopInfo: {
     logo: '',
     name: '',
-    maxPrice: 0,
-    minPrice: 0,
   },
-  filters: {},
-  recommendedProducts: [],
-  categories: [],
-  shopFetching: true,
+  productInfo: {
+    id: -1,
+    price: 0,
+    name: '',
+    preview: '',
+    back: ImageBackgroundAppereance.Grey,
+    photos: [],
+    categoryId: [],
+    description: '',
+    maxAvailable: 0,
+  },
 }
 
-/** Запрос на получения контента через асинхронный action: fetchShop */
-export const fetchShop = createAsyncThunk(
-  'app/fetchShop',
-  async function ({ userId }: { userId: string }) {
-    return await api.user.getInitialData()
+/** Запрос на получения контента магазина через асинхронный action: fetchShop */
+export const fetchShop = createAsyncThunk('app/fetchShop', async function () {
+  return await api.user.getInitialData()
+})
+
+/** Запрос на получения информации о товаре через асинхронный action: fetchproductInfo */
+export const fetchProductInfo = createAsyncThunk(
+  'app/fetchproductInfo',
+  async function ({ productId }: { productId: number }) {
+    return (await api.products.getProductInfo({ productId }))
   }
 )
 
@@ -37,18 +49,46 @@ const appSlice = createSlice({
     setProductFilters(state, action: PayloadAction<ProductFilter>) {
       state.filters = action.payload
     },
+    setFiltersCategory(state, action: PayloadAction<string>) {
+      state.filters.categoryId = action.payload
+    },
+    setFiltersQuery(state, action: PayloadAction<string>) {
+      state.filters.query = action.payload
+    },
+    setFiltersPriceRange(
+      state,
+      action: PayloadAction<{ priceFrom?: number; priceTo?: number }>
+    ) {
+      state.filters.priceFrom = action.payload.priceFrom
+      state.filters.priceTo = action.payload.priceTo
+    },
   },
   extraReducers: (builder) => {
     /** Добавление обработчика на успешное завершение action: fetchShop */
     builder.addCase(fetchShop.fulfilled, (state, action) => {
-      state.shopFetching = false
       state.shopInfo = action.payload.shopInfo
       state.categories = action.payload.categories
-      state.recommendedProducts = action.payload.recommendedProducts
+    }),
+    builder.addCase(fetchProductInfo.fulfilled, (state, action) => {
+      state.productInfo = action.payload
     })
   },
 })
 
 const { reducer } = appSlice
 export { reducer as appReducer }
-export const { setProductFilters } = appSlice.actions
+
+export const selectProductInfo = (state: RootState) => state.app.productInfo
+export const selectCategories = (state: RootState) => state.app.categories
+export const selectPriceFrom = (state: RootState) => state.app.filters.priceFrom
+export const selectShopLogo = (state: RootState) => state.app.shopInfo.logo
+export const selectShopName = (state: RootState) => state.app.shopInfo.name
+export const selectFilters = (state: RootState) => state.app.filters
+export const selectPriceTo = (state: RootState) => state.app.filters.priceTo
+
+export const {
+  setFiltersPriceRange,
+  setFiltersCategory,
+  setProductFilters,
+  setFiltersQuery,
+} = appSlice.actions

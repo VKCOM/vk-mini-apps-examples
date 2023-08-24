@@ -10,7 +10,7 @@ export const getProductInfo = async ({
   productId,
 }: GetProductInfoRequest): Promise<Product> => {
   return await makeRequest<Product>({
-    path: ApiEndpoint.ProductInfo,
+    endpoint: ApiEndpoint.ProductInfo,
     params: {
       id: productId.toString(),
     },

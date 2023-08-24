@@ -3,10 +3,10 @@ import {
   SplitLayout,
   SplitCol,
   View,
-  Root,
   usePlatform,
   Platform,
-  ScreenSpinner,
+  Epic,
+  useAdaptivityWithJSMediaQueries,
 } from '@vkontakte/vkui'
 import bridge, { SharedUpdateConfigData } from '@vkontakte/vk-bridge'
 import {
@@ -15,32 +15,35 @@ import {
   useRouteNavigator,
 } from '@vkontakte/vk-mini-apps-router'
 import { useAppDispatch, useAppSelector } from './store'
-import { setOnboardingComplete, setUserData } from './store/user.reducer'
+import { selectOnboardingComplete, setOnboardingComplete, setUserData } from './store/user.reducer'
 import { Modals } from './modals'
-import { Main, Store, ShoppingCart, ProductInfo } from './pages'
-import { PaymentPanel, ShopView, ViewingPanel } from './routes'
+import { Store, ShoppingCart, ProductInfo } from './pages'
+import { ShopPanel, ShopView } from './routes'
 import { fetchShop } from './store/app.reducer'
+import { CustomTabbar } from './components'
+
+const APP_WIDTH = 911
+const APP_PADDING = 100
 
 export const App: FC = () => {
+  const dispatch = useAppDispatch()
   /** Возвращает активное всплывающее окно | null */
   const routerPopout = usePopout()
-  /** возвращает платформу IOS, ANDROID, VKCOM */
+  /** Возвращает платформу IOS, ANDROID, VKCOM */
   const platform = usePlatform()
-  /** возвращает объект с помощью которого можно совершать переходы в навигации */
+  /** Возвращает объект с помощью которого можно совершать переходы в навигации */
   const routeNavigator = useRouteNavigator()
-  /** Подписываемся на обновлнеие поля shopFetching, отвечающего за состояние загрузки контента магазина */
-  const shopFetching = useAppSelector((state) => state.app.shopFetching)
+  /** Подписываемся на обновление поля shopFetching, отвечающего за состояние загрузки контента магазина */
+  const onboadrdingComplete = useAppSelector(selectOnboardingComplete)
 
+  /** Получаем текущую позицию */
   const {
-    view: activeView = ViewingPanel.Main,
-    panel: activePanel = ShopView.Viewing,
+    view: activeView = ShopPanel.Store,
+    panel: activePanel = ShopView.Main,
   } = useActiveVkuiLocation()
 
-  const dispatch = useAppDispatch()
-  const id = useAppSelector((state) => state.user.id)
-  const onboadrdingComplete = useAppSelector(
-    (state) => state.user.onboadrdingComplete
-  )
+  /** Получаем тип устройства */
+  const { isDesktop } = useAdaptivityWithJSMediaQueries()
 
   /** Получение данных пользователя */
   useLayoutEffect(() => {
@@ -68,7 +71,7 @@ export const App: FC = () => {
     }
 
     initUser()
-  }, [dispatch, routeNavigator])
+  }, [dispatch])
 
   /** Растягивание экрана на всю ширину окна для десктопа */
   useEffect(() => {
@@ -78,14 +81,14 @@ export const App: FC = () => {
       if (platform !== Platform.VKCOM) return
 
       // Получаем данные конфигурации
-      const data = (await bridge.send(
+      const { viewport_height } = (await bridge.send(
         'VKWebAppGetConfig'
       )) as SharedUpdateConfigData
 
       // Обновляем размер страницы
       bridge.send('VKWebAppResizeWindow', {
-        width: 911,
-        height: data.viewport_height - 100,
+        width: APP_WIDTH,
+        height: viewport_height - APP_PADDING,
       })
     }
 
@@ -97,26 +100,18 @@ export const App: FC = () => {
 
   /** Запрос на получение контента магазина */
   useEffect(() => {
-    dispatch(fetchShop({ userId: '10' }))
+    dispatch(fetchShop())
   }, [dispatch])
-
-  /** Loader на время получения контента магазина */
-  useEffect(() => {
-    if (shopFetching) routeNavigator.showPopout(<ScreenSpinner size="large" />)
-    else routeNavigator.hidePopout()
-  }, [shopFetching, routeNavigator])
 
   /** Открытие модалки при первом заходе в апп */
   useEffect(() => {
-    if (!onboadrdingComplete) {
-      routeNavigator.showModal('onboarding')
-    }
+    if (!onboadrdingComplete) routeNavigator.showModal('onboarding')
   }, [onboadrdingComplete, routeNavigator])
+
 
   /**
    * SplitLayout - Компонент-контейнер для реализации интерфейса с многоколоночной структурой [https://vkcom.github.io/VKUI/#/SplitLayout]
    * SplitCol Компонент-обертка для отрисовки колонки в многоколоночном интерфейсе. [https://vkcom.github.io/VKUI/#/SplitCol]
-   * Root - хранилище View [https://vkcom.github.io/VKUI/#/Root]
    * View - хранилище Panel [https://vkcom.github.io/VKUI/#/View]
    * Panel - контент одной страницы [https://vkcom.github.io/VKUI/#/Panel]
    */
@@ -127,22 +122,16 @@ export const App: FC = () => {
      */
     <SplitLayout popout={routerPopout} modal={<Modals />}>
       <SplitCol>
-        {/** activeView - активная View */}
-        <Root activeView={activeView}>
-          {/**
-           * nav - путь в навигации
-           * activePanel - активная Panel
-           */}
-          <View nav={ShopView.Viewing} activePanel={activePanel}>
-            <Main nav={ViewingPanel.Main} />
-            <Store nav={ViewingPanel.Store} />
-            <ProductInfo nav={ViewingPanel.ProductInfo} />
+        <Epic
+          activeStory={activeView}
+          tabbar={!isDesktop && <CustomTabbar activePanel={activePanel} />}
+        >
+          <View nav={ShopView.Main} activePanel={activePanel}>
+            <Store nav={ShopPanel.Store} />
+            <ProductInfo nav={ShopPanel.ProductInfo} />
+            <ShoppingCart nav={ShopPanel.ShoppingCart} />
           </View>
-
-          <View nav={ShopView.Payment} activePanel={activePanel}>
-            <ShoppingCart nav={PaymentPanel.ShoppingCart} />
-          </View>
-        </Root>
+        </Epic>
       </SplitCol>
     </SplitLayout>
   )

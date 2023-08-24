@@ -1,38 +1,45 @@
-import { OrderProduct } from 'src/types'
+import { OrderProduct, ProductPreview } from 'src/types'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { RootState } from '.'
 
 export interface ShoppingCartState {
   orderProducts: OrderProduct[]
   totalPrice: number
+  promocode: string
 }
 
 export const initialState: ShoppingCartState = {
   orderProducts: [],
   totalPrice: 0,
+  promocode: ''
 }
 
 const shoppingCartSlice = createSlice({
   name: 'shoppingCart',
   initialState,
   reducers: {
-    setShoppingCart(state, action: PayloadAction<OrderProduct[]>) {
-      state.orderProducts = action.payload
-      state.totalPrice = action.payload.reduce(
+    setPromocode(state, action: PayloadAction<string>) {
+      state.promocode = action.payload
+    },
+    setShoppingCart(state, action: PayloadAction<{orderProducts: OrderProduct[], promocode?: string}>) {
+      state.orderProducts = action.payload.orderProducts
+      state.promocode = action.payload.promocode || ''
+      state.totalPrice = action.payload.orderProducts.reduce(
         (total, item) => total + item.price * item.numItemsToBuy,
         0
       )
     },
-    addCartItem(state, action: PayloadAction<OrderProduct>) {
+    addCartItem(state, action: PayloadAction<ProductPreview>) {
       state.orderProducts.push({
         id: action.payload.id,
         name: action.payload.name,
         price: action.payload.price,
         preview: action.payload.preview,
         maxAvailable: action.payload.maxAvailable,
-        numItemsToBuy: action.payload.numItemsToBuy,
+        numItemsToBuy: 1,
       })
 
-      state.totalPrice += action.payload.numItemsToBuy * action.payload.price
+      state.totalPrice += action.payload.price
     },
     deleteCartItem(state, action: PayloadAction<number>) {
       const index = state.orderProducts.findIndex(
@@ -64,5 +71,9 @@ const shoppingCartSlice = createSlice({
 
 const { reducer } = shoppingCartSlice
 export { reducer as shoppingCartReducer }
-export const { addCartItem, deleteCartItem, updateCartItem, setShoppingCart } =
+
+export const selectOrderProducts = (state: RootState) => state.shoppingCart.orderProducts
+export const selectShoppingCart = (state: RootState) => state.shoppingCart
+
+export const { addCartItem, deleteCartItem, updateCartItem, setShoppingCart, setPromocode } =
   shoppingCartSlice.actions

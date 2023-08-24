@@ -6,53 +6,55 @@ import './TechInfo.css'
 export type TechInfoProps = {
   sections: Array<{ description: string; name: string; id: number }>
   items: Array<{ name: string; link: string; sectionId: number; id: number }>
+  mode?: 'accent' | 'secondary'
 }
 
-let TechInfo: FC<TechInfoProps> = ({ sections, items }) => {
-  const [activeSectionId, setActiveSectionId] = useState(sections[0]?.id ?? 0)
+/** Блок на Desktop c используемыми технологиями */
+export const TechInfo: FC<TechInfoProps> = memo(
+  ({ sections, items, mode = 'secondary' }: TechInfoProps) => {
+    const [activeSectionId, setActiveSectionId] = useState(sections[0]?.id ?? 0)
 
-  const description = useMemo(() => {
-    const activeSection = sections.find((item) => item.id === activeSectionId)
-    return activeSection?.description || ''
-  }, [activeSectionId, sections])
+    const description = useMemo(() => {
+      const activeSection = sections.find((item) => item.id === activeSectionId)
+      return activeSection?.description || ''
+    }, [activeSectionId, sections])
 
-  const activeItems = useMemo(() => {
-    return items.filter((item) => item.sectionId === activeSectionId)
-  }, [activeSectionId, items])
+    const activeItems = useMemo(() => {
+      return items.filter((item) => item.sectionId === activeSectionId)
+    }, [activeSectionId, items])
 
-  return (
-    <div className="TechInfo">
-      <Tabs>
-        <HorizontalScroll>
-          {sections?.map((section) => (
-            <TabsItem
-              id={section.id.toString()}
-              aria-controls={section.id.toString()}
-              selected={activeSectionId === section.id}
-              key={section.id}
-              onClick={() => setActiveSectionId(section.id)}
-            >
-              {section.name}
-            </TabsItem>
+    return (
+      <div className={`TechInfo TechInfo__${mode}`}>
+        <Tabs mode={mode}>
+          <HorizontalScroll>
+            {sections?.map((section) => (
+              <TabsItem
+                id={'section_' + section.id.toString()}
+                aria-controls={section.id.toString()}
+                selected={activeSectionId === section.id}
+                key={section.id}
+                onClick={() => setActiveSectionId(section.id)}
+              >
+                {section.name}
+              </TabsItem>
+            ))}
+          </HorizontalScroll>
+        </Tabs>
+
+        <div className="ThechInfo_description">{description}</div>
+
+        <div className="ThechInfo_content">
+          {activeItems.map((item) => (
+            <div key={item.id} className="TechInfo_item">
+              <Link target="_blank" href={item.link}>
+                {item.name}
+              </Link>
+            </div>
           ))}
-        </HorizontalScroll>
-      </Tabs>
-
-      <div className="ThechInfo_description">{description}</div>
-
-      <div className="ThechInfo_content">
-        {activeItems.map((item) => (
-          <div key={item.id} className="TechInfo_item">
-            <Link target="_blank" href={item.link}>
-              {item.name}
-            </Link>
-          </div>
-        ))}
+        </div>
       </div>
-    </div>
-  )
-}
+    )
+  }
+)
 
-/** React.memo - HOC, кэширующий результат выполнения функции, rerender компонента произойдет только при изменении props */
-TechInfo = memo(TechInfo)
-export { TechInfo }
+TechInfo.displayName = 'TechInfo'

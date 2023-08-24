@@ -1,36 +1,47 @@
 import { FC, memo, useCallback } from 'react'
 import {
   Button,
-  Card,
+  Header,
   NavIdProps,
   Panel,
   Placeholder,
+  Separator,
+  Spacing,
   useAdaptivityWithJSMediaQueries,
 } from '@vkontakte/vkui'
 import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
 import { Icon28ShoppingCartOutline } from '@vkontakte/icons'
-import { CartItem, Navbar, PageHeader, Subtotal } from 'src/components'
+import { CartItem, CustomPanelHeader, Checkout, TechInfo } from 'src/components'
 import { PayConfirmPopout } from './PayConfirmPopout'
-import { useAppSelector } from 'src/store'
+import { useAppDispatch, useAppSelector } from 'src/store'
 import { INITIAL_URL } from 'src/routes'
-import cx from 'classnames'
+import {
+  selectShoppingCart,
+  setPromocode,
+} from 'src/store/shoppingCart.reducer'
+import { formatWordByNumber } from 'src/utils'
+import { ITEMS, SECTIONS } from './techConfig'
 
 import './ShoppingCart.css'
 
-let ShoppingCart: FC<NavIdProps> = (props) => {
-  // Получаем объект для навигации в приложении
+export const ShoppingCart: FC<NavIdProps> = memo((props: NavIdProps) => {
+  const dispatch = useAppDispatch()
   const routeNavigator = useRouteNavigator()
-  // Узнаем десктопный ли размер экрана
   const { isDesktop } = useAdaptivityWithJSMediaQueries()
-  // Подписываемся на изменения в store
-  const { orderProducts, totalPrice } = useAppSelector(
-    (state) => state.shoppingCart
-  )
+  const { orderProducts, totalPrice, promocode } =
+    useAppSelector(selectShoppingCart)
 
   const isCartEmpty = orderProducts.length === 0
+  const productNumber = orderProducts.length
+  const subtitle = `${productNumber} ${formatWordByNumber(
+    productNumber,
+    'товар',
+    'товара',
+    'товаров'
+  )}`
+  const title = isDesktop && productNumber ? 'Корзина ' + subtitle : 'Корзина'
 
   const onPlaceholderClick = useCallback(() => {
-    // Совершаем переход на стартовую страницу без сохранения истории в навигации
     routeNavigator.replace(INITIAL_URL)
   }, [routeNavigator])
 
@@ -38,32 +49,29 @@ let ShoppingCart: FC<NavIdProps> = (props) => {
     routeNavigator.showPopout(<PayConfirmPopout />)
   }, [routeNavigator])
 
+  const onPromocodeChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      dispatch(setPromocode(e.target.value))
+    },
+    [dispatch]
+  )
+
   return (
     <Panel className="Panel__fullScreen" {...props}>
-      <Navbar searchDisable>
-        <PageHeader header="Корзина" />
-      </Navbar>
-
-      <div
-        className={cx('ShoppingCart', {
-          ShoppingCart__desktop: isDesktop,
-        })}
-      >
-        <div
-          className={cx('ShoppingCart_productList', {
-            ShoppingCart_productList__desktop: isDesktop,
-          })}
-        >
+      <CustomPanelHeader separator={false} title={title} />
+      <div className="ShoppingCart">
+        {!isDesktop && !!productNumber && (
+          <Header size="large">{subtitle}</Header>
+        )}
+        <div className="ShoppingCart_productList">
+          {isDesktop && <Spacing size={8} />}
           {orderProducts.map((item) => (
-            <CartItem
-              id={item.id}
-              key={String(item.id)}
-              name={item.name}
-              price={item.price}
-              preview={item.preview}
-              maxAvailable={item.maxAvailable}
-              numItemsToBuy={item.numItemsToBuy}
-            />
+            <div style={{ width: '100%' }} key={String(item.id)}>
+              <CartItem {...item} />
+              <Spacing size={20}>
+                <Separator wide />
+              </Spacing>
+            </div>
           ))}
 
           {isCartEmpty && (
@@ -78,38 +86,21 @@ let ShoppingCart: FC<NavIdProps> = (props) => {
             />
           )}
         </div>
-
-        <div
-          className={cx('ShoppingCart_checkout', {
-            ShoppingCart_checkout__desktop: isDesktop,
-          })}
-        >
-          {isDesktop && <Subtotal totalPrice={totalPrice} />}
-          {!isDesktop && (
-            <Card>
-              <Subtotal totalPrice={totalPrice} />
-            </Card>
+        <div className="Sidebar">
+          {isDesktop && <Spacing size={8} />}
+          <Checkout
+            onPromocodeChange={onPromocodeChange}
+            onConfirmPayClick={onConfirmPayClick}
+            totalPrice={totalPrice}
+            promocode={promocode}
+          />
+          {isDesktop && (
+            <TechInfo mode="accent" sections={SECTIONS} items={ITEMS} />
           )}
-          <div
-            className={cx('ShoppingCart_confirmPay', {
-              ShoppingCart_confirmPay__desktop: isDesktop,
-            })}
-          >
-            <Button
-              stretched
-              size="l"
-              disabled={totalPrice === 0}
-              onClick={onConfirmPayClick}
-            >
-              Купить
-            </Button>
-          </div>
         </div>
       </div>
     </Panel>
   )
-}
+})
 
-ShoppingCart = memo(ShoppingCart)
-
-export { ShoppingCart }
+ShoppingCart.displayName = 'ShoppingCart'

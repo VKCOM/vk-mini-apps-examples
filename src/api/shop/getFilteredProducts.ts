@@ -27,7 +27,7 @@ export const getFilteredProducts = async ({
   filters,
 }: GetProductsRequest): Promise<GetProductsResponse> => {
   return await makeRequest<GetProductsResponse>({
-    path: ApiEndpoint.FilteredProducts,
+    endpoint: ApiEndpoint.FilteredProducts,
     params: {
       start: _start.toString(),
       end: _end.toString(),

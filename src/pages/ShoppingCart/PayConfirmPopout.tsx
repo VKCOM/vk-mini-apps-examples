@@ -12,6 +12,11 @@ export const PayConfirmPopout: FC = () => {
     <Alert
       actions={[
         {
+          title: 'Отмена',
+          autoClose: true,
+          mode: 'cancel',
+        },
+        {
           title: 'Купить',
           autoClose: false,
           mode: 'default',
@@ -22,12 +27,8 @@ export const PayConfirmPopout: FC = () => {
               dispatch(setShoppingCart(initialState))
             }, 200),
         },
-        {
-          title: 'Отмена',
-          autoClose: true,
-          mode: 'cancel',
-        },
       ]}
+      actionsLayout="horizontal"
       onClose={() => routeNavigator.hidePopout()}
       header="Подтверждение оплаты"
       text="Вы уверены, что хотите совершить покупку"

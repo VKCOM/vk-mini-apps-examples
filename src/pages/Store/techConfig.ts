@@ -1,6 +1,6 @@
 export const SECTIONS = [
-  { id: 1, name: 'VKUI', description: 'Тут отображаются компоненты VKUI, которые используются на этой странице' },
-  { id: 2, name: 'JS', description: 'JS feature' },
+  { id: 1, name: 'VKUI', description: 'VKUI-компоненты на этой странице:' },
+  { id: 2, name: 'JS', description: 'JS feature:' },
 ]
 
 export const ITEMS = [
@@ -48,7 +48,7 @@ export const ITEMS = [
   },
   {
     name: 'Tabs',
-    link: 'https://vkcom.github.io/VKUI/#/ModalPage',
+    link: 'https://vkcom.github.io/VKUI/#/Tabs',
     sectionId: 1,
     id: 7,
   },

@@ -7,13 +7,13 @@ import {
   setFiltersPriceRange,
 } from 'src/store/app.reducer'
 import {
-  Button,
   Div,
   Group,
+  Button,
   ModalPage,
-  ModalPageHeader,
-  NavIdProps,
   Separator,
+  NavIdProps,
+  ModalPageHeader,
 } from '@vkontakte/vkui'
 import { useAppDispatch, useAppSelector } from 'src/store'
 import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
@@ -25,8 +25,8 @@ let FiltersModal: React.FC<NavIdProps & { onClose: () => void }> = (props) => {
   const routeNavigator = useRouteNavigator()
   const dispatch = useAppDispatch()
 
-  const priceToRef = useRef<number | undefined>(undefined)
-  const priceFromRef = useRef<number | undefined>(undefined)
+  const priceToRef = useRef<number | undefined>(defaultPriceTo)
+  const priceFromRef = useRef<number | undefined>(defaultPriceFrom)
 
   const onPriceChange = useCallback((priceFrom?: number, priceTo?: number) => {
     priceToRef.current = priceTo

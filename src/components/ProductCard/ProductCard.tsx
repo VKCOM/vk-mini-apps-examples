@@ -29,9 +29,8 @@ export const ProductCard: FC<ProductCardProps> = memo(
 
     /** При клике на карту переходим на страницу товара */
     const onCardClick = () => {
-      routeNavigator.push(
-        `/${ShopPanel.ProductInfo}?id=${id}&name=${name}&price=${price}&back=${back}`
-      )
+      const params = `id=${id}&name=${name}&price=${price}&back=${back}`
+      routeNavigator.push(`/${ShopPanel.ProductInfo}?${params}}`)
     }
 
     /** При загрузке фотографии убираем класс заглушку */

@@ -13,8 +13,5 @@ interface GetUserResponse {
 export const getInitialData = async (): Promise<GetUserResponse> => {
   return await makeRequest<GetUserResponse>({
     endpoint: ApiEndpoint.InitialData,
-    requestOptions: {
-      cache: 'force-cache',
-    },
   })
 }

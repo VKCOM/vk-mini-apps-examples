@@ -11,7 +11,15 @@ import './CartItem.css'
 
 /** Блок товара в корзине */
 export const CartItem: FC<OrderProduct> = memo(
-  ({ id, name, price, preview, maxAvailable, numItemsToBuy }: OrderProduct) => {
+  ({
+    id,
+    name,
+    back,
+    price,
+    preview,
+    maxAvailable,
+    numItemsToBuy,
+  }: OrderProduct) => {
     const dispatch = useAppDispatch()
     const routeNavigator = useRouteNavigator()
 
@@ -32,7 +40,9 @@ export const CartItem: FC<OrderProduct> = memo(
 
     /** При клике переходим на страницу товара */
     const onItemClick = () => {
-      routeNavigator.push(`/${ShopPanel.ProductInfo}?id=${id}`)
+      routeNavigator.push(
+        `/${ShopPanel.ProductInfo}?id=${id}&name=${name}&price=${price}&back=${back}`
+      )
     }
 
     /** При загрузке изображения убираем класс-заглушку */

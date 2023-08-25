@@ -13,10 +13,9 @@ import {
   selectStore,
   setStoreScrollposition,
 } from 'src/store/store.reducer'
-import { imageIntersectionObserver } from 'src/utils/imageIntersectionObserver'
+import { imageIntersectionObserver, findImage } from 'src/utils'
 import { selectFilters, selectShopName } from 'src/store/app.reducer'
 import { ITEMS, SECTIONS } from './techConfig'
-import { findImage } from 'src/utils'
 
 import './Store.css'
 
@@ -49,8 +48,8 @@ export const Store: FC<NavIdProps> = memo((props: NavIdProps) => {
 
   /** При изменени фильтров делаем запрос на получение данных и создаем observer для загрузки изображениц */
   useLayoutEffect(() => {
-    const fetchProducts = (_start: number, _end: number) => {
-      dispatch(fetchFilteredProducts({ _start, _end, filters }))
+    const fetchProducts = (start: number, end: number) => {
+      dispatch(fetchFilteredProducts({ start, end, filters }))
     }
 
     const onEntryCallback = (

@@ -4,6 +4,8 @@ import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
 import { useAppDispatch } from 'src/store'
 import { setShoppingCart, initialState } from 'src/store/shoppingCart.reducer'
 
+const TIMEOUT = 200
+
 export const PayConfirmPopout: FC = () => {
   const routeNavigator = useRouteNavigator()
   const dispatch = useAppDispatch()
@@ -25,7 +27,7 @@ export const PayConfirmPopout: FC = () => {
             setTimeout(() => {
               routeNavigator.hidePopout()
               dispatch(setShoppingCart(initialState))
-            }, 200),
+            }, TIMEOUT),
         },
       ]}
       actionsLayout="horizontal"

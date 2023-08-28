@@ -1,9 +1,11 @@
+import { ApiEndpoint } from 'src/types'
+
 const API_URL = 'https://shop-boilerplate-backend.vercel.app'
 
 interface Arguments {
-  endpoint: string
+  endpoint: ApiEndpoint
   params?: Record<string, string>
-  requestOptions?: RequestInit,
+  requestOptions?: RequestInit
 }
 
 /**
@@ -16,15 +18,15 @@ interface Arguments {
   // get запрос
   makeRequest(endpoint: 'productInfo', params: {id: '2'})
   // post запрос
-  makeRequest('postProduct', requestOptions: JSON.stringify({method: 'post', body: {id: '2'}}))
+  makeRequest('postProduct', requestOptions: JSON.stringify({method: 'post', body: {id: 2}}))
  */
 export const makeRequest = async <T = never>({
-  endpoint,
   params,
-  requestOptions
+  endpoint,
+  requestOptions,
 }: Arguments): Promise<T> => {
-  const queryParams = params ? '?' + new URLSearchParams(params) : ''
-  return (
-    await fetch(API_URL + '/' + endpoint + queryParams, requestOptions)
-  ).json() as T
+  const url = new URL(API_URL + '/' + endpoint)
+  url.search = new URLSearchParams(params).toString()
+
+  return (await fetch(url, requestOptions)).json() as T
 }

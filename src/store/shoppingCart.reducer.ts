@@ -33,6 +33,7 @@ const shoppingCartSlice = createSlice({
       state.orderProducts.push({
         id: action.payload.id,
         name: action.payload.name,
+        back: action.payload.back,
         price: action.payload.price,
         preview: action.payload.preview,
         maxAvailable: action.payload.maxAvailable,

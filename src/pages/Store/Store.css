@@ -1,0 +1,22 @@
+.Store {
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+  overflow: scroll;
+  flex: 1;
+  backface-visibility: hidden;
+  will-change: transform;
+}
+
+.Store::-webkit-scrollbar {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .Store {
+    gap: 8px;
+    margin: 0 16px;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+}

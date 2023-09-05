@@ -1,0 +1,74 @@
+.Checkout_subtotal {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.Checkout_subtotal_price {
+  margin-right: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.Checkout_subtotal_price_title {
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 14px;
+  letter-spacing: 0.2px;
+  color: var(--vkui--color_text_secondary);
+}
+
+.Checkout_subtotal_price_counter {
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 30px;
+  color: var(--vkui--color_text_primary);
+}
+
+.Checkout {
+  background: var(--vkui--color_background_content);
+  user-select: none;
+  flex: 1;
+}
+
+.Checkout_confirmPay {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  position: sticky;
+  top: 100%;
+  padding: 12px 16px;
+}
+
+@media (min-width: 768px) {
+  .Checkout {
+    margin-top: 12px;
+    background: var(--vkui--color_background_secondary);
+    border-radius: 12px;
+    padding: 16px;
+    height: max-content;
+    margin: 0;
+    max-width: 100%;
+    flex: none;
+  }
+
+  .Checkout_confirmPay {
+    margin-top: 10px;
+    padding: 0;
+  }
+
+  .Checkout_subtotal_price {
+    flex-direction: row;
+    margin: 0;
+  }
+
+  .Checkout_subtotal_price_title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    line-height: 21px;
+    color: var(--vkui--color_text_primary);
+  }
+}

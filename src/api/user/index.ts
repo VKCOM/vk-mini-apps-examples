@@ -1,0 +1,1 @@
+export { getInitialData } from './getInitialData'

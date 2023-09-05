@@ -1,0 +1,100 @@
+:root {
+  --min-product-card-width: 130px;
+  --max-product-card-width: 195px;
+  --width-desktop-s: 768px;
+  --sidebar-width: 345px;
+  --fixed-layout-height: 68px;
+  --product-photo-max-size: 375px;
+  --skeleton-background-color: #e1e1e1;
+  --grey-gradient: linear-gradient(
+    to top,
+    #8d95ab,
+    #a0a7bb,
+    #b4b9cb,
+    #c8ccdb,
+    #dcdfec
+  );
+  --rose-gradient: linear-gradient(
+    to top,
+    #bb7899,
+    #c58aac,
+    #cf9dbe,
+    #d9afcf,
+    #e3c2e0
+  );
+  --skeleton-background-gradient: linear-gradient(
+    110deg,
+    #ececec 8%,
+    #f5f5f5 18%,
+    #ececec 33%
+  );
+  --beige-gradient: #dbb6ad;
+  --violet-gradient: linear-gradient(
+    to top,
+    #ccc3ef,
+    #c3b2e1,
+    #bba1d2,
+    #b391c2,
+    #ac80b2
+  );
+  --blue-gradient: linear-gradient(
+    to right top,
+    #5f9cd6,
+    #72a5d9,
+    #83aedc,
+    #93b8df,
+    #a3c1e2
+  );
+}
+
+.Panel__fullScreen {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.Sidebar {
+  max-width: 100%;
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+  gap: 16px;
+  flex: 1;
+}
+
+.Sidebar::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
+.Back__grey {
+  background: var(--grey-gradient);
+}
+.Back__rose {
+  background: var(--rose-gradient);
+}
+.Back__beige {
+  background: var(--beige-gradient);
+}
+.Back__violet {
+  background: var(--violet-gradient);
+}
+.Back__blue {
+  background: var(--blue-gradient);
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+@media (min-width: 768px) {
+  .Sidebar {
+    min-width: var(--sidebar-width);
+    overflow: auto;
+  }
+}

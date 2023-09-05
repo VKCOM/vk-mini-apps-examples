@@ -1,0 +1,34 @@
+.Counter {
+  display: flex;
+  justify-content: space-around;
+  flex-direction: row;
+  border-radius: 8px;
+  background: var(--vkui--color_background_content);
+  align-items: center;
+  max-height: 32px;
+  width: fit-content;
+  user-select: none;
+  gap: 4px;
+  border: 1px solid var(--vkui--color_field_border_alpha);
+}
+
+.Counter_button {
+  overflow: hidden;
+  height: 32px;
+  width: 32px;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Counter_button__disable {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+@media (min-width: 768px) {
+  .Counter {
+    width: 120px;
+  }
+}

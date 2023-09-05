@@ -1,0 +1,45 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "overrides": [],
+  "extends": [
+    "prettier",
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:react/jsx-runtime",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "plugins": ["react"],
+  "rules": {
+    "indent": ["error", 2, { "SwitchCase": 1 }],
+    "quotes": ["error", "single"],
+    "semi": ["error", "never"],
+    "no-await-in-loop": "error",
+    "no-duplicate-imports": "error",
+    "no-self-compare": "error",
+    "no-template-curly-in-string": "error",
+    "no-unmodified-loop-condition": "error",
+    "eqeqeq": ["error", "smart"],
+    "react/react-in-jsx-scope": "off",
+    "react/jsx-uses-vars": "error",
+    "react/jsx-uses-react": "error",
+    "no-restricted-syntax": [
+      "error",
+      {
+        "selector": "ExportDefaultDeclaration",
+        "message": "Prefer named exports"
+      }
+    ]
+  }
+}

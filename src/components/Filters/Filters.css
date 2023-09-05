@@ -1,0 +1,23 @@
+.Filters {
+  display: flex;
+  flex-direction: column;
+  background: var(--vkui--color_background_content);
+}
+
+.Filters_title {
+  color: var(--vkui--color_text_secondary);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 18px;
+  padding: 14px 12px 10px 12px;
+  color: var(--vkui-light-text-text-primary);
+}
+
+@media (min-width: 768px) {
+  .Filters {
+    max-width: var(--sidebar-width);
+    border-radius: 12px;
+    padding: 12px 8px;
+    border: 1px solid var(--vkui--color_field_border_alpha);
+  }
+}

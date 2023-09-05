@@ -1,0 +1,29 @@
+.CustomCell {
+  min-height: 44px;
+  align-items: center;
+  color: var(--vkui--color_text_primary);
+  display: flex;
+  padding: 0 12px;
+  cursor: pointer;
+  background-color: var(--vkui--color_transparent);
+  border-radius: var(--vkui--size_border_radius--regular);
+  margin-bottom: 2px;
+  transition:
+    background-color 0.15s ease-out,
+    opacity 0.15s ease-out;
+}
+
+.CustomCell:hover {
+  background-color: var(--vkui--color_transparent--hover);
+}
+
+.CustomCell__active,
+.CustomCell__active:hover {
+  background-color: var(--vkui--color_transparent--active);
+}
+
+.CustomCell_content {
+  font-weight: var(--vkui--font_weight_accent3);
+  font-size: var(--vkui--font_headline1--font_size--compact);
+  pointer-events: none;
+}

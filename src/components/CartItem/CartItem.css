@@ -1,0 +1,82 @@
+.CartItem {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+  max-width: 100%;
+  cursor: pointer;
+}
+
+.CartItem_preview {
+  background: var(--skeleton-background-color);
+  border-radius: 12px;
+  width: 120px;
+  height: 120px;
+}
+
+.CartItem_preview_image {
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  user-select: none;
+}
+
+.CartItem_preview_image__unload {
+  opacity: 0;
+}
+
+.CartItem_info {
+  display: flex;
+  flex-direction: column;
+  min-height: 120px;
+  justify-content: space-between;
+  flex: 1 1;
+  margin-right: 12px;
+}
+
+.CartItem_info_name {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+}
+
+.CartItem_info_price {
+  color: var(--vkui--color_text_primary);
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 24px;
+}
+
+.CartItem_info_controller {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.CartItem_info_controller_deleteButton {
+  display: flex;
+  gap: 4px;
+  flex-direction: row;
+  opacity: 0.3;
+  font-size: 13px;
+  font-weight: 400;
+  align-items: center;
+  transition: opacity 0.15s ease-out;
+  user-select: none;
+}
+
+.CartItem_info_controller_deleteButton:active {
+  opacity: 1;
+}
+
+@media (hover: hover) {
+  .CartItem_info_controller_deleteButton:hover {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 320px) {
+  .CartItem_info_controller_deleteButton_text {
+    display: none;
+  }
+}

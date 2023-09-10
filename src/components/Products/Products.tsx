@@ -65,7 +65,7 @@ export const Products: FC<ProductsProps> = memo(
           ))}
         </div>
         {!products.length && !fetching && (
-          <Placeholder>По Вашему запросу ничего не нашлось</Placeholder>
+          <Placeholder>По вашему запросу ничего не нашлось</Placeholder>
         )}
         {fetching && (
           <div className="Products_spinner">

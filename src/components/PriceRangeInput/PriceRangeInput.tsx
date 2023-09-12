@@ -44,6 +44,7 @@ export const PriceRangeInput: FC<PriceRangeInputProps> = memo(
         <FormLayoutGroup mode="horizontal" segmented={isDesktop}>
           <FormItem htmlFor="priceRangeInput" top="Цена, ₽">
             <Input
+              type="number"
               getRef={$priceFromInput}
               defaultValue={defaultPriceFrom}
               placeholder="От"
@@ -53,6 +54,7 @@ export const PriceRangeInput: FC<PriceRangeInputProps> = memo(
           <FormItem>
             <FormItem htmlFor="priceRangeInput">
               <Input
+                type="number"
                 getRef={$priceToInput}
                 defaultValue={defaultPriceTo}
                 placeholder="До"

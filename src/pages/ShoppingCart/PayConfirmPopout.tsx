@@ -19,7 +19,7 @@ export const PayConfirmPopout: FC = () => {
           mode: 'cancel',
         },
         {
-          title: 'Купить',
+          title: 'Оплатить',
           autoClose: false,
           mode: 'default',
           action: () =>
@@ -32,8 +32,8 @@ export const PayConfirmPopout: FC = () => {
       ]}
       actionsLayout="horizontal"
       onClose={() => routeNavigator.hidePopout()}
-      header="Подтверждение оплаты"
-      text="Вы уверены, что хотите совершить покупку"
+      header="Оплатить товар?"
+      text="Подтвердите оплату товара"
     />
   )
 }

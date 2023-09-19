@@ -6,7 +6,7 @@
 
 1. Склонируйте репозиторий
    ```bash
-   git clone https://github.com/pasha-nikitin-2003/mini-app-shop-boilerplate.git
+   git clone https://github.com/VKCOM/vk-mini-apps-examples.git
    ```
 2. В окне командной строки перейдите в папку примера, установите зависимости и запустите веб-сервер.
    ```bash

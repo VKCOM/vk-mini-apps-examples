@@ -31,7 +31,7 @@
     "@types/workbox-precaching": "^5.0.0",
     "@typescript-eslint/eslint-plugin": "^5.41.0",
     "@typescript-eslint/parser": "^5.62.0",
-    "@vkontakte/vk-miniapps-deploy": "^0.1.5",
+    "@vkontakte/vk-miniapps-deploy": "^0.1.6",
     "babel-eslint": "^10.1.0",
     "cross-env": "^7.0.3",
     "eslint": "^8.26.0",

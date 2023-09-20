@@ -90,6 +90,7 @@ export function imageIntersectionObserver(
         entries.forEach((entry) => {
           if (entry.isIntersecting || entry.intersectionRatio > 0) {
             loadAndUnobserve(entry.target, attributeName, findImage)
+            callback(observer, entry)
           }
         })
         firstLoad = false

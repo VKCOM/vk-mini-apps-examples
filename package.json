@@ -29,7 +29,7 @@
     "@types/react": "^18.2.18",
     "@types/react-dom": "^18.2.7",
     "@types/workbox-precaching": "^5.0.0",
-    "@typescript-eslint/eslint-plugin": "^5.41.0",
+    "@typescript-eslint/eslint-plugin": "^6.7.4",
     "@typescript-eslint/parser": "^5.62.0",
     "@vkontakte/vk-miniapps-deploy": "^0.1.5",
     "babel-eslint": "^10.1.0",

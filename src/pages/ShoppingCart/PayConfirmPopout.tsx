@@ -14,12 +14,12 @@ export const PayConfirmPopout: FC = () => {
     <Alert
       actions={[
         {
-          title: 'Отмена',
+          title: 'Назад',
           autoClose: true,
           mode: 'cancel',
         },
         {
-          title: 'Оплатить',
+          title: 'Понятно',
           autoClose: false,
           mode: 'default',
           action: () =>
@@ -33,7 +33,7 @@ export const PayConfirmPopout: FC = () => {
       actionsLayout="horizontal"
       onClose={() => routeNavigator.hidePopout()}
       header="Оплатить товар?"
-      text="Подтвердите оплату товара"
+      text="Демо-версия магазина предназначена только для разработчиков. Приобрести здесь товары нельзя."
     />
   )
 }

@@ -47,6 +47,7 @@
 .ProductInfo_skeleton {
   width: 100%;
   aspect-ratio: 1/1;
+  max-height: var(--product-photo-max-size);
 }
 
 .ProductInfo_gallery {

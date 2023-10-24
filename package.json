@@ -16,6 +16,7 @@
     "@reduxjs/toolkit": "^1.9.5",
     "@vkontakte/icons": "^2.53.0",
     "@vkontakte/vk-bridge": "latest",
+    "@vkontakte/vk-bridge-react": "^1.0.0",
     "@vkontakte/vk-mini-apps-router": "^1.1.1",
     "@vkontakte/vkui": "^5.8.1",
     "@vkontakte/vkui-tokens": "^4.35.1",

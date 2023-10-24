@@ -46,7 +46,7 @@ export const Store: FC<NavIdProps> = memo((props: NavIdProps) => {
     scrollPosition.current = e.currentTarget.scrollTop
   }
 
-  /** При изменени фильтров делаем запрос на получение данных и создаем observer для загрузки изображениц */
+  /** При изменени фильтров делаем запрос на получение данных и создаем observer для загрузки изображений */
   useLayoutEffect(() => {
     const fetchProducts = (start: number, end: number) => {
       dispatch(fetchFilteredProducts({ start, end, filters }))
@@ -82,6 +82,10 @@ export const Store: FC<NavIdProps> = memo((props: NavIdProps) => {
       },
       IMAGE_LOADING_OPTIONS
     )
+
+    document
+      .querySelectorAll('.ProductCard__active')
+      .forEach((el) => observer.current?.observe(el))
 
     if (!isSavedContent.current) fetchProducts(0, limit)
     isSavedContent.current = false

@@ -57,13 +57,11 @@ export const Store: FC<NavIdProps> = memo((props: NavIdProps) => {
       entry: IntersectionObserverEntry
     ) => {
       if (entry.isIntersecting || entry.intersectionRatio > 0) {
-        const itemIndex = Number(entry.target.getAttribute('data-index'))
-        if (
-          (itemIndex + 1) % limit === 0 &&
-          itemIndex + 1 >= lastLoadItemIndex.current
-        ) {
-          fetchProducts(itemIndex + 1, itemIndex + 1 + limit)
+        const isLast = entry.target.getAttribute('data-last')
+        if (isLast === '1') {
+          fetchProducts(lastLoadItemIndex.current, lastLoadItemIndex.current + limit)
           lastLoadItemIndex.current += limit
+          entry.target.removeAttribute('data-last')
         }
       }
       if (entry.target.classList.contains('ProductCard__active')) {
@@ -82,10 +80,6 @@ export const Store: FC<NavIdProps> = memo((props: NavIdProps) => {
       },
       IMAGE_LOADING_OPTIONS
     )
-
-    document
-      .querySelectorAll('.ProductCard__active')
-      .forEach((el) => observer.current?.observe(el))
 
     if (!isSavedContent.current) fetchProducts(0, limit)
     isSavedContent.current = false
@@ -106,10 +100,8 @@ export const Store: FC<NavIdProps> = memo((props: NavIdProps) => {
   useLayoutEffect(() => {
     lastLoadItemIndex.current = store.products.length || limit
     document
-      .querySelectorAll('.ProductCard:not(.ProductCard__active)')
-      .forEach((el) => {
-        observer.current?.observe(el)
-      })
+      .querySelectorAll('.ProductCard')
+      .forEach(el => observer.current?.observe(el))
   }, [store.products, limit])
 
   return (

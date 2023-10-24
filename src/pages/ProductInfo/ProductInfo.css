@@ -15,7 +15,7 @@
 .ProductInfo_content {
   display: flex;
   flex-direction: column;
-  padding: 16px 0px var(--fixed-layout-height) 16px;
+  padding: 16px 16px var(--fixed-layout-height) 16px;
   gap: 4px;
 }
 

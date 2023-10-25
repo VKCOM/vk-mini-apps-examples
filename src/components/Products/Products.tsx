@@ -27,6 +27,7 @@ export const Products: FC<ProductsProps> = memo(
     const orderProducts = useAppSelector(selectOrderProducts)
     const shopName = useAppSelector(selectShopName)
     const shopLogo = useAppSelector(selectShopLogo)
+    const lastIndex = products.length - 1
 
     const onAvatarLoad = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
       const el = e.target as HTMLImageElement
@@ -57,8 +58,8 @@ export const Products: FC<ProductsProps> = memo(
               {...item}
               key={item.id}
               preview={item.preview}
-              isInCart={orderProducts.some((product) => product.id === item.id)}
-              data-index={index.toString()}
+              isInCart={orderProducts.some(product => product.id === item.id)}
+              data-last={index === lastIndex ? '1' : undefined}
               data-src={item.preview + '.png'}
               data-src-1={item.preview + '.webp'}
             />

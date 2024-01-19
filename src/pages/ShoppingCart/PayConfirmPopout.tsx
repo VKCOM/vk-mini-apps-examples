@@ -15,12 +15,10 @@ export const PayConfirmPopout: FC = () => {
       actions={[
         {
           title: 'Назад',
-          autoClose: true,
           mode: 'cancel',
         },
         {
           title: 'Понятно',
-          autoClose: false,
           mode: 'default',
           action: () =>
             // Таймаут для плавного перехода между страницами

@@ -58,7 +58,7 @@ export const ShoppingCart: FC<NavIdProps> = memo((props: NavIdProps) => {
 
   return (
     <Panel className="Panel__fullScreen" {...props}>
-      <CustomPanelHeader separator={false} title={title} />
+      <CustomPanelHeader delimiter="none" title={title} />
       <div className="ShoppingCart">
         {!isDesktop && !!productNumber && (
           <Header size="large">{subtitle}</Header>

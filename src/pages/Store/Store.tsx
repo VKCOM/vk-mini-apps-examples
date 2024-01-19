@@ -59,7 +59,10 @@ export const Store: FC<NavIdProps> = memo((props: NavIdProps) => {
       if (entry.isIntersecting || entry.intersectionRatio > 0) {
         const isLast = entry.target.getAttribute('data-last')
         if (isLast === '1') {
-          fetchProducts(lastLoadItemIndex.current, lastLoadItemIndex.current + limit)
+          fetchProducts(
+            lastLoadItemIndex.current,
+            lastLoadItemIndex.current + limit
+          )
           lastLoadItemIndex.current += limit
           entry.target.removeAttribute('data-last')
         }
@@ -101,14 +104,14 @@ export const Store: FC<NavIdProps> = memo((props: NavIdProps) => {
     lastLoadItemIndex.current = store.products.length || limit
     document
       .querySelectorAll('.ProductCard')
-      .forEach(el => observer.current?.observe(el))
+      .forEach((el) => observer.current?.observe(el))
   }, [store.products, limit])
 
   return (
     <Panel className="Panel__fullScreen" {...props}>
       {!isDesktop && (
         <>
-          <PanelHeader separator={false}>{shopName}</PanelHeader>
+          <PanelHeader delimiter="none">{shopName}</PanelHeader>
           <Filters />
         </>
       )}

@@ -88,7 +88,7 @@ export const Filters: FC = memo(() => {
             onClick={onSearchIconClick}
           />
         }
-        iconAriaLabel="filter"
+        iconLabel="filter"
         defaultValue={query}
         onChange={onQueryChange}
       />

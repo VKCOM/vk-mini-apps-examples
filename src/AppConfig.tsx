@@ -1,4 +1,6 @@
-import bridge from '@vkontakte/vk-bridge'
+import bridge, {
+  parseURLSearchParamsForGetLaunchParams,
+} from '@vkontakte/vk-bridge'
 import {
   ConfigProvider,
   AdaptivityProvider,
@@ -15,11 +17,15 @@ import { router } from './routes'
 import { Provider } from 'react-redux'
 import { store } from './store'
 import { App } from './App'
+import { transformVKBridgeAdaptivity } from './utils'
 
 export const AppConfig = () => {
-  const appereance = useAppearance()
-  const adaptivity = useAdaptivity()
-  const insets = useInsets()
+  const vkBridgeAppearance = useAppearance() || undefined
+  const vkBridgeInsets = useInsets() || undefined
+  const adaptivity = transformVKBridgeAdaptivity(useAdaptivity())
+  const { vk_platform } = parseURLSearchParamsForGetLaunchParams(
+    window.location.search
+  )
 
   /**
    * ConfigProvider - прокидывает нужный config в соответствии c платформой(IOS, ANDROID, VK.COM) и выбранной темой [https://vkcom.github.io/VKUI/#/ConfigProvider]
@@ -29,12 +35,13 @@ export const AppConfig = () => {
    */
   return (
     <ConfigProvider
-      appearance={appereance ?? Appearance.LIGHT}
+      appearance={vkBridgeAppearance ?? Appearance.LIGHT}
+      platform={vk_platform === 'desktop_web' ? 'vkcom' : undefined}
       isWebView={bridge.isWebView()}
-      hasCustomPanelHeaderAfter={false}
+      hasCustomPanelHeaderAfter={true}
     >
       <AdaptivityProvider {...adaptivity}>
-        <AppRoot safeAreaInsets={insets ?? {}}>
+        <AppRoot mode="full" safeAreaInsets={vkBridgeInsets}>
           <Provider store={store}>
             <RouterProvider router={router}>
               <App />

@@ -56,7 +56,7 @@ export const ProductInfo: FC<NavIdProps> = (props) => {
   const shoppingCartIcon = useMemo(() => {
     return isDesktop ? (
       <IconButton
-        aria-label='shoppinfCartIcon'
+        aria-label="shoppinfCartIcon"
         onClick={() => routeNavigator.push(`/${ShopPanel.ShoppingCart}`)}
       >
         <Icon24ShoppingCartOutline />
@@ -68,7 +68,7 @@ export const ProductInfo: FC<NavIdProps> = (props) => {
     <Panel className="Panel__fullScreen" {...props}>
       <div className="ProductInfoPage">
         <CustomPanelHeader
-          separator={false}
+          delimiter="none"
           after={shoppingCartIcon}
           title="Товар"
         />

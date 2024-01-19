@@ -11,7 +11,6 @@ import {
   Group,
   Button,
   ModalPage,
-  Separator,
   NavIdProps,
   ModalPageHeader,
 } from '@vkontakte/vkui'
@@ -52,7 +51,6 @@ let FiltersModal: React.FC<NavIdProps & { onClose: () => void }> = (props) => {
         </ModalPageHeader>
       }
     >
-      <Separator />
       <Group>
         <PriceRangeInput
           onPriceChange={onPriceChange}

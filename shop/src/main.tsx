@@ -6,7 +6,7 @@ import { AppConfig } from './AppConfig'
 import '@vkontakte/vkui/dist/vkui.css'
 
 /** Подключаем кастомные глобальные стили */
-import 'src/index.css'
+import 'src/main.css'
 
 /** Метод инициализирующий мини-апп */
 bridge.send('VKWebAppInit')

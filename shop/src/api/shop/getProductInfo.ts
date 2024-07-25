@@ -13,6 +13,6 @@ export const getProductInfo = async ({
     endpoint: ApiEndpoint.ProductInfo,
     params: {
       id: productId.toString(),
-    },
+    }
   })
 }

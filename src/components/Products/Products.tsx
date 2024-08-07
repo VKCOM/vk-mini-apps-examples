@@ -58,7 +58,7 @@ export const Products: FC<ProductsProps> = memo(
               {...item}
               key={item.id}
               preview={item.preview}
-              isInCart={orderProducts.some(product => product.id === item.id)}
+              isInCart={orderProducts.some((product) => product.id === item.id)}
               data-last={index === lastIndex ? '1' : undefined}
               data-src={item.preview + '.png'}
               data-src-1={item.preview + '.webp'}

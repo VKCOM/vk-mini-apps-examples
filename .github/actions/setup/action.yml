@@ -8,12 +8,12 @@ runs:
       uses: actions/setup-node@v4
       with:
         node-version: 20
-        cache: 'yarn'
+        cache: 'npm'
         always-auth: true
         registry-url: 'https://registry.npmjs.org'
 
     - name: Install dependencies
-      run: yarn install --frozen-lockfile --ignore-scripts
+      run: npm install --ignore-scripts
       shell: bash
 
     - name: Set Git credentials

@@ -15,12 +15,7 @@ const OnboardingModal: React.FC<NavIdProps & { onClose: () => void }> = (
       header={`Добрый день, ${name}!`}
       subheader="Добро пожаловать в шаблон магазина! Обратите внимание: приложение доступно в деморежиме, купить товары нельзя."
       actions={
-        <Button
-          size="l"
-          mode="primary"
-          stretched
-          onClick={props.onClose}
-        >
+        <Button size="l" mode="primary" stretched onClick={props.onClose}>
           Продолжить
         </Button>
       }

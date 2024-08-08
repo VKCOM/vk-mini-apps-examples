@@ -25,7 +25,7 @@ export const Counter: FC<CounterProps> = memo(
     }, [])
 
     const onAdd = useCallback(() => {
-      setValue(value => value + 1)
+      setValue((value) => value + 1)
     }, [])
 
     /** При изменении значения счетчика вызываем callback на изменение */
@@ -41,7 +41,7 @@ export const Counter: FC<CounterProps> = memo(
           })}
         >
           <IconButton onClick={onSubstract} aria-label="add">
-            <Icon16Minus fill={iconColor}/>
+            <Icon16Minus fill={iconColor} />
           </IconButton>
         </div>
 

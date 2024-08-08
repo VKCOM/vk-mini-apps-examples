@@ -4,6 +4,11 @@
   "scripts": {
     "start": "cross-env PORT=3000 react-scripts start",
     "tunnel": "vk-tunnel --insecure=1 --http-protocol=http --ws-protocol=wss --host=0.0.0.0 --port=3000",
+    "lint:eslint": "eslint src/ --ext ts,tsx",
+    "lint:fix": "eslint src/ --ext ts,tsx",
+    "lint:prettier": "prettier --check .",
+    "lint:ci": "npm run lint:eslint & npm run lint:prettier",
+    "prettier:fix": "prettier --write .",
     "predeploy": "react-scripts build",
     "deploy": "vk-miniapps-deploy"
   },
@@ -32,6 +37,8 @@
     "@types/workbox-precaching": "^5.0.0",
     "@typescript-eslint/eslint-plugin": "^5.41.0",
     "@typescript-eslint/parser": "^5.62.0",
+    "@vkontakte/eslint-plugin": "^1.2.0",
+    "@vkontakte/prettier-config": "^0.1.0",
     "@vkontakte/vk-miniapps-deploy": "^0.1.5",
     "babel-eslint": "^10.1.0",
     "cross-env": "^7.0.3",
@@ -40,7 +47,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.31.10",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "prettier": "^3.0.0",
+    "prettier": "^2.7.1",
     "react-scripts": "^5.0.1",
     "typescript": "^5.0.4"
   },

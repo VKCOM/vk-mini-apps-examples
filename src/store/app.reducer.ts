@@ -1,4 +1,10 @@
-import { Category, ImageBackgroundAppereance, Product, ProductFilter, ShopInfo } from 'src/types'
+import {
+  Category,
+  ImageBackgroundAppereance,
+  Product,
+  ProductFilter,
+  ShopInfo,
+} from 'src/types'
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import * as api from 'src/api'
 import { RootState } from '.'
@@ -38,7 +44,7 @@ export const fetchShop = createAsyncThunk('app/fetchShop', async function () {
 export const fetchProductInfo = createAsyncThunk(
   'app/fetchproductInfo',
   async function ({ productId }: { productId: number }) {
-    return (await api.products.getProductInfo({ productId }))
+    return await api.products.getProductInfo({ productId })
   }
 )
 
@@ -69,9 +75,9 @@ const appSlice = createSlice({
       state.shopInfo = action.payload.shopInfo
       state.categories = action.payload.categories
     }),
-    builder.addCase(fetchProductInfo.fulfilled, (state, action) => {
-      state.productInfo = action.payload
-    })
+      builder.addCase(fetchProductInfo.fulfilled, (state, action) => {
+        state.productInfo = action.payload
+      })
   },
 })
 

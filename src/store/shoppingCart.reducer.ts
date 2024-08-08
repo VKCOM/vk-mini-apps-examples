@@ -11,7 +11,7 @@ export interface ShoppingCartState {
 export const initialState: ShoppingCartState = {
   orderProducts: [],
   totalPrice: 0,
-  promocode: ''
+  promocode: '',
 }
 
 const shoppingCartSlice = createSlice({
@@ -21,7 +21,13 @@ const shoppingCartSlice = createSlice({
     setPromocode(state, action: PayloadAction<string>) {
       state.promocode = action.payload
     },
-    setShoppingCart(state, action: PayloadAction<{orderProducts: OrderProduct[], promocode?: string}>) {
+    setShoppingCart(
+      state,
+      action: PayloadAction<{
+        orderProducts: OrderProduct[]
+        promocode?: string
+      }>
+    ) {
       state.orderProducts = action.payload.orderProducts
       state.promocode = action.payload.promocode || ''
       state.totalPrice = action.payload.orderProducts.reduce(
@@ -73,8 +79,14 @@ const shoppingCartSlice = createSlice({
 const { reducer } = shoppingCartSlice
 export { reducer as shoppingCartReducer }
 
-export const selectOrderProducts = (state: RootState) => state.shoppingCart.orderProducts
+export const selectOrderProducts = (state: RootState) =>
+  state.shoppingCart.orderProducts
 export const selectShoppingCart = (state: RootState) => state.shoppingCart
 
-export const { addCartItem, deleteCartItem, updateCartItem, setShoppingCart, setPromocode } =
-  shoppingCartSlice.actions
+export const {
+  addCartItem,
+  deleteCartItem,
+  updateCartItem,
+  setShoppingCart,
+  setPromocode,
+} = shoppingCartSlice.actions

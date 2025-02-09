@@ -4,7 +4,7 @@
 
 ## Запуск
 
-1. Склонируйте репозиторий
+1. Склонируйте репозиторий 1
    ```bash
    git clone https://github.com/VKCOM/vk-mini-apps-examples.git
    ```

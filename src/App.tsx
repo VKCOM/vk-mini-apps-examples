@@ -83,7 +83,7 @@ export const App: FC = () => {
   useEffect(() => {
     /** Callback на изменение размеров страницы */
     async function iframeResize() {
-      // Проверяем, что платформа VK.COM
+      // Проверяем, что платформа desctop web
       if (platform !== Platform.VKCOM) return
 
       // Получаем данные конфигурации

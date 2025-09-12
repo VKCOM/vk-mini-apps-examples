@@ -28,7 +28,7 @@ export const AppConfig = () => {
   )
 
   /**
-   * ConfigProvider - прокидывает нужный config в соответствии c платформой(IOS, ANDROID, VK.COM) и выбранной темой [https://vkcom.github.io/VKUI/#/ConfigProvider]
+   * ConfigProvider - прокидывает нужный config в соответствии c платформой(IOS, ANDROID, WEB) и выбранной темой [https://vkcom.github.io/VKUI/#/ConfigProvider]
    * Provider - прокидывает данные нашего state manager
    * AdaptivityProvider  - прокидывает данные адаптивности sizeX, sizeY [https://vkcom.github.io/VKUI/#/AdaptivityProvider]
    * AppRoot - компонент обертка, куда инкапсулирована логика режимов пожлкючения(Full, Partial, Embedded) [https://vkcom.github.io/VKUI/#/AppRoot]

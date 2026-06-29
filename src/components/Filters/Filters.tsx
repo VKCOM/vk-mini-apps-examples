@@ -32,7 +32,7 @@ export const Filters: FC = memo(() => {
     useAppSelector(selectFilters)
 
   const $priceFilter = useRef<SVGSVGElement>(null)
-  const timerId = useRef<NodeJS.Timeout | undefined>(undefined)
+  const timerId = useRef<number | undefined>(undefined)
   const iconColor =
     priceFrom || priceTo ? baseTheme.colorPanelHeaderIcon.active.value : ''
 
@@ -54,7 +54,7 @@ export const Filters: FC = memo(() => {
       routeNavigator.showPopout(
         <ActionSheet
           toggleRef={$priceFilter.current}
-          onClose={onCloseActionSheet}
+          onClosed={onCloseActionSheet}
         >
           <PriceRangeInput
             defaultPriceFrom={priceFrom}

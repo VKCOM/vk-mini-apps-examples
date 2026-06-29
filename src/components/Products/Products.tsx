@@ -37,7 +37,7 @@ export const Products: FC<ProductsProps> = memo(
     return (
       <Group className="Products">
         {isDesktop && (
-          <Header size="large">
+          <Header size="l">
             <div className="Products_header">
               <img
                 className="Products_header_avatar Products_header_avatar__unload"
@@ -70,7 +70,7 @@ export const Products: FC<ProductsProps> = memo(
         )}
         {fetching && (
           <div className="Products_spinner">
-            <Spinner size="large"></Spinner>
+            <Spinner size="l"></Spinner>
           </div>
         )}
       </Group>

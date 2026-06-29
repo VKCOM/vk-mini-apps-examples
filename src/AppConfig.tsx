@@ -5,7 +5,7 @@ import {
   ConfigProvider,
   AdaptivityProvider,
   AppRoot,
-  Appearance,
+  ColorScheme,
 } from '@vkontakte/vkui'
 import {
   useAppearance,
@@ -35,7 +35,7 @@ export const AppConfig = () => {
    */
   return (
     <ConfigProvider
-      appearance={vkBridgeAppearance ?? Appearance.LIGHT}
+      colorScheme={vkBridgeAppearance ?? ColorScheme.LIGHT}
       platform={vk_platform === 'desktop_web' ? 'vkcom' : undefined}
       isWebView={bridge.isWebView()}
       hasCustomPanelHeaderAfter={true}

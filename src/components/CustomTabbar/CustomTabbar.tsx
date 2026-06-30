@@ -32,7 +32,7 @@ export const CustomTabbar: FC<CustomTabbarProps> = memo(
           onClick={onViewingTabbarItemClick}
           selected={activePanel !== ShopPanel.ShoppingCart}
           data-story="feed"
-          text="Каталог"
+          label="Каталог"
         >
           <Icon28HomeOutline />
         </TabbarItem>
@@ -42,12 +42,12 @@ export const CustomTabbar: FC<CustomTabbarProps> = memo(
           data-story="messages"
           indicator={
             productCount ? (
-              <Counter size="s" mode="prominent">
+              <Counter size="s" mode="primary" appearance="accent-red">
                 {productCount}
               </Counter>
             ) : undefined
           }
-          text="Корзина"
+          label="Корзина"
         >
           <Icon28ShoppingCartOutline />
         </TabbarItem>

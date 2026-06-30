@@ -60,23 +60,21 @@ export const ShoppingCart: FC<NavIdProps> = memo((props: NavIdProps) => {
     <Panel className="Panel__fullScreen" {...props}>
       <CustomPanelHeader delimiter="none" title={title} />
       <div className="ShoppingCart">
-        {!isDesktop && !!productNumber && (
-          <Header size="large">{subtitle}</Header>
-        )}
+        {!isDesktop && !!productNumber && <Header size="l">{subtitle}</Header>}
         <div className="ShoppingCart_productList">
           {isDesktop && <Spacing size={8} />}
           {orderProducts.map((item) => (
             <div style={{ width: '100%' }} key={String(item.id)}>
               <CartItem {...item} />
               <Spacing size={20}>
-                <Separator wide />
+                <Separator />
               </Spacing>
             </div>
           ))}
 
           {isCartEmpty && (
             <Placeholder
-              header="Ваша корзина пока пуста"
+              title="Ваша корзина пока пуста"
               icon={<Icon28ShoppingCartOutline width={56} height={56} />}
               action={
                 <Button mode="secondary" onClick={onPlaceholderClick} size="m">

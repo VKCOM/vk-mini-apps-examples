@@ -12,8 +12,8 @@ const OnboardingModal: React.FC<NavIdProps & { onClose: () => void }> = (
     <ModalCard
       {...props}
       icon={<Icon56GestureOutline />}
-      header={`Добрый день, ${name}!`}
-      subheader="Добро пожаловать в шаблон магазина! Обратите внимание: приложение доступно в деморежиме, купить товары нельзя."
+      title={`Добрый день, ${name}!`}
+      description="Добро пожаловать в шаблон магазина! Обратите внимание: приложение доступно в деморежиме, купить товары нельзя."
       actions={
         <Button size="l" mode="primary" stretched onClick={props.onClose}>
           Продолжить

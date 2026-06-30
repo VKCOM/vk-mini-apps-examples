@@ -29,9 +29,9 @@ export const PayConfirmPopout: FC = () => {
         },
       ]}
       actionsLayout="horizontal"
-      onClose={() => routeNavigator.hidePopout()}
-      header="Оплатить товар?"
-      text="Демо-версия магазина предназначена только для разработчиков. Приобрести здесь товары нельзя."
+      onClosed={() => routeNavigator.hidePopout()}
+      title="Оплатить товар?"
+      description="Демо-версия магазина предназначена только для разработчиков. Приобрести здесь товары нельзя."
     />
   )
 }

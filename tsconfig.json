@@ -1,14 +1,13 @@
 {
   "compilerOptions": {
-    "baseUrl": "./",
+    "baseUrl": ".",
     "rootDir": "./src",
     "paths": {
-      "@lib/*": ["./lib/*"]
+      "@lib/*": ["src/lib/*"]
     },
-    "target": "es5",
+    "target": "es2017",
     "lib": ["dom", "dom.iterable", "esnext", "webworker"],
     "allowJs": false,
-    "downlevelIteration": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -16,10 +15,12 @@
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
+
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
+    "ignoreDeprecations": "6.0",
     "jsx": "react-jsx"
   },
   "include": [
